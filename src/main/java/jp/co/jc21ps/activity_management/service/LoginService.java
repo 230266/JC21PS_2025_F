@@ -1,7 +1,6 @@
 package jp.co.jc21ps.activity_management.service;
 
 import org.springframework.stereotype.Service;
-
 import jp.co.jc21ps.activity_management.entity.User;
 import jp.co.jc21ps.activity_management.repository.UserRepository;
 
@@ -15,7 +14,7 @@ public class LoginService {
     }
 
     public User getUserOne() {
-        User user = userRepository.getOne();
+        User user = userRepository.getFirst();
         return user;
     }
 }

@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import jp.co.jc21ps.activity_management.dto.ActivityDto;
+import jp.co.jc21ps.activity_management.entity.Activity;
 
 @Repository
 public class ActivityRepository {
@@ -19,9 +17,9 @@ public class ActivityRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<ActivityDto> findAll() {
+    public List<Activity> findAll() {
 
-        List<Map<String, Object>> activityList = jdbcTemplate.queryForList("""
+        List<Map<String, Object>> results = jdbcTemplate.queryForList("""
                 SELECT
                     ta.activity_id,
                     ta.club_id,
@@ -39,23 +37,23 @@ public class ActivityRepository {
                     ta.club_id = mc.club_id
                 """);
 
-        List<ActivityDto> activityDtoList = new ArrayList<ActivityDto>();
-        for (Map<String, Object> activity : activityList) {
-            activityDtoList.add(
-                new ActivityDto(
-                    (String) activity.get("activity_id"),
-                    (String)activity.get("club_id"),
-                    (String)activity.get("club_name"),
-                    (String)activity.get("activity_name"),
-                    (String)activity.get("activity_place"),
-                    (LocalDateTime)activity.get("activity_start_time"),
-                    (LocalDateTime)activity.get("activity_end_time"),
-                    (String)activity.get("activity_description"),
-                    (Integer)activity.get("max_participant")
+        List<Activity> activityList = new ArrayList<Activity>();
+        for (Map<String, Object> result : results) {
+            activityList.add(
+                new Activity(
+                    (String) result.get("activity_id"),
+                    (String) result.get("club_id"),
+                    (String) result.get("club_name"),
+                    (String) result.get("activity_name"),
+                    (String) result.get("activity_place"),
+                    (LocalDateTime) result.get("activity_start_time"),
+                    (LocalDateTime) result.get("activity_end_time"),
+                    (String) result.get("activity_description"),
+                    (Integer) result.get("max_participant")
                 )
             );
         }   
         
-        return activityDtoList;
+        return activityList;
     }
 }
