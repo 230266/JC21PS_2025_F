@@ -7,5 +7,35 @@
 <body>
     <h1>社内イベント管理システム</h1>
     <div>TOP</div>
+    <div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Activity ID</th>
+                    <th>Club ID</th>
+                    <th>Club Name</th>
+                    <th>Activity Name</th>
+                    <th>Activity Place</th>
+                    <th>activity Start Time</th>
+                    <th>Activity End Time</th>
+                    <th>Activity Description</th>
+                    <th>Max Participant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="activity : ${activities}">
+                    <td th:text="${activity.activityId}"></td>
+                    <td th:text="${activity.clubId}"></td>
+                    <td th:text="${activity.clubName}"></td>
+                    <td th:text="${activity.activityName}"></td>
+                    <td th:text="${activity.activityPlace}"></td>
+                    <td th:text="${activity.activityStartTime}"></td>
+                    <td th:text="${activity.activityEndTime}"></td>
+                    <td th:text="${activity.activityDescription}"></td>
+                    <td th:text="${activity.max_participant}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
