@@ -1,0 +1,154 @@
+.screen {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.screen .element-signup-form-wrapper {
+  background-color: #ffffff;
+  width: 1440px;
+  height: 1024px;
+}
+
+.screen .element-signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  top: 200px;
+  left: 520px;
+}
+
+.screen .copy {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.screen .text-wrapper {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: -0.24px;
+  line-height: 36px;
+  white-space: nowrap;
+}
+
+.screen .input-and-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.screen .form-field {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.screen .input {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.screen .input-base {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+  background-color: var(--white);
+  border-radius: 8px;
+  border: 2px solid;
+  border-color: var(--grey-400);
+}
+
+.screen .error-rectangle {
+  position: relative;
+  width: 8px;
+  height: 34px;
+  border-radius: 8px 0px 0px 8px;
+}
+
+.screen .text {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px 6px 6px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.screen .input-text {
+  position: relative;
+  flex: 1;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--grey-550);
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 22px;
+}
+
+.screen .button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.screen .button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 22px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: var(--blue-800);
+  border-radius: 40px;
+  border: 2px solid;
+  border-color: var(--blue-800);
+}
+
+.screen .button-text {
+  position: relative;
+  width: fit-content;
+  margin-top: -2px;
+  font-family: "Open Sans", Helvetica;
+  font-weight: 800;
+  color: var(--white);
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 22px;
+  white-space: nowrap;
+}

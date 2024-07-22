@@ -1,16 +1,39 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>社内イベント管理システム</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-    <h1>社内イベント管理システム</h1>
-    <form th:action="@{/login}" method="post">
-        <input type="text" placeholder="ログインID" />
-        <input type="text" placeholder="パスワード" />
-        <button>ログイン</button>
-    </form>
-    <p th:text="|Hello, ${name}!|" />
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" th:href="@{/css/globals.css}">
+    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+  </head>
+  <body>
+    <div class="screen">
+      <div class="element-signup-form-wrapper">
+        <div class="element-signup-form">
+          <div class="copy"><div class="text-wrapper">社内イベント管理システム</div></div>
+          <div class="input-and-button">
+            <div class="form-field">
+              <div class="input">
+                <div class="input-base">
+                  <div class="error-rectangle"></div>
+                  <div class="text"><div class="input-text">ログインID</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-field">
+              <div class="input">
+                <div class="input-base">
+                  <div class="error-rectangle"></div>
+                  <div class="text"><div class="input-text">パスワード</div></div>
+                </div>
+              </div>
+            </div>
+            <button class="button">
+              <div class="button-base"><div class="button-text">ログイン</div></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
