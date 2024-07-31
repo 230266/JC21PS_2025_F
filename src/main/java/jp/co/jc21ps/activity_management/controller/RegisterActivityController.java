@@ -1,9 +1,7 @@
 package jp.co.jc21ps.activity_management.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
+import org.springframework.validation.BindingResult;
 import jp.co.jc21ps.activity_management.form.RegisterActivityForm;
 import jp.co.jc21ps.activity_management.form.RegisterActivitySaveForm;
 import jp.co.jc21ps.activity_management.service.RegisterActivityService;
@@ -12,11 +10,9 @@ import jp.co.jc21ps.dto.RegisterActivitySaveDto;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @Controller
 /*@RequestMapping("/registerActivity")*/
@@ -30,11 +26,19 @@ public class RegisterActivityController {
     }
 
     //初期表示
-    @GetMapping("/RegisterActivity")
-    public ModelAndView getActivityByClubId(@PathVariable RegisterActivityForm registerActivityForm) { //@PathVariableでリクエストからclubIdを取得(Formごと)
+    @GetMapping("/registerActivity")
+    public ModelAndView getActivityByClubId(@Valid @PathVariable RegisterActivityForm registerActivityForm, BindingResult bindingResult) { //@PathVariableでリクエストからclubIdを取得(Formごと)
+
+        //ModelAndViewのインスタンス化
+        ModelAndView mav = new ModelAndView();
 
         //formのインスタンス化
         RegisterActivityForm form = new RegisterActivityForm();
+
+        //clubIdのnullチェック,バリデーション
+        if (bindingResult.hasErrors()){
+            mav.setViewName("Error.html");
+        }
         
         //dtoのインスタンス化
         RegisterActivityDto activityDto = new RegisterActivityDto();
@@ -43,17 +47,14 @@ public class RegisterActivityController {
         activityDto.setClubId(form.getClubId());
 
         //サービスのメソッドでデータを取得　※型を合わせる
-        RegisterActivityDto registerActivityDto = registerActivityService.findActivityByClubId(activityDto);
+        RegisterActivityDto registerActivityDto = registerActivityService.findActivity(activityDto);
         
         //formにclubNameを渡す
-        //formにclubnameをセットする
+        //formにclubNameをセットする
         form.setClubName(registerActivityDto.getClubName());
 
-        //ModelAndViewのインスタンス化
-        ModelAndView mav = new ModelAndView();
-
         //html(View)の名前を指定する
-        mav.setViewName("RegisterActivity");
+        mav.setViewName("RegisterActivity.html");
 
         //formオブジェクトを追加
         mav.addObject("form", form);
@@ -63,12 +64,16 @@ public class RegisterActivityController {
     //入力エラー文を返す
     @PostMapping("/RegisterActivitySave")
     //form
-    public ModelAndView insertActivity(RegisterActivitySaveForm registerActivitySaveForm){
+    public ModelAndView insertActivity(@Valid @PathVariable RegisterActivitySaveForm registerActivitySaveForm, BindingResult bindingResult){
 
         //ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
         //バリデーション
+        if (bindingResult.hasErrors()){
+            mav.setViewName("RegisterActivity.html");
+            
+        }
 
         //値を詰める
         try {
@@ -78,6 +83,7 @@ public class RegisterActivityController {
             //dtoに値を設定
             activitySaveDto.setActivityId(registerActivitySaveForm.getActivityId());
             activitySaveDto.setActivityName(registerActivitySaveForm.getActivityName());
+            activitySaveDto.setActivityDate(registerActivitySaveForm.getActivityDate());
             activitySaveDto.setActivityPlace(registerActivitySaveForm.getActivityPlace());
             activitySaveDto.setActivityStartTime(registerActivitySaveForm.getActivityStartTime());
             activitySaveDto.setActivityEndTime(registerActivitySaveForm.getActivityEndTime());
@@ -85,22 +91,15 @@ public class RegisterActivityController {
             activitySaveDto.setMaxParticipant(registerActivitySaveForm.getMaxParticipant());
 
             //サービスメソッドの呼び出し
-            registerActivityService.insert(activitySaveDto);
+            registerActivityService.insertActivity(activitySaveDto);
 
             //入力が成功したらトップ画面に遷移する
-            mav.setViewName("Top");
+            mav.setViewName("Top.html");
 
         } catch(Exception e) {
             //エラー画面に遷移する
-            mav.setViewName("Error");
+            mav.setViewName("Error.html");
         }
         return mav;
     }
 }
-
-// try{
-//     service.insertmethod();
-//     画面遷移先(正常)
-// }catch{
-//     画面遷移先(異常)
-// }

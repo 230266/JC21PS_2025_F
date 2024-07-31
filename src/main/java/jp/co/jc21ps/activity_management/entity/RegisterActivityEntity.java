@@ -1,10 +1,12 @@
 package jp.co.jc21ps.activity_management.entity;
 
-import java.sql.Date;
-
 //初期表示画面のエンティティ
 public class RegisterActivityEntity {
+
+    //部署名
     private String clubName;
+
+    //部署ID
     private String clubId;
 
     //デフォルトコンストラクタ

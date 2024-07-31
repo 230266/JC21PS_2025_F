@@ -2,23 +2,84 @@ package jp.co.jc21ps.activity_management.form;
 
 import java.sql.Date;
 
+import org.springframework.data.relational.core.mapping.MappedCollection;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.web.bind.annotation.Mapping;
+
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class RegisterActivitySaveForm {
+    
     private String activityId;
+
+    //活動名
+    @NotBlank(message = "{NotBlank}")                           //必須入力
+    @Size(max = 30, message = "{Size}")                         //30文字以内
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{Pattern}")  //半角英数字
     private String activityName;
+    
+    //活動日                 
+    @NotNull(message = "{NotNull}")                 //必須入力
+    @DateTimeFormat(pattern = "{DateTimeFormat}")   //日付形式yyyy-MM-dd
+    @Future(message = "{Future}")                   //明日以降か、存在する日付か
+    private String activityDate;
+
+    //活動場所
+    @NotBlank(message = "{NotBlank}")                          //必須入力
+    @Size(max = 30, message = "{Size}")                        //30文字以内
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{Pattern}") //半角英数字
     private String activityPlace;
+
+    //活動時間(自)
+    @NotNull(message = "{NotNull}")                                                             //必須入力
+    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityStartTime}") //hh:mm形式
     private String activityStartTime;
+
+    //活動時間(至)
+    @NotNull(message = "{NotNull}")                                                             //必須入力
+    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityEndTime}")   //hh:mm形式
     private String activityEndTime;
+
+    //時間の前後関係チェック
+    @AssertTrue(message = "{AssertTrue}")
+    public boolean isDateValid(){
+        int activityEndTimeInt = Integer.parseInt(activityEndTime);
+        int activityStartTimeInt = Integer.parseInt(activityStartTime);
+        if (activityEndTimeInt >= activityStartTimeInt) return true;
+        return false;
+    }
+
+    //活動説明
+    @NotBlank(message = "{NotBlank}")                          //必須入力
+    @Size(max = 400, message = "{Size}")                       //400文字以内
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{Pattern}") //半角英数字
     private String activityDescription;
+
+    //募集人数    
+    @NotBlank(message = "{NotBlank}")                                   //必須入力
+    @Pattern(regexp = "^[0-9]*$", message = "{Pattern.maxParticipant}") //半角数字
+    @Min(value = 1, message = "{Min}")                                  //1以上
+    @Max(value = 100, message = "{Max}")                                //100以下
     private String maxParticipant;
+
     private String clubId;
 
     //デフォルトコンストラクタ
     public RegisterActivitySaveForm() {
             
     }
-    public RegisterActivitySaveForm(String activityId, String activityName, String activityPlace, String activityStartTime, String activityEndTime, String activityDescription, String maxParticipant, String clubId) {
+    public RegisterActivitySaveForm(String activityId, String activityName, String activityDate, String activityPlace, String activityStartTime, String activityEndTime, String activityDescription, String maxParticipant, String clubId) {
         this.activityId = activityId;
         this.activityName = activityName;
+        this.activityDate = activityDate;
         this.activityPlace = activityPlace;
         this.activityStartTime = activityStartTime;
         this.activityEndTime = activityEndTime;
@@ -43,6 +104,15 @@ public class RegisterActivitySaveForm {
 
     public String getActivityName() {
         return activityName;
+    }
+
+    //活動日
+    public void setActivityDate(String activityDate) {
+        this.activityDate = activityDate;
+    }
+
+    public String getActivityDate() {
+        return activityDate;
     }
 
     //活動場所

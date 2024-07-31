@@ -1,14 +1,11 @@
 package jp.co.jc21ps.activity_management.service;
 
-import java.util.List;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import org.springframework.stereotype.Service;
-
-import jp.co.jc21ps.activity_management.entity.Activity;
 import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
 import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
-import jp.co.jc21ps.activity_management.form.RegisterActivityForm;
-import jp.co.jc21ps.activity_management.repository.ActivityRepository;
 import jp.co.jc21ps.activity_management.repository.RegisterActivityRepository;
 import jp.co.jc21ps.dto.RegisterActivityDto;
 import jp.co.jc21ps.dto.RegisterActivitySaveDto;
@@ -22,11 +19,12 @@ public class RegisterActivityService {
      public RegisterActivityService(RegisterActivityRepository registerActivityRepository) {
         this.registerActivityRepository = registerActivityRepository;
     }
+
     //dtoのインスタンス化
     RegisterActivityDto activityDto = new RegisterActivityDto();
 
     //dto型のメソッドで返す
-    public RegisterActivityDto findActivityByClubId(RegisterActivityDto activityDto) {
+    public RegisterActivityDto findActivity(RegisterActivityDto activityDto) {
 
         //エンティティのインスタンス化 
         RegisterActivityEntity activityEntity = new RegisterActivityEntity();
@@ -44,22 +42,47 @@ public class RegisterActivityService {
     }
 
     //インサートメソッド
-    public void insert(RegisterActivitySaveDto activityDto){
+    public void insertActivity(RegisterActivitySaveDto activityDto) {
 
         // 引数で指定するentityの作成(new)
         RegisterActivitySaveEntity activityEntity = new RegisterActivitySaveEntity();
-        
-        //　dto をentityに詰めなおす
-        activityEntity.setActivityId(activityDto.getActivityId());
-        activityEntity.setActivityName(activityDto.getActivityName());
-        activityEntity.setActivityPlace(activityDto.getActivityPlace());
-        activityEntity.setActivityStartTime(activityDto.getActivityStartTime());
-        activityEntity.setActivityEndTime(activityDto.getActivityEndTime());
-        activityEntity.setActivityDescription(activityDto.getActivityDescription());
-        activityEntity.setMaxParticipant(activityDto.getMaxParticipant());
-        activityEntity.setClubId(activityDto.getClubId());
 
-        //　リポジトリのメソッド(インサートのやつ)を呼ぶ
+        //dtoから時間のデータを取得し、変数に代入
+        String date = activityDto.getActivityDate();
+        String startTime = activityDto.getActivityStartTime();
+        String endTime = activityDto.getActivityEndTime();
+        
+        //日付と時間を組み合わせる
+        String registStartTime = date + " " + startTime;
+        String registEndTime = date + " " + endTime; 
+
+        //日時フォーマットの定義
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        //文字列が指定されたフォーマットと一致しない場合や、無効な値が含まれている場合、エラーを投げる
+        try {
+            //日時文字列をLocalDateTimeに変換
+            LocalDateTime startDateTime = LocalDateTime.parse(registStartTime, formatter);
+            LocalDateTime endDateTime = LocalDateTime.parse(registEndTime, formatter);
+
+            //maxParticipantをStringからintに変換する
+            int maxParticipant = Integer.parseInt(activityDto.getMaxParticipant());
+       
+            //dto をentityに詰めなおす
+            activityEntity.setActivityId(activityDto.getActivityId());
+            activityEntity.setActivityName(activityDto.getActivityName());
+            activityEntity.setActivityPlace(activityDto.getActivityPlace());
+            activityEntity.setActivityStartTime(startDateTime); //LocalDateTime型
+            activityEntity.setActivityEndTime(endDateTime);     //LocalDateTime型
+            activityEntity.setActivityDescription(activityDto.getActivityDescription());
+            activityEntity.setMaxParticipant(maxParticipant); //int型
+            activityEntity.setClubId(activityDto.getClubId());
+
+        }catch(DateTimeParseException e){
+            e.printStackTrace(); //日時の形式が不正
+        }
+
+        //　リポジトリのインサートメソッドにエンティティを埋め込む
         registerActivityRepository.insertActivity(activityEntity);
     }
 }
