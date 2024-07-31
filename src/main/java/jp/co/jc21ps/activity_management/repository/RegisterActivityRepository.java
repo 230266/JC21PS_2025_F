@@ -1,0 +1,80 @@
+package jp.co.jc21ps.activity_management.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.text.html.parser.Entity;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
+import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
+
+//DB接続クラス
+@Repository
+public class RegisterActivityRepository {
+    private final JdbcTemplate jdbcTemplate;
+
+    public RegisterActivityRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    //クラブIDから活動情報を取得するメソッド
+    public RegisterActivityEntity getActivityByClubId(RegisterActivityEntity clubId) {
+        String sql = """
+                SELECT
+                    club_name
+                FROM
+                    mst_club
+                WHERE
+                    club_id = ?
+                AND
+                    delete_flg = false
+                """; 
+
+            //clubIdに対応する活動情報を取得　
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, clubId);
+
+            //取得したデータをRegisterActivityEntityに変換
+            RegisterActivityEntity entity = new RegisterActivityEntity();
+
+            //エンティティにclubNameをセットする
+            entity.setClubName((String) result.get("club_name"));
+            return entity;
+    }
+
+    //入力された値をインサートするメソッド
+    public void insertActivity(RegisterActivitySaveEntity activitySaveEntity) {
+        String sql = """
+                INSERT INTO 
+                    trn_activity (activity_id, 
+                                  club_id, 
+                                  activity_name, 
+                                  activity_place, 
+                                  activity_start_time, 
+                                  activity_end_time, 
+                                  activity_description, 
+                                  max_participant, 
+                                  delete_flg) 
+                VALUES (?,?,?,?,?,?,?,?,false)
+                """;
+            
+            //パラメータの設定  
+            Object[] paramList = {
+                activitySaveEntity.getActivityId(),
+                activitySaveEntity.getClubId(),
+                activitySaveEntity.getActivityName(),
+                activitySaveEntity.getActivityPlace(),
+                activitySaveEntity.getActivityStartTime(),
+                activitySaveEntity.getActivityEndTime(),
+                activitySaveEntity.getActivityDescription(),
+                activitySaveEntity.getMaxParticipant(),
+            };
+
+            //DBに挿入
+            int insertActivity = jdbcTemplate.update(sql, paramList);
+    }
+}

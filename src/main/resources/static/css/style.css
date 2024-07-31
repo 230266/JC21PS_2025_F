@@ -1,0 +1,132 @@
+.sidebar {
+    position: relative;
+    width: 256px;
+    height: 1023px;
+    background-color: #ffffff;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-color: #e0e0e0;
+  }
+  
+  .sidebar .list {
+    width: 240px;
+    position: absolute;
+    top: 78px;
+    left: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .sidebar .div {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .sidebar .menu-item {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 16px;
+    padding: 0px 16px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .sidebar .text-wrapper {
+    width: 208px;
+    height: 24px;
+    font-weight: 600;
+    white-space: nowrap;
+    position: relative;
+    font-family: "Inter", Helvetica;
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+  
+  .sidebar .menu-item-2 {
+    background-color: #f7f7f7;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 16px;
+    padding: 0px 16px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .sidebar .group {
+    position: relative;
+    width: 25px;
+    height: 22.09px;
+  }
+  
+  .sidebar .text-wrapper-2 {
+    flex: 1;
+    font-weight: var(--small-text-font-weight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    position: relative;
+    font-family: var(--small-text-font-family);
+    color: #000000;
+    font-size: var(--small-text-font-size);
+    letter-spacing: var(--small-text-letter-spacing);
+    line-height: var(--small-text-line-height);
+    font-style: var(--small-text-font-style);
+  }
+  
+  .sidebar .menu-item-3 {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 16px;
+    padding: 0px 16px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
+  
+  .sidebar .element {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+  }
+  
+  .sidebar .SNS {
+    position: relative;
+    width: 25px;
+    height: 25px;
+  }
+  
+  .sidebar .title {
+    position: absolute;
+    height: 30px;
+    top: 23px;
+    left: 24px;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 20px;
+    letter-spacing: -0.2px;
+    line-height: 30px;
+    white-space: nowrap;
+  }
