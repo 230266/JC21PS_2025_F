@@ -35,9 +35,12 @@ public class LoginRepository {
                   user.password =  ? ;
                 """;
          
+        
+        //
         List<Map<String,Object>> loginList =  jdbcTemplate.queryForList(sql,loginEntity.getLoginName(),loginEntity.getPassword());
+        
         if (loginList.size() == 0) {
-            return new LoginEntity("", "", sql, sql);
+            return new LoginEntity("", "", null, null);
         }
         
         //LoginEntityに値を詰めている

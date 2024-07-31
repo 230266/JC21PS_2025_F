@@ -19,12 +19,9 @@ public class LoginService {
     public LoginDto getLoginOne(LoginDto loginDto) {
         LoginEntity loginEntity = new LoginEntity(loginDto.getLoginName(), loginDto.getPassword(), null, null);
         LoginEntity logins = LoginRepository.getLogin(loginEntity);
-       // if(loginDto.getLoginName() == null || loginDto.getPassword() == null){
-            //
-        //}
     
-    //取ってきた値をdtoを介してcontrollerに投げる用 
-    LoginDto loginDto2 = new LoginDto(logins.getUserId(),logins.getClubId(), logins.getLoginName(), logins.getPassword());
+        //取ってきた値をdtoを介してcontrollerに投げる用 
+        LoginDto loginDto2 = new LoginDto(logins.getUserId(),logins.getClubId(), logins.getLoginName(), logins.getPassword());
         return loginDto2;
     }
 }
