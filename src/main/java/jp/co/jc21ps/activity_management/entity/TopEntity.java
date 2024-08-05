@@ -1,12 +1,14 @@
 package jp.co.jc21ps.activity_management.entity;
 
 
+
 public class TopEntity {
     
     //ユーザーID
     private String userId;
+    
     //NO
-    private String no;
+    private int no;
     
     //部活ID
     private String clubId;
@@ -39,30 +41,30 @@ public class TopEntity {
     private String activityDescription;
 
     //参加予定人数
-    private String participantsCount;
+    private int participantsCount;
 
     // 参加上限人数
 	private String maxParticipant;
 
 	// 参加予定フラグ
-	private Boolean isParticipationFlg;
+	private boolean isParticipationFlg;
 
 	// 過半数フラグ
-	private Boolean isMajorityFlg;
+	private boolean isMajorityFlg;
 
-    public String getUserId(){
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId){
+    public void setUserId(String userId) {
         this.userId = userId;
     }
-    
-    public String getNo() {
+
+    public int getNo() {
         return no;
     }
 
-    public void setNo(String no){
+    public void setNo(int no) {
         this.no = no;
     }
 
@@ -110,8 +112,8 @@ public class TopEntity {
         return dispActivityDate;
     }
 
-    public void setDispActivityDate(String dispActivityDate) {
-        this.dispActivityDate = dispActivityDate;
+    public void setDispActivityDate(String localDateTime) {
+        this.dispActivityDate = localDateTime;
     }
 
     public String getDispActivityTime() {
@@ -122,19 +124,19 @@ public class TopEntity {
         this.dispActivityTime = dispActivityTime;
     }
 
-    public String getActivityStartTime(){
+    public String getActivityStartTime() {
         return activityStartTime;
     }
 
-    public void setActivityStartTime(String activityStartTime){
+    public void setActivityStartTime(String activityStartTime) {
         this.activityStartTime = activityStartTime;
     }
 
-    public String getActivityEndTime(){
+    public String getActivityEndTime() {
         return activityEndTime;
     }
 
-    public void setActivityEndTime(String activityEndTime){
+    public void setActivityEndTime(String activityEndTime) {
         this.activityEndTime = activityEndTime;
     }
 
@@ -146,11 +148,11 @@ public class TopEntity {
         this.activityDescription = activityDescription;
     }
 
-    public String getParticipantsCount() {
+    public int getParticipantsCount() {
         return participantsCount;
     }
 
-    public void setParticipantsCount(String participantsCount) {
+    public void setParticipantsCount(int participantsCount) {
         this.participantsCount = participantsCount;
     }
 
@@ -162,23 +164,20 @@ public class TopEntity {
         this.maxParticipant = maxParticipant;
     }
 
-    public Boolean getIsParticipationFlg() {
+    public boolean getIsParticipationFlg() {
         return isParticipationFlg;
     }
 
-    public void setIsParticipationFlg(Boolean isParticipationFlg) {
+    public void setIsParticipationFlg(boolean isParticipationFlg) {
         this.isParticipationFlg = isParticipationFlg;
     }
 
-    public Boolean getIsMajorityFlg() {
+    public boolean getIsMajorityFlg() {
         return isMajorityFlg;
     }
 
-    public void setIsMajorityFlg(Boolean isMajorityFlg) {
+    public void setIsMajorityFlg(boolean isMajorityFlg) {
         this.isMajorityFlg = isMajorityFlg;
     }
-
-    
-
-    
 }
+    

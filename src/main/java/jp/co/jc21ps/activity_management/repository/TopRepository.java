@@ -1,4 +1,11 @@
 package jp.co.jc21ps.activity_management.repository;
+import java.sql.Timestamp;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,9 +72,12 @@ public class TopRepository {
                 """;
     
         //?の内容をかっこの中に書く
-            List<Map<String,Object>> activityList = jdbcTemplate.queryForList(sql,topEntity.getUserId(),topEntity.getUserId());
-            List<TopEntity> topEntities  = new ArrayList<>();
+        List<Map<String,Object>> activityList = jdbcTemplate.queryForList(sql,topEntity.getUserId(),topEntity.getUserId());
+        List<TopEntity> topEntities  = new ArrayList<>();
         
+        
+      
+
         //空だった場合
         if(activityList.isEmpty()){
             return topEntities;
@@ -76,31 +86,127 @@ public class TopRepository {
 
 
 
-        TopEntity top = new TopEntity();
+        
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:MM");
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            int index = 1; // 番号付与の初期値
+
         for(Map<String, Object> activity : activityList){
+            TopEntity top = new TopEntity();
+           
+            //部署ID
             top.setClubId((String)activity.get("club_Id"));
+            
+            //部署名
             top.setClubName((String)activity.get("club_name"));
+            
+            //活動ID
             top.setActivityId((String)activity.get("activity_id"));
+            
+            //活動名
             top.setActivityName((String)activity.get("activity_Name"));
+            
+            //活動場所
             top.setActivityPlace((String)activity.get("activity_place"));
-            top.setDispActivityDate((String)activity.get("activity_start_time"));
-            top.setActivityStartTime((String)activity.get("activity_start_time"));
-            top.setActivityEndTime((String)activity.get("activity_end_time"));
+                  
+            
+            // LocalDateTime を String に変換
+            
+            //開始時間
+             Object startTimeObj = activity.get("activity_start_time");
+            if (startTimeObj instanceof LocalDateTime) {
+                LocalDateTime startTime = (LocalDateTime) startTimeObj;
+                top.setActivityStartTime(startTime.format(formatterTime));
+            } else if (startTimeObj instanceof String) {
+                LocalDateTime startTime = LocalDateTime.parse((String) startTimeObj, formatterTime);
+                top.setActivityStartTime(startTime.format(formatterTime));
+            }
+            
+            //終了時間
+            Object endTimeObj = activity.get("activity_end_time");
+            if (endTimeObj instanceof LocalDateTime) {
+                LocalDateTime endTime = (LocalDateTime) endTimeObj;
+                top.setActivityEndTime(endTime.format(formatterTime));
+            } else if (endTimeObj instanceof String) {
+                LocalDateTime endTime = LocalDateTime.parse((String) endTimeObj, formatterTime);
+                top.setActivityEndTime(endTime.format(formatterTime));
+    
+            }
+
+            //活動日
+            Object DateObj = activity.get("activity_start_time");
+            if (DateObj instanceof LocalDateTime) {
+                LocalDateTime Date = (LocalDateTime) DateObj;
+                top.setDispActivityDate(Date.format(formatterDate));
+            } else if (DateObj instanceof String) {
+                LocalDateTime Date = LocalDateTime.parse((String) DateObj, formatterDate);
+                top.setDispActivityDate(Date.format(formatterDate));
+            }   
+            
+            //活動説明
             top.setActivityDescription((String)activity.get("activity_description"));
-            top.setParticipantsCount((String)activity.get("participantCount"));
-            top.setMaxParticipant((String)activity.get("max_partcipant"));
-            top.setIsParticipationFlg((boolean)activity.get("participation_flg"));
-            top.setIsMajorityFlg((boolean)activity.get("isMajorityFlg"));
+
+            //参加人数
+            //top.setParticipantsCount((String)activity.get("count"));
+            Object countObj = activity.get("count");
+            if (countObj instanceof Long) {
+                Long countLong = (Long) countObj;
+                if (countLong >= Integer.MIN_VALUE && countLong <= Integer.MAX_VALUE) {
+                    top.setParticipantsCount(countLong.intValue());
+                } else {
+                    throw new IllegalArgumentException("Count value out of range for int: " + countLong);
+                }
+            } else if (countObj instanceof Number) {
+                Number countNumber = (Number) countObj;
+                top.setParticipantsCount(countNumber.intValue());
+            }
+
+            //上限人数
+            Object maxParticipantObj = activity.get("max_participant");
+            String maxParticipantString ="";
+            if (maxParticipantObj instanceof Number) {
+                Integer maxParticipant = ((Number) maxParticipantObj).intValue();
+                maxParticipantString = Integer.toString(maxParticipant);
+            }
+            top.setMaxParticipant(maxParticipantString);
+
+            //参加者フラグ
+            // Boolean participationFlg = (Boolean) activity.get("participation_flg");
+            // Boolean temp;
+            // if(participationFlg){
+            //     temp = true;
+            // }else{
+            //     temp = false;
+            // }
+            // top.setIsParticipationFlg(temp);
+            Object participationFlgObj = activity.get("participation_flg");
+            if (participationFlgObj instanceof Number) {
+                int participationFlgInt = ((Number) participationFlgObj).intValue();
+                top.setIsParticipationFlg(participationFlgInt == 1);
+            } else {
+                top.setIsParticipationFlg(false); // デフォルト値
+            }
+    
+            // top.setIsParticipationFlg(participationFlg != null && participationFlg);
+            //top.setIsParticipationFlg((boolean)activity.get("participation_flg"));
+            //top.setIsMajorityFlg((boolean)activity.get("majority_flg"));
         
             //リストで返そう！
+
+            
+             //番号を設定
+            top.setNo(index++);
        
             
             topEntities.add(top);
+        
+            
         }
         return topEntities;
+
+
     }
-
-
 }   
 
 
