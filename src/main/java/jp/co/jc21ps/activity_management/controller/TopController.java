@@ -1,5 +1,6 @@
 package jp.co.jc21ps.activity_management.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,24 +36,28 @@ public class TopController {
         TopDto topDto = new TopDto();
          topDto.setUserId(userId);
         List<TopDto> viewAct = topService.getTopData(topDto);
-        TopForm actList = new TopForm();
+        
+        List<TopForm> actList = new ArrayList<>();
 
         for(TopDto lastForm : viewAct){
-            actList.setNo(lastForm.getNo());
-            actList.setClubId(lastForm.getClubId());
-            actList.setClubName(lastForm.getClubName());
-            actList.setActivityId(lastForm.getActivityId());
-            actList.setActivityName(lastForm.getActivityName());
-            actList.setActivityPlace(lastForm.getActivityPlace());
-            actList.setDispActivityDate(lastForm.getDispActivityDate());
-            actList.setDispActivityTime(lastForm.getDispActivityTime());
-            actList.setActivityStartTime(lastForm.getActivityStartTime());
-            actList.setActivityEndTime(lastForm.getActivityEndTime());
-            actList.setActivityDescription(lastForm.getActivityDescription());
-            actList.setParticipantsCount(lastForm.getParticipantsCount());
-            actList.setMaxParticipant(lastForm.getMaxParticipant());
-            actList.setIsParticipationFlg(lastForm.getIsParticipationFlg());
-            actList.setIsMajorityFlg(lastForm.getIsMajorityFlg());
+            TopForm act = new TopForm();
+            act.setNo(lastForm.getNo());
+            act.setClubId(lastForm.getClubId());
+            act.setClubName(lastForm.getClubName());
+            act.setActivityId(lastForm.getActivityId());
+            act.setActivityName(lastForm.getActivityName());
+            act.setActivityPlace(lastForm.getActivityPlace());
+            act.setDispActivityDate(lastForm.getDispActivityDate());
+            act.setDispActivityTime(lastForm.getDispActivityTime());
+            act.setActivityStartTime(lastForm.getActivityStartTime());
+            act.setActivityEndTime(lastForm.getActivityEndTime());
+            act.setActivityDescription(lastForm.getActivityDescription());
+            act.setParticipantsCount(lastForm.getParticipantsCount());
+            act.setMaxParticipant(lastForm.getMaxParticipant());
+            act.setIsParticipationFlg(lastForm.getIsParticipationFlg());
+            act.setIsMajorityFlg(lastForm.getIsMajorityFlg());
+
+           actList.add(act); 
             
         }
         ModelAndView mav = new ModelAndView();
@@ -62,7 +67,7 @@ public class TopController {
             mav.addObject("topform",actList);
         }
 
-        mav.setViewName("/top.html");
+        mav.setViewName("/Top.html");
         
         return mav;
     }

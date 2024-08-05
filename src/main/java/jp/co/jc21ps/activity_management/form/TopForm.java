@@ -1,9 +1,11 @@
 package jp.co.jc21ps.activity_management.form;
 
+import java.sql.Date;
+
 public class TopForm {
     
     //NO
-    private String no;
+    private int no;
     
     //部活ID
     private String clubId;
@@ -24,7 +26,7 @@ public class TopForm {
     private String dispActivityDate;
     
     //活動時間(表示用)
-    private String dispActivityTime;
+    private Date dispActivityTime;
 
      //開始時間
     private String activityStartTime;
@@ -36,13 +38,13 @@ public class TopForm {
     private String activityDescription;
 
     //参加予定人数
-    private String participantsCount;
+    private int participantsCount;
 
     // 参加上限人数
-	private String maxParticipant;
+	private  String maxParticipant;
 
 	// 参加予定フラグ
-	private String isParticipationFlg;
+	private boolean isParticipationFlg;
 
 	// 過半数フラグ
 	private String isMajorityFlg;
@@ -51,11 +53,11 @@ public class TopForm {
     
     
     
-    public String getNo() {
+    public int getNo() {
         return no;
     }
 
-    public void setNo(String no) {
+    public void setNo(int no) {
         this.no = no;
     }
 
@@ -107,11 +109,11 @@ public class TopForm {
         this.dispActivityDate = dispActivityDate;
     }
 
-    public String getDispActivityTime() {
+    public Date getDispActivityTime() {
         return dispActivityTime;
     }
 
-    public void setDispActivityTime(String dispActivityTime) {
+    public void setDispActivityTime(Date dispActivityTime) {
         this.dispActivityTime = dispActivityTime;
     }
 
@@ -140,11 +142,11 @@ public class TopForm {
         this.activityDescription = activityDescription;
     }
 
-    public String getParticipantsCount() {
+    public int getParticipantsCount() {
         return participantsCount;
     }
 
-    public void setParticipantsCount(String participantsCount) {
+    public void setParticipantsCount(int participantsCount) {
         this.participantsCount = participantsCount;
     }
 
@@ -156,11 +158,11 @@ public class TopForm {
         this.maxParticipant = maxParticipant;
     }
 
-    public String getIsParticipationFlg() {
+    public boolean getIsParticipationFlg() {
         return isParticipationFlg;
     }
 
-    public void setIsParticipationFlg(String isParticipationFlg) {
+    public void setIsParticipationFlg(boolean isParticipationFlg) {
         this.isParticipationFlg = isParticipationFlg;
     }
 
