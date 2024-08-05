@@ -7,16 +7,15 @@ import jakarta.validation.constraints.Size;
 
 public class LoginForm {
     //チェックする変数に対してアノテーションをつける
-    @NotBlank(message = "パスワードは必須です。")
-    @Size(max = 30, message = "パスワードは最大３０文字までです。")
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "パスワードは半角英数字で入力してください。")
+    @NotBlank
+    @Size(max = 30)
+    @Pattern(regexp = "^[a-zA-Z0-9]+$")
     private String password;
     
-    @NotBlank(message = "ログインネームは必須です。")
-    @Size(max = 30, message = "ログインネームは最大３０文字までです。")
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "ログインネームは半角英数字で入力してください。")
+    @NotBlank
+    @Size(max = 30)
+    @Pattern(regexp = "^[a-zA-Z0-9]+$")
     private String loginName;
-    
     
     private String userId;
     private String clubId;

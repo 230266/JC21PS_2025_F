@@ -27,23 +27,30 @@
             <p th:text="${message}"></p>
           </div>
           <!-- リストがある場合の表示 -->
-          <div th:if="${topList != null}">
-            <div class="navbar-2" th:each="act : ${topList}">
-              <div class="text-wrapper-9" th:text="${act.no}"></div>
-              <div class="IT" th:text="${act.clubName}"></div>
-              <div class="text-wrapper-10" th:text="${act.activityName}"></div>
-              <div class="text-wrapper-3" th:text="${act.dispActivityDate}"></div>
-              <div class="text-wrapper-10" th:text="${act.dispActivityTime}"></div>
-              <div class="text-wrapper-10" th:text="${act.activityPlace}"></div>
-              <div class="text-wrapper-11" th:text="${act.participantsCount} + '/' + ${act.maxParticipant}"></div>
-              <div class="text-wrapper-12" th:text="${act.activityDescription}"></div>
+          <div th:if="${topform} != null">
+            <div class="navbar-2" th:each="actList : ${topform}">
+              <div class="text-wrapper-9" th:text="${actList.no}"></div>
+              <div class="IT" th:text="${actList.clubName}"></div>
+              <div class="text-wrapper-10" th:text="${actList.activityName}"></div>
+              <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
+              <div class="text-wrapper-10" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}"></div>
+              <div class="text-wrapper-10" th:text="${actList.activityPlace}"></div>
+              <div class="text-wrapper-11" th:text="${actList.participantsCount} + '/' + ${actList.maxParticipant}"></div>
+              <div class="text-wrapper-12" th:text="${actList.activityDescription}"></div>
               <div class="pill">
                 <div class="tag">
-                  <div class="text-wrapper-13" th:text="${act.isParticipationFlg ? '参加' : '未参加'}"></div>
+                    <!-- 参加ボタンと不参加ボタンの制御 -->
+                    <div  class="text-wrapper-13" th:if="${actList.isParticipationFlg == false}">
+                    <button type="button">参加</button>
+                </div>
+                <div class="text-wrapper-13" th:if="${actList.isParticipationFlg == true}">
+                    <button type="button">不参加</button>
+                </div>
+                  <!--<div class="text-wrapper-13" th:text="${act.isParticipationFlg ? '参加' : '未参加'}"></div>-->
                 </div>
               </div>
               <div class="div-wrapper">
-                <div class="text-wrapper-13" th:text="'取消'"></div>
+                <!--<div class="text-wrapper-13" th:text="'取消'"></div>-->
               </div>
             </div>
           </div>  

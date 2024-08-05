@@ -3,8 +3,8 @@ package jp.co.jc21ps.activity_management.dto;
 public class LoginDto {
     private String userId;
     private String clubId;
-   private String loginName; 
-   private String password;
+    private String loginName; 
+    private String password;
 
     public LoginDto(String userId,String clubId, String loginName, String password) {
         this.userId = userId;

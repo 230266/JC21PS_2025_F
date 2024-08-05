@@ -15,7 +15,7 @@ public class LoginRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public LoginEntity getLogin(LoginEntity loginEntity){
+    public LoginEntity getLoginData(LoginEntity loginEntity){
         String sql = """
                 SELECT
                  user.user_id,

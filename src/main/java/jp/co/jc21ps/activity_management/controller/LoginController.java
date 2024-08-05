@@ -30,7 +30,8 @@ public class LoginController {
     @GetMapping
     public ModelAndView index(Model model) {
         ModelAndView mav = new ModelAndView();
-      mav.setViewName("/login.html");
+        mav.setViewName("/login.html");
+        
         return mav;
     }
 
@@ -39,28 +40,31 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/login.html");
         LoginDto loginDto = new LoginDto(null, null, loginForm.getLoginName(), loginForm.getPassword());
-        LoginDto loginImfoReturnDto = new LoginDto(null, null, null, null);
+        LoginDto loginInfoReturnDto = new LoginDto(null, null, null, null);
         
         
         //バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
         if (bindingResult.hasErrors()) {
           mav.setViewName("/login.html");
+          
           return mav;
         }
-        loginImfoReturnDto = loginService.getLoginOne(loginDto);
+        loginInfoReturnDto = loginService.getLoginService(loginDto);
 
           //セッションにdtoからとれたデータを詰める
-        if(!ObjectUtils.isEmpty(loginImfoReturnDto.getLoginName())){ 
-            session.setAttribute("loginName",loginImfoReturnDto.getLoginName());
-            session.setAttribute("userId",loginImfoReturnDto.getUserId());
-            session.setAttribute("clubId",loginImfoReturnDto.getClubId());
-          //トップに遷移
-          //画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
+        if(!ObjectUtils.isEmpty(loginInfoReturnDto.getLoginName())){ 
+            session.setAttribute("loginName",loginInfoReturnDto.getLoginName());
+            session.setAttribute("userId",loginInfoReturnDto.getUserId());
+            session.setAttribute("clubId",loginInfoReturnDto.getClubId());
+            //トップに遷移
+            //画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
             mav.setViewName("redirect:/top");
-          // ログイン成功
+            // ログイン成功
         }else{
-            mav.setViewName("/login.html");
+            
+            //べた書きじゃなくメッセージプロパティに
             mav.addObject("error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
+            mav.setViewName("/login.html");
           
         } 
 

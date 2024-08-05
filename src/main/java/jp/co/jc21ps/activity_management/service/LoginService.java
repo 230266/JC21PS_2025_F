@@ -16,12 +16,13 @@ public class LoginService {
     }
 
     //入力値を受け取ってRepositoryと接続する用
-    public LoginDto getLoginOne(LoginDto loginDto) {
-        LoginEntity loginEntity = new LoginEntity(loginDto.getLoginName(), loginDto.getPassword(), null, null);
-        LoginEntity logins = LoginRepository.getLogin(loginEntity);
+    public LoginDto getLoginService(LoginDto loginDtoParam) {
+        LoginEntity loginEntity = new LoginEntity(loginDtoParam.getLoginName(), loginDtoParam.getPassword(), null, null);
+        LoginEntity loginData = LoginRepository.getLoginData(loginEntity);
     
         //取ってきた値をdtoを介してcontrollerに投げる用 
-        LoginDto loginDto2 = new LoginDto(logins.getUserId(),logins.getClubId(), logins.getLoginName(), logins.getPassword());
-        return loginDto2;
+        LoginDto loginDtoResp = new LoginDto(loginData.getUserId(),loginData.getClubId(), loginData.getLoginName(), loginData.getPassword());
+        return loginDtoResp;
+        //
     }
 }
