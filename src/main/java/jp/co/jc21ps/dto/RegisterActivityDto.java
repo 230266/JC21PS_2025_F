@@ -1,7 +1,11 @@
 package jp.co.jc21ps.dto;
 
 public class RegisterActivityDto {
+
+    //部署名
     private String clubName;
+
+    //部署ID
     private String clubId;
 
     public void RegisterActivityEntity(String clubName, String clubId) {

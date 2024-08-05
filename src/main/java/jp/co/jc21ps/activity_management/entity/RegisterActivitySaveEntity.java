@@ -1,16 +1,31 @@
 package jp.co.jc21ps.activity_management.entity;
 import java.time.LocalDateTime;
 
-
 //入力値のエンティティ
 public class RegisterActivitySaveEntity {
+
+    //活動ID
     private String activityId;
+    
+    //活動名
     private String activityName;
+
+    //活動場所
     private String activityPlace;
-    private String activityStartTime;
-    private String activityEndTime;
+
+    //活動時間(自)
+    private LocalDateTime activityStartTime;
+
+    //活動時間(至)
+    private LocalDateTime activityEndTime;
+
+    //活動説明
     private String activityDescription;
-    private String maxParticipant;
+
+    //募集人数
+    private int maxParticipant;
+
+    //部署ID
     private String clubId;
 
     //デフォルトコンストラクタ
@@ -18,7 +33,7 @@ public class RegisterActivitySaveEntity {
         
     }
 
-    public RegisterActivitySaveEntity(String activityId, String activityName, String activityPlace, String activityStartTime, String activityEndTime, String activityDescription, String maxParticipant, String clubId) {
+    public RegisterActivitySaveEntity(String activityId, String activityName, String activityPlace, LocalDateTime activityStartTime, LocalDateTime activityEndTime, String activityDescription, int maxParticipant, String clubId) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.activityPlace = activityPlace;
@@ -57,20 +72,20 @@ public class RegisterActivitySaveEntity {
     }
 
     //活動時間(自)
-    public void setActivityStartTime(String activityStartTime) {
+    public void setActivityStartTime(LocalDateTime activityStartTime) {
         this.activityStartTime = activityStartTime;
     }
 
-    public String getActivityStartTime() {
+    public LocalDateTime getActivityStartTime() {
         return activityStartTime;
     }
 
     //活動時間(至)
-    public void setActivityEndTime(String activityEndTime) {
+    public void setActivityEndTime(LocalDateTime activityEndTime) {
         this.activityEndTime = activityEndTime;
     }
 
-    public String getActivityEndTime() {
+    public LocalDateTime getActivityEndTime() {
         return activityEndTime;
     }
 
@@ -84,11 +99,11 @@ public class RegisterActivitySaveEntity {
     }
 
     //募集人数
-    public void setMaxParticipant(String MaxParticipant) {
+    public void setMaxParticipant(int MaxParticipant) {
         this.maxParticipant = maxParticipant ;
     }
 
-    public String getMaxParticipant() {
+    public int getMaxParticipant() {
         return maxParticipant;
     }
 

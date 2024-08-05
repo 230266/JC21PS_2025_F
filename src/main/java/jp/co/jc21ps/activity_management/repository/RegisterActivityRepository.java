@@ -1,12 +1,6 @@
 package jp.co.jc21ps.activity_management.repository;
 
-import java.util.List;
 import java.util.Map;
-
-import javax.swing.text.html.parser.Entity;
-
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +18,10 @@ public class RegisterActivityRepository {
 
     //クラブIDから活動情報を取得するメソッド
     public RegisterActivityEntity getActivityByClubId(RegisterActivityEntity clubId) {
+
+        //取得したデータをRegisterActivityEntityに変換、エンティティに引数なしのコンストラクタ作ってる
+        RegisterActivityEntity entity = new RegisterActivityEntity();
+
         String sql = """
                 SELECT
                     club_name
@@ -31,22 +29,17 @@ public class RegisterActivityRepository {
                     mst_club
                 WHERE
                     club_id = ?
-                AND
-                    delete_flg = false
                 """; 
 
             //clubIdに対応する活動情報を取得　
-            Map<String, Object> result = jdbcTemplate.queryForMap(sql, clubId);
-
-            //取得したデータをRegisterActivityEntityに変換
-            RegisterActivityEntity entity = new RegisterActivityEntity();
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, clubId.getClubId());
 
             //エンティティにclubNameをセットする
-            entity.setClubName((String) result.get("club_name"));
-            return entity;
+            entity.setClubName((String) result.get("club_name")); //List場合は、ListにEntityをaddしてあげて返す。List.add(Entity)
+            return entity;                                            //Listで返さない場合は、Listにaddせずに返す。
     }
 
-    //入力された値をインサートするメソッド
+    //入力された値を登録するメソッド
     public void insertActivity(RegisterActivitySaveEntity activitySaveEntity) {
         String sql = """
                 INSERT INTO 
@@ -68,13 +61,13 @@ public class RegisterActivityRepository {
                 activitySaveEntity.getClubId(),
                 activitySaveEntity.getActivityName(),
                 activitySaveEntity.getActivityPlace(),
-                activitySaveEntity.getActivityStartTime(),
-                activitySaveEntity.getActivityEndTime(),
+                activitySaveEntity.getActivityStartTime(), //LocalDateTime型
+                activitySaveEntity.getActivityEndTime(),   //LocalDateTime型
                 activitySaveEntity.getActivityDescription(),
-                activitySaveEntity.getMaxParticipant(),
+                activitySaveEntity.getMaxParticipant(), //int型
             };
 
             //DBに挿入
-            int insertActivity = jdbcTemplate.update(sql, paramList);
+            jdbcTemplate.update(sql, paramList);
     }
 }

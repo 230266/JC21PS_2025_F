@@ -1,25 +1,43 @@
 package jp.co.jc21ps.dto;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-
 public class RegisterActivitySaveDto {
+
+    //活動ID
     private String activityId;
+
+    //活動名
     private String activityName;
+
+    //活動日
+
+    private String activityDate;
+
+    //活動場所
     private String activityPlace;
+
+    //開始時間
     private String activityStartTime;
+
+    //終了時間
     private String activityEndTime;
+
+    //活動説明
     private String activityDescription;
+
+    //募集人数
     private String maxParticipant;
+
+    //部署ID
     private String clubId;
 
     //デフォルトコンストラクタ
     public RegisterActivitySaveDto() {
             
     }
-    public RegisterActivitySaveDto(String activityId, String activityName, String activityPlace, String activityStartTime, String activityEndTime, String activityDescription, String maxParticipant, String clubId) {
+    public RegisterActivitySaveDto(String activityId, String activityName, String activityDate, String activityPlace, String activityStartTime, String activityEndTime, String activityDescription, String maxParticipant, String clubId) {
         this.activityId = activityId;
         this.activityName = activityName;
+        this.activityDate = activityDate;
         this.activityPlace = activityPlace;
         this.activityStartTime = activityStartTime;
         this.activityEndTime = activityEndTime;
@@ -45,6 +63,16 @@ public class RegisterActivitySaveDto {
     public String getActivityName() {
         return activityName;
     }
+
+    //活動日
+    public void setActivityDate(String activityDate) {
+        this.activityDate = activityDate;
+    }
+
+    public String getActivityDate() {
+        return activityDate;
+    }
+
 
     //活動場所
     public void setActivityPlace(String activityPlace) {
