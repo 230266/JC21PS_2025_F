@@ -29,12 +29,10 @@ public class RegisterActivityRepository {
                     mst_club
                 WHERE
                     club_id = ?
-                AND
-                    delete_flg = false
                 """; 
 
             //clubIdに対応する活動情報を取得　
-            Map<String, Object> result = jdbcTemplate.queryForMap(sql, clubId);
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, clubId.getClubId());
 
             //エンティティにclubNameをセットする
             entity.setClubName((String) result.get("club_name")); //List場合は、ListにEntityをaddしてあげて返す。List.add(Entity)

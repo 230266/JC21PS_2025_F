@@ -1,7 +1,6 @@
 package jp.co.jc21ps.activity_management.form;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public class RegisterActivityForm {
     //clubIdを受け取って、clubNameを返す
@@ -13,6 +12,7 @@ public class RegisterActivityForm {
     @NotNull
     private String clubId;
 
+    //引数付きのコンストラクタ
     public void RegisterActivityEntity(String clubName, String clubId) {
         this.clubName = clubName;
         this.clubId = clubId;

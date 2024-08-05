@@ -1,14 +1,7 @@
 package jp.co.jc21ps.activity_management.form;
 
-import java.sql.Date;
-
-import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.web.bind.annotation.Mapping;
-
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +22,6 @@ public class RegisterActivitySaveForm {
     //活動日                 
     @NotNull(message = "{NotNull}")                 //必須入力
     @DateTimeFormat(pattern = "{DateTimeFormat}")   //日付形式yyyy-MM-dd
-    @Future(message = "{Future}")                   //明日以降か、存在する日付か
     private String activityDate;
 
     //活動場所
@@ -51,10 +43,13 @@ public class RegisterActivitySaveForm {
     //時間の前後関係チェック
     @AssertTrue(message = "{AssertTrue}")
     public boolean isDateValid(){
-        int activityEndTimeInt = Integer.parseInt(activityEndTime);
-        int activityStartTimeInt = Integer.parseInt(activityStartTime);
-        if (activityEndTimeInt >= activityStartTimeInt) return true;
-        return false;
+        try {
+            int activityEndTimeInt = Integer.parseInt(activityEndTime);
+            int activityStartTimeInt = Integer.parseInt(activityStartTime);
+            return activityEndTimeInt >= activityStartTimeInt;
+        } catch (NumberFormatException e) {
+            return false; // 数字形式でない場合、無効として扱う
+        }
     }
 
     //活動説明
@@ -76,6 +71,8 @@ public class RegisterActivitySaveForm {
     public RegisterActivitySaveForm() {
             
     }
+
+    //引数付き
     public RegisterActivitySaveForm(String activityId, String activityName, String activityDate, String activityPlace, String activityStartTime, String activityEndTime, String activityDescription, String maxParticipant, String clubId) {
         this.activityId = activityId;
         this.activityName = activityName;

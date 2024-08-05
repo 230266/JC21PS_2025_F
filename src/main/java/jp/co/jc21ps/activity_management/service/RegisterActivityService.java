@@ -3,17 +3,25 @@ package jp.co.jc21ps.activity_management.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Service;
 import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
 import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
 import jp.co.jc21ps.activity_management.repository.RegisterActivityRepository;
 import jp.co.jc21ps.dto.RegisterActivityDto;
 import jp.co.jc21ps.dto.RegisterActivitySaveDto;
+import java.util.Locale;
+
 
 @Service
 public class RegisterActivityService {
 
      private final RegisterActivityRepository registerActivityRepository;
+     @Autowired
+     private MessageSource messageSource;
 
      //リポジトリをセットする
      public RegisterActivityService(RegisterActivityRepository registerActivityRepository) {
@@ -42,7 +50,7 @@ public class RegisterActivityService {
     }
 
     //インサートメソッド
-    public void insertActivity(RegisterActivitySaveDto activityDto) {
+    public String insertActivity(RegisterActivitySaveDto activityDto) {
 
         // 引数で指定するentityの作成(new)
         RegisterActivitySaveEntity activityEntity = new RegisterActivitySaveEntity();
@@ -57,32 +65,42 @@ public class RegisterActivityService {
         String registEndTime = date + " " + endTime; 
 
         //日時フォーマットの定義
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         //文字列が指定されたフォーマットと一致しない場合や、無効な値が含まれている場合、エラーを投げる
         try {
             //日時文字列をLocalDateTimeに変換
             LocalDateTime startDateTime = LocalDateTime.parse(registStartTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(registEndTime, formatter);
+        
+            //存在する日時か検証
+            if(startDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())){
+                //過去の日付の場合はエラーメッセージをだす
+                return messageSource.getMessage("error.impossibleDate", null, Locale.getDefault());
+            } else{
 
-            //maxParticipantをStringからintに変換する
-            int maxParticipant = Integer.parseInt(activityDto.getMaxParticipant());
-       
-            //dto をentityに詰めなおす
-            activityEntity.setActivityId(activityDto.getActivityId());
-            activityEntity.setActivityName(activityDto.getActivityName());
-            activityEntity.setActivityPlace(activityDto.getActivityPlace());
-            activityEntity.setActivityStartTime(startDateTime); //LocalDateTime型
-            activityEntity.setActivityEndTime(endDateTime);     //LocalDateTime型
-            activityEntity.setActivityDescription(activityDto.getActivityDescription());
-            activityEntity.setMaxParticipant(maxParticipant); //int型
-            activityEntity.setClubId(activityDto.getClubId());
+                //maxParticipantをStringからintに変換する
+                int maxParticipant = Integer.parseInt(activityDto.getMaxParticipant());
+        
+                //dto をentityに詰めなおす
+                activityEntity.setActivityId(activityDto.getActivityId());
+                activityEntity.setActivityName(activityDto.getActivityName());
+                activityEntity.setActivityPlace(activityDto.getActivityPlace());
+                activityEntity.setActivityStartTime(startDateTime); //LocalDateTime型
+                activityEntity.setActivityEndTime(endDateTime);     //LocalDateTime型
+                activityEntity.setActivityDescription(activityDto.getActivityDescription());
+                activityEntity.setMaxParticipant(maxParticipant); //int型
+                activityEntity.setClubId(activityDto.getClubId());
+
+                //　リポジトリのインサートメソッドにエンティティを埋め込む
+                registerActivityRepository.insertActivity(activityEntity);
+                //成功のメッセージを返す
+                return messageSource.getMessage("activityRegisterCompleteMessage", null, Locale.getDefault());
+            }
 
         }catch(DateTimeParseException e){
-            e.printStackTrace(); //日時の形式が不正
+            return messageSource.getMessage("error.invalidDate", null, Locale.getDefault());
         }
 
-        //　リポジトリのインサートメソッドにエンティティを埋め込む
-        registerActivityRepository.insertActivity(activityEntity);
     }
 }

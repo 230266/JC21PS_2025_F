@@ -271,6 +271,13 @@
   line-height: var(--form-placeholder-line-height);
 }
 
+.screen .error-list {
+  list-style: none; /* リストのデフォルトスタイルを削除 */
+  color: red;
+  font-size: 0.875em; 
+  margin-left: 10px; 
+}
+
 .screen .form-field-2 {
   top: 129px;
   left: 0;
@@ -645,6 +652,7 @@
   display: inline-flex;
   align-items: center;
   position: relative;
+  pointer-events: auto;
   flex: 0 0 auto;
 }
 
