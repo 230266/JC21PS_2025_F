@@ -20,7 +20,7 @@
   gap: 24px;
   position: relative;
   top: 200px;
-  left: 520px;
+  left: 460px;
 }
 
 .screen .copy {
@@ -61,7 +61,7 @@
   flex-direction: column;
   width: 400px;
   align-items: flex-start;
-  gap: 4px;
+  gap: 10px;
   position: relative;
   flex: 0 0 auto;
 }
@@ -85,6 +85,7 @@
   border-radius: 8px;
   border: 2px solid;
   border-color: var(--grey-400);
+  height:35px;
 }
 
 .screen .error-rectangle {
@@ -103,6 +104,19 @@
   flex-grow: 1;
 }
 
+.screen .submit{
+  position:relative;
+  color: var(--grey-550);
+  flex: 1;
+  margin-top: -1px;
+  font-family: "Inter", Helvetica;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 22px;
+
+}
 .screen .input-text {
   position: relative;
   flex: 1;
@@ -114,6 +128,8 @@
   font-size: 14px;
   letter-spacing: 0;
   line-height: 22px;
+  border:none;
+  outline: none;
 }
 
 .screen .button {
@@ -131,13 +147,16 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px 22px;
+  padding: 6px 50px;
   position: relative;
   flex: 0 0 auto;
+  background-color: var(--blue-800);
   background-color: var(--blue-800);
   border-radius: 40px;
   border: 2px solid;
   border-color: var(--blue-800);
+  border:none;
+  left:110px;
 }
 
 .screen .button-text {
@@ -151,4 +170,9 @@
   letter-spacing: 0;
   line-height: 22px;
   white-space: nowrap;
+  background-color: var(--blue-800);
+  border-color:var(--blue-800);
+  border:none;
+  outline:none;
+
 }

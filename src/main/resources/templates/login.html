@@ -11,27 +11,37 @@
       <div class="element-signup-form-wrapper">
         <div class="element-signup-form">
           <div class="copy"><div class="text-wrapper">社内イベント管理システム</div></div>
-          <div class="input-and-button">
-            <div class="form-field">
-              <div class="input">
-                <div class="input-base">
-                  <div class="error-rectangle"></div>
-                  <div class="text"><div class="input-text">ログインID</div></div>
+          <form th:action="@{login}" th:object="${loginForm}" method="post">
+            <!-- エラーメッセージがあれば表示 -->
+            <div th:if="${error}" style="color: red;" th:text="${error}"></div>
+              <div class="input-and-button">
+                <div class="form-field">
+                    <div class="input">
+                      <div class="input-base">
+                        <div class="error-rectangle"></div>
+                        <div class="text">
+                         
+                            <input type="text" name="loginName" placeholder="ログインID" class="input-text">
+                          
+                      </div>
+                    </div>
                 </div>
+                <div class="form-field">
+                  <div class="input">
+                    <div class="input-base">
+                      <div class="error-rectangle"></div>
+                      <div class="text">
+                       
+                          <input type="password" name="password" placeholder="パスワード" class ="input-text"></div>
+                     
+                    </div>
+                  </div>
               </div>
-            </div>
-            <div class="form-field">
-              <div class="input">
-                <div class="input-base">
-                  <div class="error-rectangle"></div>
-                  <div class="text"><div class="input-text">パスワード</div></div>
-                </div>
+                <button class="button">
+                  <div class="button-base"><div class="button-text"><input type ="submit" value="ログイン" class="button-text"></div></div>
+                </button>
               </div>
-            </div>
-            <button class="button">
-              <div class="button-base"><div class="button-text">ログイン</div></div>
-            </button>
-          </div>
+            </form>  
         </div>
       </div>
     </div>

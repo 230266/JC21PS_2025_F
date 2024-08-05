@@ -1,41 +1,111 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>社内イベント管理システム</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-    <h1>社内イベント管理システム</h1>
-    <div>TOP</div>
-    <div>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Activity ID</th>
-                    <th>Club ID</th>
-                    <th>Club Name</th>
-                    <th>Activity Name</th>
-                    <th>Activity Place</th>
-                    <th>Activity Start Time</th>
-                    <th>Activity End Time</th>
-                    <th>Activity Description</th>
-                    <th>Max Participant</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="activity : ${activities}">
-                    <td th:text="${activity.activityId}"></td>
-                    <td th:text="${activity.clubId}"></td>
-                    <td th:text="${activity.clubName}"></td>
-                    <td th:text="${activity.activityName}"></td>
-                    <td th:text="${activity.activityPlace}"></td>
-                    <td th:text="${activity.activityStartTime}"></td>
-                    <td th:text="${activity.activityEndTime}"></td>
-                    <td th:text="${activity.activityDescription}"></td>
-                    <td th:text="${activity.max_participant}"></td>
-                </tr>
-            </tbody>
-        </table>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" th:href="@{/css/globals.css}">
+    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+    <!-- <link rel="stylesheet" href="top.css" /> -->
+    <link rel="stylesheet" th:href="@{/css/top.css}">
+  </head>
+  <body>
+    <div class="screen">
+      <div class="div">
+        <div class="list">
+          <div class="navbar">
+            <div class="text-wrapper">No.</div>
+            <div class="text-wrapper-2">部署名</div>
+            <div class="text-wrapper-2">活動名</div>
+            <div class="text-wrapper-3">活動日</div>
+            <div class="text-wrapper-4">活動時間</div>
+            <div class="text-wrapper-5">活動場所</div>
+            <div class="text-wrapper-6">参加予定人数/募集人数</div>
+            <div class="text-wrapper-7">活動説明</div>
+            <div class="text-wrapper-8">参加ステータス</div>
+          </div>
+          <!-- メッセージがある場合の表示 -->
+          <div th:if="${message != null}" class="no-activities-message">
+            <p th:text="${message}"></p>
+          </div>
+          <!-- リストがある場合の表示 -->
+          <div th:if="${topform} != null">
+            <div class="navbar-2" th:each="actList : ${topform}">
+              <div class="text-wrapper-9" th:text="${actList.no}"></div>
+              <div class="IT" th:text="${actList.clubName}"></div>
+              <div class="text-wrapper-10" th:text="${actList.activityName}"></div>
+              <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
+              <div class="text-wrapper-10" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}"></div>
+              <div class="text-wrapper-10" th:text="${actList.activityPlace}"></div>
+              <div class="text-wrapper-11" th:text="${actList.participantsCount} + '/' + ${actList.maxParticipant}"></div>
+              <div class="text-wrapper-12" th:text="${actList.activityDescription}"></div>
+              <div class="pill">
+                <div class="tag">
+                    <!-- 参加ボタンと不参加ボタンの制御 -->
+                    <div  class="text-wrapper-13" th:if="${actList.isParticipationFlg == false}">
+                    <button type="button">参加</button>
+                </div>
+                <div class="text-wrapper-13" th:if="${actList.isParticipationFlg == true}">
+                    <button type="button">不参加</button>
+                </div>
+                  <!--<div class="text-wrapper-13" th:text="${act.isParticipationFlg ? '参加' : '未参加'}"></div>-->
+                </div>
+              </div>
+              <div class="div-wrapper">
+                <!--<div class="text-wrapper-13" th:text="'取消'"></div>-->
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="overlap">
+          <div class="sidebar">
+            <div class="overlap-group">
+              <div class="list-2">
+                <div class="menu-item"><div class="text-wrapper-14">メニュー</div></div>
+                <div class="menu-item-2">
+                  <img class="img" src="https://c.animaapp.com/VMtTNzrF/img/home.svg" />
+                  <div class="text-wrapper-15">活動登録</div>
+                </div>
+                <div class="menu-item-3">
+                  <img class="img" src="https://c.animaapp.com/VMtTNzrF/img/search.svg" />
+                  <div class="text-wrapper-15">部署登録</div>
+                </div>
+                <div class="menu-item-3">
+                  <img class="img" src="https://c.animaapp.com/VMtTNzrF/img/radio-1.svg" />
+                  <div class="text-wrapper-15">部員登録承認</div>
+                </div>
+                <div class="menu-item-3">
+                  <img class="img" src="https://c.animaapp.com/VMtTNzrF/img/radio-1.svg" />
+                  <div class="text-wrapper-15">部員登録申請</div>
+                </div>
+              </div>
+            </div>
+            <div class="title">社内イベント管理</div>
+          </div>
+          <div class="sidebar">
+            <div class="list-wrapper">
+              <div class="list-3">
+                <div class="menu-item"><div class="text-wrapper-14">メニュー</div></div>
+                <div class="menu-item-2">
+                  <img class="group" src="https://c.animaapp.com/VMtTNzrF/img/group@2x.png" />
+                  <div class="text-wrapper-15">活動登録</div>
+                </div>
+                <div class="menu-item-3">
+                  <img class="element" src="https://c.animaapp.com/VMtTNzrF/img/----------1-2@2x.png" />
+                  <div class="text-wrapper-15">部署登録</div>
+                </div>
+                <div class="menu-item-3">
+                  <img class="SNS" src="https://c.animaapp.com/VMtTNzrF/img/sns-------4-1.svg" />
+                  <div class="text-wrapper-15">部員登録承認</div>
+                </div>
+                <div class="menu-item-3">
+                  <img class="element" src="https://c.animaapp.com/VMtTNzrF/img/-----------2@2x.png" />
+                  <div class="text-wrapper-15">部員登録申請</div>
+                </div>
+              </div>
+            </div>
+            <div class="title">社内イベント管理</div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

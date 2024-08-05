@@ -2,11 +2,19 @@ package jp.co.jc21ps.activity_management.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import jp.co.jc21ps.activity_management.entity.User;
+
+import jp.co.jc21ps.activity_management.dto.LoginDto;
+import jp.co.jc21ps.activity_management.form.LoginForm;
 import jp.co.jc21ps.activity_management.service.LoginService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -20,17 +28,51 @@ public class LoginController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        User user = loginService.getUserOne();
-        model.addAttribute("name", user.getloginName());
-        return "login";
+    public ModelAndView index(Model model) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/login.html");
+        
+        return mav;
     }
 
     @PostMapping
-    public String postMethodName(Model model) {
-        // ログイン成功
-        return "redirect:top";
+    ModelAndView postResult(@Valid LoginForm loginForm,BindingResult bindingResult,HttpSession session){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/login.html");
+        LoginDto loginDto = new LoginDto(null, null, loginForm.getLoginName(), loginForm.getPassword());
+        LoginDto loginInfoReturnDto = new LoginDto(null, null, null, null);
+        
+        
+        //バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
+        if (bindingResult.hasErrors()) {
+          mav.setViewName("/login.html");
+          
+          return mav;
+        }
+        loginInfoReturnDto = loginService.getLoginService(loginDto);
+
+          //セッションにdtoからとれたデータを詰める
+        if(!ObjectUtils.isEmpty(loginInfoReturnDto.getLoginName())){ 
+            session.setAttribute("loginName",loginInfoReturnDto.getLoginName());
+            session.setAttribute("userId",loginInfoReturnDto.getUserId());
+            session.setAttribute("clubId",loginInfoReturnDto.getClubId());
+            //トップに遷移
+            //画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
+            mav.setViewName("redirect:/top");
+            // ログイン成功
+        }else{
+            
+            //べた書きじゃなくメッセージプロパティに
+            mav.addObject("error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
+            mav.setViewName("/login.html");
+          
+        } 
+
+    return mav;
     }
+       
+
+    
     
     
 }
