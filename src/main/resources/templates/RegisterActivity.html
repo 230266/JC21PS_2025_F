@@ -29,13 +29,15 @@
                 </div>
                 <div class="input">
                   <div class="input-base">
-                    <div class="error-rectangle"></div>
-                    <input class="text" placeholder="活動場所を入力してください" type="text" name="activityPlace"/>
-                    <!-- <div th:errors="*{activityPlace}"></div> -->
-                    <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityPlace')}">
-                      <li th:errors="*{activityPlace}"></li>
-                    </ul> -->
-                    <!-- th:field="*{activityPlace}" -->
+                    <div class="error-rectangle">
+                      <!-- <input class="text" placeholder="活動場所を入力してください" type="text" th:field="*{activityPlace}"/> -->
+                      <input class="text" placeholder="活動場所を入力してください" type="text" th:field="*{activityPlace}"/>
+                      <div th:if="${#fields.hasErrors('activityPlace')}">
+                        <ul class="error-list">
+                          <li th:each="error : ${#fields.errors('activityPlace')}" th:text="${error}"></li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -49,13 +51,18 @@
                 </div>
                 <div class="input">
                   <div class="input-base">
-                    <div class="error-rectangle"></div>
+                    <div class="error-rectangle">
                       <!-- <div class="input-text"><input class="text" placeholder="募集人数を入力してください" type="text" name="maxParticipant"></div> -->
-                      <input class="text" placeholder="活動場所を入力してください" type="text" name="maxParticipant"/>
-                    <!-- <textarea class="input-area" placeholder="募集人数を入力してください" type="text" name="maxParticipant"></textarea> -->
-                    <!-- <ul class="error-list" th:if="${#fields.hasErrors('maxParticipant')}">
-                      <li th:errors="*{maxParticipant}"></li>
-                    </ul> -->
+                      <input class="text" placeholder="募集人数を入力してください" type="text" th:field="*{maxParticipant}"/>
+                      <div th:if="${#fields.hasErrors('maxParticipant')}">
+                        <ul class="error-list">
+                          <li th:each="error : ${#fields.errors('maxParticipant')}" th:text="${error}"></li>
+                        </ul>
+                        <!-- <ul class="error-list" th:if="${#fields.hasErrors('maxParticipant')}">
+                          <li th:errors="*{maxParticipant}"></li>
+                        </ul> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -70,10 +77,15 @@
                 </div>
                 <div class="text-area">
                   <div class="text-area-base">
-                    <textarea class="input-area" placeholder="活動説明を入力してください" type="text" name="activityDescription"></textarea>
+                    <textarea class="input-area" placeholder="活動説明を入力してください" type="text" th:field="*{activityDescription}"></textarea>
+                    <div th:if="${#fields.hasErrors('activityDescription')}">
+                        <ul class="error-list">
+                          <li th:each="error : ${#fields.errors('activityDescription')}" th:text="${error}"></li>
+                        </ul>
                       <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityDescription')}">
                         <li th:errors="*{activityDescription}"></li>
                       </ul> -->
+                    </div>
                     <div class="text-area-icon">
                       <div class="overlap-group-2">
                         <img class="rectangle" src="https://c.animaapp.com/dcFBotWX/img/rectangle-10.svg" />
@@ -95,13 +107,23 @@
                   <div class="date-input">
                     <div class="input-base-wrapper">
                       <div class="input-base-2">
-                        <div class="error-rectangle"></div>
-                        <div class="input-text-wrapper">
-                          <div class="input-text"><input type="date" name="activityDate" placeholder="YYYY/MM/DD"></div>
+                        <div class="error-rectangle">
+                          <div class="input-text-wrapper">
+                            <div class="input-text">
+                              <input type="date" name="activityDate" placeholder="YYYY/MM/DD" th:field="*{activityDate}"/>
+                              <div th:if="${#fields.hasErrors('activityDescription')}">
+                                <ul class="error-list">
+                                  <li th:each="error : ${#fields.errors('activityDescription')}" th:text="${error}"></li>
+                                </ul>
+                              </div>
+                        <!-- </div> -->
+                        <!-- <div th:if="${#fields.hasErrors('activityDate')}" th:errors="*{activityDate}"></div> --> 
+                        <!-- エラーメッセージ --> 
+                        <!-- <div th:if="${impossibleDate}" style="color: red;" th:text="${impossibleDate}"></div> -->
+                        <!-- <div th:if="${errors}" style="color: red;" th:text="${errors}"></div> -->
+                            </div>
+                          </div>
                         </div>
-                        <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityDate') }">
-                          <li th:errors="*{activityDate}"></li>
-                        </ul> -->
                       </div>
                     </div>
                   </div>
@@ -111,8 +133,16 @@
             <div class="overlap-2">
               <div class="div-wrapper">
                 <div class="input-base-2">
-                  <div class="error-rectangle"></div>
-                  <div class="input-text"><input class="text" placeholder="hh:mm" type="time" name="activityStartTime"/></div>
+                  <div class="error-rectangle">
+                    <div class="input-text">
+                      <input class="text" placeholder="hh:mm" type="time" th:field="*{activityStartTime}"/>
+                      <div th:if="${#fields.hasErrors('activityStartTime')}">
+                        <ul class="error-list">
+                          <li th:each="error : ${#fields.errors('activityDescription')}" th:text="${error}"></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                   <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityStartTime')}">
                     <li th:errors="*{activityStartTime}"></li>
                   </ul> -->
@@ -122,14 +152,22 @@
             </div>
             <div class="input-2">
               <div class="input-base-2">
-                <div class="error-rectangle"></div>
-                <div class="input-text-wrapper"><input class="text" placeholder="hh:mm" type="time" name="activityEndTime"/></div>
-                <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityEndTime')}">
-                  <li th:errors="*{activityEndTime}"></li>
-                </ul>
-                <ul class="error-list" th:if="${#fields.hasErrors('isDateValid')}">
-                  <li th:errors="*{isDateValid}"></li>
-                </ul> -->
+                <div class="error-rectangle">
+                  <div class="input-text-wrapper">
+                    <input class="text" placeholder="hh:mm" type="time" th:field="*{activityEndTime}"/>
+                    <div th:if="${#fields.hasErrors('activityEndTime')}">
+                      <ul class="error-list">
+                        <li th:each="error : ${#fields.errors('activityEndTime')}" th:text="${error}"></li>
+                      </ul>
+                    </div>
+                  </div>
+                    <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityEndTime')}">
+                      <li th:errors="*{activityEndTime}"></li>
+                    </ul>
+                    <ul class="error-list" th:if="${#fields.hasErrors('isDateValid')}">
+                      <li th:errors="*{isDateValid}"></li>
+                    </ul> -->
+                </div>
               </div>
             </div>
             </div>
@@ -143,11 +181,16 @@
               </div>
               <div class="input">
                 <div class="input-base">
-                  <div class="error-rectangle"></div>
-                    <input class="text" placeholder="活動名を入力してください" type="text" name="activityName"/>
-                    <!-- <ul class="error-list" th:if="${#fields.hasErrors('activityName')}">
-                      <li th:errors="*{activityName}"></li>
-                    </ul> -->
+                  <div class="error-rectangle">
+                    <input class="text" placeholder="活動名を入力してください" type="text" th:field="*{activityName}"/>
+                    <!-- エラーメッセージ -->
+                    <!-- <div th:if="${#fields.hasErrors('activityName')}"> -->
+                    <div th:if="${#fields != null and #fields.hasErrors('activityName')}">
+                      <ul class="error-list">
+                        <li th:each="error : ${#fields.errors('activityName')}" th:text="${error}"></li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -161,7 +204,7 @@
             <div class="label-description-3">
               <div class="div-2">
                 <div class="label-wrapper">
-                  <div class="div-2"><div class="label-2" th:text="${form.clubName}"></div></div>
+                  <div class="div-2"><div class="label-2" th:text="${registerActivityForm.clubName}"></div></div>
                 </div>
               </div>
             </div>

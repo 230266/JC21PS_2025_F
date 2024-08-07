@@ -149,7 +149,7 @@ public class RegisterActivitySaveForm {
     }
 
     //募集人数
-    public void setMaxParticipant(String MaxParticipant) {
+    public void setMaxParticipant(String maxParticipant) {
         this.maxParticipant = maxParticipant;
     }
 

@@ -28,6 +28,7 @@
             <div class="text-wrapper-8">参加ステータス</div>
           </div>
           <!-- メッセージがある場合の表示 -->
+          <div th:if="${activityRegisterCompleteMessage}" style="color: black" th:text="${activityRegisterCompleteMessage}"></div>
           <div th:if="${message != null}" class="no-activities-message">
             <p th:text="${message}"></p>
           </div>

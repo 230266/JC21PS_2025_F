@@ -99,7 +99,7 @@ public class RegisterActivitySaveEntity {
     }
 
     //募集人数
-    public void setMaxParticipant(int MaxParticipant) {
+    public void setMaxParticipant(int maxParticipant) {
         this.maxParticipant = maxParticipant ;
     }
 

@@ -10,13 +10,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.TopDto;
-import jp.co.jc21ps.activity_management.entity.TopEntity;
+//import jp.co.jc21ps.activity_management.entity.TopEntity;
 import jp.co.jc21ps.activity_management.form.TopForm;
 import jp.co.jc21ps.activity_management.service.TopService;
 
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller

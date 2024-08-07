@@ -1,4 +1,4 @@
-package jp.co.jc21ps.dto;
+package jp.co.jc21ps.activity_management.dto;
 
 public class RegisterActivityDto {
     private String clubName;

@@ -3,7 +3,6 @@ package jp.co.jc21ps.activity_management.repository;
 import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
 import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
 
@@ -11,6 +10,7 @@ import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
 @Repository
 public class RegisterActivityRepository {
     private final JdbcTemplate jdbcTemplate;
+    private static final String ACTIVITY_ID_PREFIX = "A";
 
     public RegisterActivityRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -50,9 +50,8 @@ public class RegisterActivityRepository {
                                   activity_start_time, 
                                   activity_end_time, 
                                   activity_description, 
-                                  max_participant, 
-                                  delete_flg) 
-                VALUES (?,?,?,?,?,?,?,?,false)
+                                  max_participant) 
+                VALUES (?,?,?,?,?,?,?,?)
                 """;
             
             //パラメータの設定  
@@ -70,4 +69,27 @@ public class RegisterActivityRepository {
             //DBに挿入
             jdbcTemplate.update(sql, paramList);
     }
+
+    //シーケンスからactivityIdを取得するメソッド
+    public String getNextActivityId() throws Exception {
+        
+        //SQLクエリの定義
+        String sql = "SELECT nextval('activity_id_sequence') AS id";
+        
+        try{
+            //クエリを実行して次のシーケンスの値を取得
+            Integer sequenceValue = jdbcTemplate.queryForObject(sql, Integer.class);
+
+            if (sequenceValue != null){
+                //フォーマット指定
+                return ACTIVITY_ID_PREFIX + String.format("%07d", sequenceValue);
+            }else{
+                throw new Exception();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new Exception();
+        }
+    }
+
 }
