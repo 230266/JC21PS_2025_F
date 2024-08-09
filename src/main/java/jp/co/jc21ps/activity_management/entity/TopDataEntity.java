@@ -1,19 +1,13 @@
-package jp.co.jc21ps.activity_management.form;
+package jp.co.jc21ps.activity_management.entity;
 
 
-public class TopSaveForm {
+public class TopDataEntity {
     private String activityId;
     private String userId;
     private String clubId;
     private String clubName;
  
-    public TopSaveForm(String activityId,String userId,String clubId, String clubName){
-     this.activityId = activityId;
-     this.userId = userId;
-     this.clubId = clubId;
-     this.clubName = clubName;
-    }
- 
+    
  public String getActivityId() {
      return activityId;
  }
@@ -39,4 +33,3 @@ public class TopSaveForm {
      this.clubName = clubName;
  }
  }
- 

@@ -1,8 +1,5 @@
 package jp.co.jc21ps.activity_management.repository;
-import java.sql.Timestamp;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 import java.time.format.DateTimeFormatter;
@@ -12,12 +9,12 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import jp.co.jc21ps.activity_management.entity.LoginEntity;
+
 import java.util.List;
 import java.util.Map;
 
 import jp.co.jc21ps.activity_management.entity.TopEntity;
-import jp.co.jc21ps.activity_management.entity.TopSaveEntity;
+import jp.co.jc21ps.activity_management.entity.TopDataEntity;
 
 @Repository
 public class TopRepository {
@@ -29,19 +26,69 @@ public class TopRepository {
     }
 
     
-    //
-    public TopSaveEntity getTopSave(TopSaveEntity topSaveEntity){
-        String sqlSave = """
-                SELECT * 
-                FROM 
-                    trn_participant
-                WHERE
-                    activity_id = ? 
-                AND
-                    user_id = ?; ";
-                """;
-        return topSaveEntity;        
+
+    // 既存のアクティビティの確認
+    public int isActivityParticipating(TopDataEntity topDataEntity) {
+        String sqlCheck = """
+            SELECT 
+                COUNT(*) 
+            FROM 
+                trn_participant 
+            WHERE
+                activity_id = ? 
+            AND 
+                user_id = ?
+            """;
+        
+            
+        Integer count = jdbcTemplate.queryForObject(sqlCheck, Integer.class, topDataEntity.getActivityId(),topDataEntity.getUserId());
+        return count;
     }
+    
+   
+
+
+    //参加ボタンを押したとき
+    public void insertActivity(TopDataEntity topDataEntity){
+        String sqlInsert = """
+            INSERT INTO
+                trn_participant
+            VALUES (?,?)
+            """;
+        
+        Object[] paramList = {
+            topDataEntity.getActivityId(),
+            topDataEntity.getUserId(),
+        };
+            
+        
+        //DBに挿入
+        jdbcTemplate.update(sqlInsert, paramList);                   
+    }
+    
+    
+    //不参加ボタンを押したとき
+    public void deleteActivity(TopDataEntity topDataEntity){
+        String sqlDelete = """
+                DELETE FROM
+                    trn_participant 
+                 WHERE
+                    activity_id = ? 
+                 AND 
+                    user_id = ?
+                """;
+        
+        Object[] paramList = {
+            topDataEntity.getActivityId(),
+            topDataEntity.getUserId(),
+        };       
+        
+        //DBに挿入
+        jdbcTemplate.update(sqlDelete, paramList);
+    }
+
+    
+
 
     //画面表示
     //部署ID、部活名、活動ID、活動名、活動場所、活動日、活動時間、活動説明、参加予定人数、参加上限人数、参加予定フラグ、過半数フラグ
@@ -73,25 +120,25 @@ public class TopRepository {
     
         //?の内容をかっこの中に書く
         List<Map<String,Object>> activityList = jdbcTemplate.queryForList(sql,topEntity.getUserId(),topEntity.getUserId());
+        
+        //TopEnitity型のリスト、これにデータを詰めていく
         List<TopEntity> topEntities  = new ArrayList<>();
         
-        
-      
-
         //空だった場合
         if(activityList.isEmpty()){
             return topEntities;
         }
 
-
-
-
-        
+        //活動時間(startTimeにもendTimeにも使う)
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:MM");
+       
+        //活動日
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-            int index = 1; // 番号付与の初期値
+        //活動リストの番号振り分け用
+        int index = 1; // 番号付与の初期値
 
+        //リストで返そう！
         for(Map<String, Object> activity : activityList){
             TopEntity top = new TopEntity();
            
@@ -112,7 +159,6 @@ public class TopRepository {
                   
             
             // LocalDateTime を String に変換
-            
             //開始時間
              Object startTimeObj = activity.get("activity_start_time");
             if (startTimeObj instanceof LocalDateTime) {
@@ -148,7 +194,6 @@ public class TopRepository {
             top.setActivityDescription((String)activity.get("activity_description"));
 
             //参加人数
-            //top.setParticipantsCount((String)activity.get("count"));
             Object countObj = activity.get("count");
             if (countObj instanceof Long) {
                 Long countLong = (Long) countObj;
@@ -171,15 +216,6 @@ public class TopRepository {
             }
             top.setMaxParticipant(maxParticipantString);
 
-            //参加者フラグ
-            // Boolean participationFlg = (Boolean) activity.get("participation_flg");
-            // Boolean temp;
-            // if(participationFlg){
-            //     temp = true;
-            // }else{
-            //     temp = false;
-            // }
-            // top.setIsParticipationFlg(temp);
             Object participationFlgObj = activity.get("participation_flg");
             if (participationFlgObj instanceof Number) {
                 int participationFlgInt = ((Number) participationFlgObj).intValue();
@@ -188,25 +224,30 @@ public class TopRepository {
                 top.setIsParticipationFlg(false); // デフォルト値
             }
     
-            // top.setIsParticipationFlg(participationFlg != null && participationFlg);
-            //top.setIsParticipationFlg((boolean)activity.get("participation_flg"));
+            //過半数フラグ
             //top.setIsMajorityFlg((boolean)activity.get("majority_flg"));
         
-            //リストで返そう！
-
-            
-             //番号を設定
+            //番号を設定
             top.setNo(index++);
        
-            
+            //topにセットしたものを詰める
             topEntities.add(top);
-        
-            
+
         }
+        
+        //Serviceで呼ぶ
         return topEntities;
-
-
     }
+
+
+
+    
+
+
+
+   
+
+ 
 }   
 
 
