@@ -3,55 +3,107 @@ package jp.co.jc21ps.activity_management.service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.jc21ps.activity_management.dto.TopDto;
+import jp.co.jc21ps.activity_management.dto.TopDataDto;
 import jp.co.jc21ps.activity_management.entity.TopEntity;
+import jp.co.jc21ps.activity_management.entity.TopDataEntity;
 import jp.co.jc21ps.activity_management.repository.TopRepository;
+
 
 @Service
 public class TopService {
     
-    private final TopRepository TopRepository;
+    private final TopRepository topRepository;
 
-    public TopService(TopRepository TopRepository){
-        this.TopRepository = TopRepository;
+     
+    public TopService(TopRepository topRepository){
+        this.topRepository = topRepository;
     }
 
-    //
+    // アクティビティの参加状態を取得
+    public boolean getActivityParticipationStatus(TopDataDto topDataDto) {
+        //TopDataEntityを呼び出し、Dtoでゲットした活動ID、ユーザーIDをセットする
+        TopDataEntity topDataEntity = new TopDataEntity();
+        topDataEntity.setActivityId(topDataDto.getActivityId());
+        topDataEntity.setUserId(topDataDto.getUserId());
+        
+        //repositoryから該当するデータが何件あるかを確認したメソッドを呼び出す
+        int aaa = topRepository.isActivityParticipating(topDataEntity);
+        
+        //初期値をfalseで指定する
+        boolean aaaflg = false;
+        
+        //0より大きい(参加している)場合trueにして返す
+        if(aaa > 0){
+            aaaflg = true;
+        }
+        //そのままなら参加していないのでfalseを返す
+        return aaaflg;
+    }
+
+    //デリート呼び出し
+    @Transactional
+    public void deleteActivity(TopDataDto topDataDto){
+        TopDataEntity topDataEntity = new TopDataEntity();
+        topDataEntity.setActivityId(topDataDto.getActivityId());
+        topDataEntity.setUserId(topDataDto.getUserId());
+
+        //RepositoryのdeleteActivityを呼び出す
+        topRepository.deleteActivity(topDataEntity);
+    }
+
+    //インサート呼び出し
+    @Transactional
+    public void insertActivity(TopDataDto topDataDto){
+        TopDataEntity topDataEntity = new TopDataEntity();
+        topDataEntity.setActivityId(topDataDto.getActivityId());
+        topDataEntity.setUserId(topDataDto.getUserId());
+        
+        //RepositoryのinsertActivityを呼び出す
+        topRepository.insertActivity(topDataEntity);
+     }
+
+    //画面表示用
     public List<TopDto> getTopData(TopDto topDto){
         TopEntity topEntity = new TopEntity();
         topEntity.setUserId(topDto.getUserId());
 
-        List<TopEntity> tops = TopRepository.getTop(topEntity);
+        List<TopEntity> tops = topRepository.getTop(topEntity);
         
         //取ってきた値をdtoを介してcontrollerに投げる用
-        List<TopDto> topDto2 = new ArrayList<>();
+        List<TopDto> viewData = new ArrayList<>();
         
         //TopEntityからTopDtoに変換し、リストに追加
         for(TopEntity entity : tops){
-            TopDto Dto = new TopDto();
-            ///Dto.setNo(entity.getNo());
-            Dto.setNo(entity.getNo());
-            Dto.setClubId(entity.getClubId());
-            Dto.setClubName(entity.getClubName());
-            Dto.setActivityId(entity.getActivityId());
-            Dto.setActivityName(entity.getActivityName());
-            Dto.setActivityPlace(entity.getActivityPlace());
-            Dto.setDispActivityDate(entity.getDispActivityDate());
-           // Dto.setDispActivityTime(entity.getDispActivityTime());
-            Dto.setActivityStartTime(entity.getActivityStartTime());
-            Dto.setActivityEndTime(entity.getActivityEndTime());
-            Dto.setActivityDescription(entity.getActivityDescription());
-            Dto.setParticipantsCount(entity.getParticipantsCount());
-            Dto.setMaxParticipant(entity.getMaxParticipant());
+            
+            //TopDto型のDtoに値を詰めている
+            TopDto dto = new TopDto();
+            dto.setNo(entity.getNo());
+            dto.setClubId(entity.getClubId());
+            dto.setClubName(entity.getClubName());
+            dto.setActivityId(entity.getActivityId());
+            dto.setActivityName(entity.getActivityName());
+            dto.setActivityPlace(entity.getActivityPlace());
+            dto.setDispActivityDate(entity.getDispActivityDate());
+            dto.setActivityStartTime(entity.getActivityStartTime());
+            dto.setActivityEndTime(entity.getActivityEndTime());
+            dto.setActivityDescription(entity.getActivityDescription());
+            dto.setParticipantsCount(entity.getParticipantsCount());
+            dto.setMaxParticipant(entity.getMaxParticipant());
+            
             //dtoに受け渡すため、boolean型をStringに変える➡「～.toString()」
-            Dto.setIsParticipationFlg(entity.getIsParticipationFlg());
+            dto.setIsParticipationFlg(entity.getIsParticipationFlg());
             //Dto.setIsMajorityFlg(Boolean.toString(entity.getIsMajorityFlg()));
         
-            topDto2.add(Dto);
+            //TopDto型のリストviewDataに値を詰める
+            viewData.add(dto);
         }
-         
-        return topDto2;
+        
+        //リストを返す(controllerで呼ぶ)
+        return viewData;
     }
 } 

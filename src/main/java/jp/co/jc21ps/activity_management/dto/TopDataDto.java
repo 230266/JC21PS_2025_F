@@ -1,17 +1,12 @@
 package jp.co.jc21ps.activity_management.dto;
 
-public class TopSaveDto {
+public class TopDataDto {
     private String activityId;
     private String userId;
     private String clubId;
     private String clubName;
  
-    public TopSaveDto(String activityId,String userId,String clubId, String clubName){
-     this.activityId = activityId;
-     this.userId = userId;
-     this.clubId = clubId;
-     this.clubName = clubName;
-    }
+    
  
  public String getActivityId() {
      return activityId;

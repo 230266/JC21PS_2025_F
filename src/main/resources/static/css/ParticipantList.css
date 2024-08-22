@@ -1,8 +1,7 @@
-.screen {
+.screens {
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   width: 100%;
 }
 
@@ -203,8 +202,8 @@
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  top: 9px;
-  left: 16px;
+  top: 115px;
+  left: 420px;
 }
 
 .screen .div-3 {
@@ -405,6 +404,7 @@
   line-height: var(--form-bold-line-height);
   white-space: nowrap;
   font-style: var(--form-bold-font-style);
+  top: -25px;
 }
 
 .screen .button {
@@ -445,4 +445,9 @@
   letter-spacing: 0;
   line-height: 22px;
   white-space: nowrap;
+}
+
+.screen .no-activities-message {
+  top: 13px;
+  position: relative;
 }

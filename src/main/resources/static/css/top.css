@@ -25,12 +25,15 @@
 
 .screen .navbar {
   display: flex;
-  width: 1055px;
+  width: 100%;
+  flex-wrap: nowrap;
   height: 56px;
   align-items: center;
   gap: 10px;
   position: relative;
   background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-sizing: border-box;
 }
 
 .screen .text-wrapper {
@@ -44,7 +47,7 @@
   line-height: 24px;
 }
 
-.screen .text-wrapper-2 {
+.screen .text-wrapper-clubname {
   width: 109px;
   color: #000000;
   overflow: hidden;
@@ -60,9 +63,41 @@
   line-height: 24px;
 }
 
+.screen .text-wrapper-actname {
+  width: 180px;
+  color: #000000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  position: relative;
+  font-family: "Inter", Helvetica;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.screen .text-wrapper-actday {
+  position: relative;
+  width: 107px;
+  font-family: "Inter", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 .screen .text-wrapper-3 {
   position: relative;
-  width: 86px;
+  width: 100px;
   font-family: "Inter", Helvetica;
   font-weight: 500;
   color: #000000;
@@ -77,7 +112,7 @@
 }
 
 .screen .text-wrapper-4 {
-  width: 106px;
+  width: 115px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 500;
@@ -93,7 +128,7 @@
 }
 
 .screen .text-wrapper-5 {
-  width: 89px;
+  width: 200px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 500;
@@ -158,17 +193,19 @@
   -webkit-box-orient: vertical;
 }
 
+
+  
+
 .screen .navbar-2 {
   display: flex;
   height: 96px;
   align-items: center;
   gap: 10px;
-  position: relative;
-  align-self: stretch;
   width: 100%;
-  border-top-width: 1px;
+  border-top: 1px solid #e0e0e0;
   border-top-style: solid;
   border-color: #e0e0e0;
+  box-sizing: border-box;
 }
 
 .screen .text-wrapper-9 {
@@ -183,7 +220,7 @@
 }
 
 .screen .IT {
-  width: 108px;
+  width: 100px;
   height: 82px;
   color: #000000;
   overflow: hidden;
@@ -200,7 +237,7 @@
 }
 
 .screen .text-wrapper-10 {
-  width: 108px;
+  width: 175px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 500;
@@ -208,9 +245,23 @@
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.screen .text-wrapper-acttime {
+  width: 102px;
+  position: relative;
+  font-family: "Inter", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  display: flex;
+  flex-wrap: nowrap;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }

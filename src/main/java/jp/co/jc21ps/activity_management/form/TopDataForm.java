@@ -1,18 +1,19 @@
-package jp.co.jc21ps.activity_management.entity;
+package jp.co.jc21ps.activity_management.form;
 
+import jakarta.validation.constraints.NotNull;
 
-public class TopSaveEntity {
+public class TopDataForm {
+    
+    @NotNull
     private String activityId;
+    
+    @NotNull
     private String userId;
+    
     private String clubId;
     private String clubName;
  
-    public TopSaveEntity(String activityId,String userId,String clubId, String clubName){
-     this.activityId = activityId;
-     this.userId = userId;
-     this.clubId = clubId;
-     this.clubName = clubName;
-    }
+  
  
  public String getActivityId() {
      return activityId;
@@ -39,3 +40,4 @@ public class TopSaveEntity {
      this.clubName = clubName;
  }
  }
+ 
