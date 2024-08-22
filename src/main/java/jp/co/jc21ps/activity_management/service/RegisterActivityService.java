@@ -14,17 +14,18 @@ import jp.co.jc21ps.dto.RegisterActivityDto;
 import jp.co.jc21ps.dto.RegisterActivitySaveDto;
 import java.util.Locale;
 
-
 @Service
 public class RegisterActivityService {
 
+     @Autowired
      private final RegisterActivityRepository registerActivityRepository;
      @Autowired
-     private MessageSource messageSource;
+     private final MessageSource messageSource;
 
      //リポジトリをセットする
-     public RegisterActivityService(RegisterActivityRepository registerActivityRepository) {
+     public RegisterActivityService(RegisterActivityRepository registerActivityRepository, MessageSource messageSource) {
         this.registerActivityRepository = registerActivityRepository;
+        this.messageSource = messageSource;
     }
 
     //dtoのインスタンス化
@@ -72,11 +73,12 @@ public class RegisterActivityService {
             //日時文字列をLocalDateTimeに変換
             LocalDateTime startDateTime = LocalDateTime.parse(registStartTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(registEndTime, formatter);
-        
+
             //存在する日時か検証
-            if(startDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())){
+            if(startDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())) {
                 //過去の日付の場合はエラーメッセージをだす
-                return messageSource.getMessage("error.impossibleDate", null, Locale.getDefault());
+                //return messageSource.getMessage("impossibleDate", null, Locale.getDefault());
+                return "impossibleDate";
             } else{
 
                 //maxParticipantをStringからintに変換する
@@ -99,7 +101,8 @@ public class RegisterActivityService {
                 registerActivityRepository.insertActivity(activityEntity);
 
                 //成功のメッセージを返す
-                return messageSource.getMessage("activityRegisterCompleteMessage", null, Locale.getDefault());
+                //return messageSource.getMessage("activityRegisterCompleteMessage", null, Locale.getDefault());
+                return "activityRegisterCompleteMessage";
             }
 
         }catch(DateTimeParseException e){
