@@ -17,12 +17,12 @@
         </div>
         <div class="list">
           <div class="navbar">
-            <div class="text-wrapper">No.</div>
-            <div class="text-wrapper-2">部署名</div>
-            <div class="text-wrapper-2">活動名</div>
-            <div class="text-wrapper-3">活動日</div>
+            <div class="text-wrapper-9">No.</div>
+            <div class="text-wrapper-clubname">部署名</div>
+            <div class="text-wrapper-actname">活動名</div>
+            <div class="text-wrapper-actday">活動日</div>
             <div class="text-wrapper-4">活動時間</div>
-            <div class="text-wrapper-5">活動場所</div>
+            <div class="text-wrapper-actname">活動場所</div>
             <div class="text-wrapper-6">参加予定人数/募集人数</div>
             <div class="text-wrapper-7">活動説明</div>
             <div class="text-wrapper-8">参加ステータス</div>
@@ -37,11 +37,11 @@
               <div class="text-wrapper-9" th:text="${actList.no}"></div>
               <div class="IT" th:text="${actList.clubName}"></div>
               <div class="text-wrapper-10">
-                <a th:href="@{/ParticipantList.html}" th:text="${actList.activityName}"></a>
+                <a th:href="@{/ParticipantList(activityId=${actList.activityId})}" th:text="${actList.activityName}"></a>
               </div>
               <!--<div class="text-wrapper-10" th:text="${actList.activityName}"></div>-->
               <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
-              <div class="text-wrapper-10" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}"></div>
+              <div class="text-wrapper-acttime" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}"></div>
               <div class="text-wrapper-10" th:text="${actList.activityPlace}"></div>
               <div class="text-wrapper-11" th:text="${actList.participantsCount} + '/' + ${actList.maxParticipant}"></div>
               <div class="text-wrapper-12" th:text="${actList.activityDescription}"></div>

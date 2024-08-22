@@ -4,19 +4,19 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" th:href="@{/css/globals.css}">
     <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
-  </head>
+    <link rel="stylesheet" th:href="@{/css/ParticipantList.css}">
   <body>
     <div class="screen">
       <div class="div">
+        <!--ヘッダー-->
+        <div class="sidebar">
+          <div th:replace="header"></div>
+          <div class="title">社内イベント管理</div>
+        </div>
         <div class="overlap-group">
           <div class="table">
             <div class="div-2">
-              <div class="elements-header">
-                <header class="header">
-                  <div class="title-action-buttons"><div class="header-base-off"></div></div>
-                </header>
-              </div>
+              
               <div class="elements-column">
                 <div class="div-2">
                   <div class="table-column-header">
@@ -30,14 +30,15 @@
                       <img class="line" src="https://c.animaapp.com/TtW2WmO5/img/line-17.svg" />
                     </div>
                   </div>
-                  <div class="table-cell">
-                    <div class="table-cell-content"><div class="description">山田 太郎</div></div>
+                  <div th:each="participant : ${participantListForm}" class="table-cell">
+                    <div class="table-cell-content">
+                      <div class="description" th:text="${participant.userName}"></div>
+                    </div>
                   </div>
-                  <div class="table-cell">
-                    <div class="table-cell-content"><div class="description">鈴木 花子</div></div>
-                  </div>
-                  <div class="table-cell">
-                    <div class="table-cell-content"><div class="description">中村 正樹</div></div>
+                    <!-- メッセージがある場合の表示 -->
+                    <div th:if="${message != null}" class="no-activities-message">
+                      <p th:text="${message}"></p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -46,46 +47,26 @@
           <div class="label-description">
             <div class="div-3">
               <div class="label-wrapper">
-                <div class="div-3"><div class="label">勉強会</div></div>
-              </div>
+                <div class="div-3">
+                  <div class="label"><span th:text="${activityName}"></span></div>
+               </div>
             </div>
-          </div>
+          </div> 
         </div>
-        <div class="sidebar">
-          <div class="list">
-            <div class="list-2">
-              <div class="menu-item"><div class="text-wrapper">メニュー</div></div>
-              <div class="menu-item-2">
-                <img class="group" src="https://c.animaapp.com/TtW2WmO5/img/group@2x.png" />
-                <div class="text-wrapper-2">活動登録</div>
-              </div>
-              <div class="menu-item-3">
-                <img class="element" src="https://c.animaapp.com/TtW2WmO5/img/----------1-2@2x.png" />
-                <div class="text-wrapper-2">部署登録</div>
-              </div>
-              <div class="menu-item-3">
-                <img class="SNS" src="https://c.animaapp.com/TtW2WmO5/img/sns-------4-1.svg" />
-                <div class="text-wrapper-2">部員登録承認</div>
-              </div>
-              <div class="menu-item-3">
-                <img class="element" src="https://c.animaapp.com/TtW2WmO5/img/-----------2@2x.png" />
-                <div class="text-wrapper-2">部員登録申請</div>
-              </div>
-            </div>
-          </div>
-          <div class="title">社内イベント管理</div>
-        </div>
+       
         <div class="title-2">参加者一覧</div>
         <div class="label-description-2">
           <div class="div-3">
             <div class="label-wrapper">
-              <div class="div-3"><div class="label-2">*活動名</div></div>
+              <div class="div-3">
+                <div class="label-2">*活動名</div>
+              </div>
             </div>
           </div>
         </div>
-        <button class="button">
+        <a href="/top" class="button">
           <div class="button-base"><div class="button-text">戻る</div></div>
-        </button>
+        </a>
       </div>
     </div>
   </body>
