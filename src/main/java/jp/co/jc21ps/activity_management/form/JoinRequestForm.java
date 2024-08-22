@@ -15,12 +15,8 @@ public class JoinRequestForm {
     //部署説明
     private String clubDescription;
 
-    //デフォルトコンストラクタ
-    public JoinRequestForm(){
-
-    }
-
-    public JoinRequestForm(String userId, String clubId, String clubName, String clubDescription) {
+    //引数付きのコンストラクタ
+    public void JoinRequestEntity(String userId, String clubId, String clubName, String clubDescription) {
         this.userId = userId;
         this.clubId = clubId;
         this.clubName = clubName;

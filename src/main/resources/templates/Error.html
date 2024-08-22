@@ -8,16 +8,18 @@
   </head>
   <body>
     <div class="screen">
-      <div class="element-signup-form-wrapper">
-        <div class="element-signup-form">
-          <div class="copy"><div class="text-wrapper">エラーが発生しました</div></div>
-            <form th:action="@{/login}" method="get">
-                <button class="button">
-                  <div class="button-base"><div class="button-text"><input type ="submit" value="ログイン画面へ戻る" class="button-text"></div></div>
-                </button>
-            </form>  
+        <div class="element-signup-form-wrapper">
+            <div class="element-signup-form">
+                <div class="copy"><div class="text-wrapper">エラーが発生しました</div></div>
+                <form th:action="@{/login}" method="get">
+                    <div class="input-and-button">
+                        <button class="button">
+                            <div class="button-base"><div class="button-text"><input type ="submit" value="ログイン画面へ戻る" class="button-text"></div></div>
+                        </button>
+                    </div>
+                </form>  
+            </div>
         </div>
-       </div>
     </div>
-  </body>
+   </body>
 </html>

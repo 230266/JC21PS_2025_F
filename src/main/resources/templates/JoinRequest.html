@@ -4,99 +4,52 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" th:href="@{/css/globals.css}">
     <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/MemberRequest.css}">
     </head>
   <body>
     <div class="screen">
       <div class="div">
-        <div class="title">部員登録申請</div>
-        <div class="frame">
-          <div class="container-in-a">
-            <div class="wrapper">
-              <div class="div-2">
-                <div class="title-action-buttons">
-                  <div class="header-base-wrapper">
-                    <div class="header-base"><div class="text-wrapper">ITインテグレーション部門</div></div>
-                  </div>
-                  <div class="action-stripe-wrapper">
-                    <div class="action-stripe">
-                      <button class="button">
-                        <div class="button-base">
-                          <div class="button-icon">
-                            <img class="icon" src="https://c.animaapp.com/s2zuqAk5/img/icon-16.svg" />
-                          </div>
-                          <div class="button-text">部員登録申請</div>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="div-2">
-                  <div class="description">
-                    【拠点】沖縄/仙台/東京<br />【内容「グーネット」及び、関連サービスのアプリケーション開発。自社サービスの開発。
-                  </div>
-                </div>
-              </div>
-              <div class="key-value-pairs"></div>
-            </div>
-          </div>
-          <div class="container-in-a">
-            <div class="wrapper">
-              <div class="div-2">
-                <div class="title-action-buttons">
-                  <div class="header-base-wrapper">
-                    <div class="header-base"><div class="text-wrapper">営業部門</div></div>
-                  </div>
-                  <div class="action-stripe-wrapper">
-                    <div class="action-stripe">
-                      <button class="button">
-                        <div class="button-base">
-                          <div class="button-icon">
-                            <img class="icon" src="https://c.animaapp.com/s2zuqAk5/img/icon-16.svg" />
-                          </div>
-                          <div class="button-text">部員登録申請</div>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="div-2">
-                  <div class="description">
-                    【拠点】沖縄<br />【内容】不動産メディアを通して、蓄積データを活用し、不動産物件の効果的な広告手法の提案、経営支援をする。
-                  </div>
-                </div>
-              </div>
-              <div class="key-value-pairs"></div>
-            </div>
-          </div>
+        <div class="sidebar">
+          <div th:replace="header"></div>
+          <div class="title">社内イベント管理</div>
         </div>
+        <div class="title">部員登録申請</div>
+        <form role="form" th:action="@{/joinRequest/save}" th:object="${joinRequestSaveForm}" method="post"></form>
+          <div class="frame">
+            <div class="container-in-a">
+              <div class="wrapper">
+                <div class="div-2">
+                  <div class="title-action-buttons">
+                    <div class="header-base-wrapper">
+                      <div class="header-base"><div class="text-wrapper" th:text="*{joinRequestSaveForm.clubName}">ITインテグレーション部門</div></div>
+                    </div>
+                    <div class="action-stripe-wrapper">
+                      <div class="action-stripe">
+                        <button class="button">
+                          <div class="button-base">
+                            <div class="button-icon">
+                              <img class="icon" src="https://c.animaapp.com/s2zuqAk5/img/icon-16.svg" />
+                            </div>
+                            <div class="button-text">部員登録申請</div>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="div-2">
+                    <div class="description" th:text="*{joinRequestSaveForm.clubDescription}">
+                      【拠点】沖縄/仙台/東京<br />【内容「グーネット」及び、関連サービスのアプリケーション開発。自社サービスの開発。
+                    </div>
+                  </div>
+                </div>
+                <div class="key-value-pairs"></div>
+              </div>
+            </div>
+          </div>
+        </form>
         <button class="button-base-wrapper">
           <div class="button-base-2"><div class="button-text-2">戻る</div></div>
         </button>
-        <div class="sidebar">
-          <div class="list">
-            <div class="list-2">
-              <div class="menu-item"><div class="text-wrapper-2">メニュー</div></div>
-              <div class="menu-item-2">
-                <img class="group" src="https://c.animaapp.com/s2zuqAk5/img/group@2x.png" />
-                <div class="text-wrapper-3">活動登録</div>
-              </div>
-              <div class="menu-item-3">
-                <img class="element" src="https://c.animaapp.com/s2zuqAk5/img/----------1-2@2x.png" />
-                <div class="text-wrapper-3">部署登録</div>
-              </div>
-              <div class="menu-item-3">
-                <img class="SNS" src="https://c.animaapp.com/s2zuqAk5/img/sns-------4-1.svg" />
-                <div class="text-wrapper-3">部員登録承認</div>
-              </div>
-              <div class="menu-item-3">
-                <img class="element" src="https://c.animaapp.com/s2zuqAk5/img/-----------2@2x.png" />
-                <div class="text-wrapper-3">部員登録申請</div>
-              </div>
-            </div>
-          </div>
-          <div class="title-2">社内イベント管理</div>
-        </div>
       </div>
     </div>
   </body>

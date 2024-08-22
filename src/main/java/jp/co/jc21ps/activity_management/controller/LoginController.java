@@ -56,7 +56,7 @@ public class LoginController {
             session.setAttribute("loginName",loginInfoReturnDto.getLoginName());
             session.setAttribute("userId",loginInfoReturnDto.getUserId());
             session.setAttribute("clubId",loginInfoReturnDto.getClubId());
-            //トップに遷移
+            //トップに遷移 
             //画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
             mav.setViewName("redirect:/top");
             // ログイン成功

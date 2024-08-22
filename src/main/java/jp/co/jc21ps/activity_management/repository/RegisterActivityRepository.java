@@ -16,7 +16,7 @@ public class RegisterActivityRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //クラブIDから活動情報を取得するメソッド
+    //クラブIDから部署名を取得するメソッド
     public RegisterActivityEntity getActivityByClubId(RegisterActivityEntity clubId) {
 
         //取得したデータをRegisterActivityEntityに変換、エンティティに引数なしのコンストラクタ作ってる

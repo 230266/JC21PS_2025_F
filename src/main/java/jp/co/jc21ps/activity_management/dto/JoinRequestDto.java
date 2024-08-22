@@ -15,10 +15,11 @@ public class JoinRequestDto {
         private String clubDescription;
 
         //デフォルトコンストラクタ
-        public JoinRequestDto(){
+        public JoinRequestDto() {
 
         }
 
+        //引数ありのコンストラクタ
         public JoinRequestDto(String userId, String clubId, String clubName, String clubDescription) {
             this.userId = userId;
             this.clubId = clubId;
@@ -44,7 +45,7 @@ public class JoinRequestDto {
         }
 
         //部署名
-        public void setClubNames(String clubName) {
+        public void setClubName(String clubName) {
             this.clubName = clubName;
         }
 
