@@ -1,6 +1,5 @@
 package jp.co.jc21ps.activity_management.entity;
 
-//import org.springframework.data.relational.core.sql.Join;
 
 //初期表示画面のエンティティ
 public class JoinRequestEntity {
