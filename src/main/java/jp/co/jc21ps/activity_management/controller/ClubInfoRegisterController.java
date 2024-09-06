@@ -41,15 +41,15 @@ public class ClubInfoRegisterController {
         ModelAndView mav = new ModelAndView();
 
         //セッションからクラブIDを取得
-        SessionDto sessionDto = new SessionDto();
-        sessionDto = commonService.getCommonService(session);
+        ///SessionDto sessionDto = new SessionDto();
+        SessionDto sessionDto = commonService.getCommSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //leaderClubIdがセッションに存在しない場合、ログイン画面に遷移
-        if(leaderClubId == null) {
-            mav.setViewName("Login");
+        //leaderClubIdがセッションに存在しない場合、エラー画面に遷移
+        if(leaderClubId.isEmpty()) {
+            mav.setViewName("Error");
             return mav;
-        } 
+        }
 
         //formをnew
         clubInfoRegisterSaveForm.setLeaderClubId(leaderClubId);
@@ -96,14 +96,14 @@ public class ClubInfoRegisterController {
 
         //セッションからleaderClubIdを取得
         SessionDto sessionDto = new SessionDto();
-        sessionDto = commonService.getCommonService(session);
+        sessionDto = commonService.getCommSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //cleaderClubIdlubIdがセッションに存在しない場合、ログイン画面に遷移
-        if(leaderClubId == null) {
-            mav.setViewName("Login");
+        //cleaderClubIdlubIdがセッションに存在しない場合、エラー画面に遷移
+        if(leaderClubId.isEmpty()) {
+            mav.setViewName("Error");
             return mav;
-        } 
+        }
 
         try {
             ClubInfoRegisterDto clubInfoRegisterDto = new ClubInfoRegisterDto();
@@ -116,17 +116,27 @@ public class ClubInfoRegisterController {
             String resultMessage = messageSource.getMessage(result, null, Locale.getDefault());
 
             //アップデートできたら部署情報登録画面に遷移
-            switch(result) {
-                case "updateClubInfo":
-                    mav.addObject("updateClubInfo", resultMessage);
-                    mav.addObject("leaderClubId", leaderClubId);
-                    mav.setViewName("ClubInfoRegister");
-                break;
+            // switch(result) {
+            //     case "updateClubInfo":
+            //         mav.addObject("updateClubInfo", resultMessage);
+            //         mav.addObject("leaderClubId", leaderClubId);
+            //         mav.setViewName("ClubInfoRegister");
+            //     break;
 
-                default:
-                //エラー画面に遷移する
+            //     default:
+            //     //エラー画面に遷移する
+            //     mav.setViewName("Error");
+            // }
+
+            if("updateClubInfo".equals(result)) {
+                mav.addObject("updateClubInfo", resultMessage);
+                mav.addObject("leaderClubId", leaderClubId);
+                mav.setViewName("ClubInfoRegister");
+            } else {
                 mav.setViewName("Error");
             }
+
+        //DB接続失敗した場合、エラー画面に遷移
         } catch(Exception e) {
             mav.setViewName("Error");
         }

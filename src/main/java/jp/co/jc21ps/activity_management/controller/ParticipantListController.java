@@ -11,7 +11,7 @@ import jp.co.jc21ps.activity_management.form.ParticipantListForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.ParticipantListService;
 import jp.co.jc21ps.dto.ParticipantDto;
-import jp.co.jc21ps.dto.SessionDto;
+import jp.co.jc21ps.activity_management.dto.SessionDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +43,7 @@ public class ParticipantListController {
             //セッションから値を取得する
             SessionDto sessionDto = new SessionDto();
             //CommonServiceという別クラスを作り、そこからDto経由でセッションを持ってきている
-            sessionDto = commonService.getCommonService(session);
+            sessionDto = commonService.getCommSessionDto(session);
             String userId =  sessionDto.getUserId();
 
             //if(userId.isEmpty()){

@@ -2,15 +2,13 @@ package jp.co.jc21ps.activity_management.service;
 
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
-import jp.co.jc21ps.dto.SessionDto;
+import jp.co.jc21ps.activity_management.dto.SessionDto;
 
 
 @Service
 public  class CommonService {
 
-    
-
-    public SessionDto getCommonService(HttpSession session) {
+    public SessionDto getCommSessionDto(HttpSession session) {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setUserId((String) session.getAttribute("userId"));
         sessionDto.setClubId((String) session.getAttribute("clubId"));

@@ -19,8 +19,8 @@ public class JoinRequestRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //初期表示(ユーザーID, 部署IDから部署名、部署説明を取得するメソッド)
-    public List<JoinRequestEntity> getJoinRequestById(JoinRequestEntity userId) {
+    //初期表示(ユーザーIDから部署名、部署説明を取得するメソッド)
+    public List<JoinRequestEntity> getJoinRequestById(JoinRequestEntity joinRequestEntity) {
         
         //取得したデータをリストにしてエンティティに変換
         List<JoinRequestEntity> joinRequestEntities = new ArrayList<>();
@@ -40,7 +40,7 @@ public class JoinRequestRepository {
                          WHERE user_id = ?)
                 """;
                 //DBから取得する
-                 List<Map<String, Object>> joinRequestList = jdbcTemplate.queryForList(sql, userId.getUserId(), userId.getUserId());
+                 List<Map<String, Object>> joinRequestList = jdbcTemplate.queryForList(sql, joinRequestEntity.getUserId(), joinRequestEntity.getUserId());
 
                  //空だった場合
                  if(joinRequestList.isEmpty()) {

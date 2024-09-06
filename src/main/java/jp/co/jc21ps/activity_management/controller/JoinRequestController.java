@@ -44,9 +44,7 @@ public class JoinRequestController {
         ModelAndView mav = new ModelAndView();
 
         //セッションからユーザーIDを取得
-        SessionDto sessionDto = new SessionDto();
-
-        sessionDto = commonService.getCommonService(session);
+        SessionDto sessionDto = commonService.getCommSessionDto(session);
         String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
 
@@ -93,9 +91,9 @@ public class JoinRequestController {
             if(!ObjectUtils.isEmpty(joinRequestSaveForm)){
                 mav.addObject("joinRequestCompleteMessage", joinRequestSaveForm.getMessage());
             } 
-            mav.addObject("leaderClubId", leaderClubId);
             mav.addObject("joinRequestSaveForm", joinRequestSaveFormList);
         }
+        mav.addObject("leaderClubId", leaderClubId);
 
         //Viewの名前を指定する
         mav.setViewName("JoinRequest");
@@ -110,11 +108,8 @@ public class JoinRequestController {
         ModelAndView mav = new ModelAndView();
 
         // //セッションからユーザーIDを取得
-        SessionDto sessionDto = new SessionDto();
-
-        sessionDto = commonService.getCommonService(session);
+        SessionDto sessionDto = commonService.getCommSessionDto(session);
         String userId = sessionDto.getUserId();
-        // //String leaderClubId = sessionDto.getClubId();
 
         // //userIdがセッションに存在しない場合、ログイン画面に遷移
         // if(userId == null){
@@ -125,7 +120,6 @@ public class JoinRequestController {
         //dtoをnew
         JoinRequestSaveDto joinRequestSaveDto = new JoinRequestSaveDto();
         joinRequestSaveDto.setUserId(userId);
-        //joinRequestSaveDto.setUserId("00000028");
         joinRequestSaveDto.setClubId(joinRequestSaveForm.getClubId());
 
         //delete_flgを呼び出す

@@ -17,3 +17,12 @@ button:focus-visible {
 a {
   text-decoration: none;
 }
+
+.disabled {
+  background-color: #d3d3d3;
+  /* グレーアウトの色 */
+  cursor: not-allowed;
+  /* クリック不可のカーソル */
+  opacity: 0.6;
+  /* 少し透明にする */
+}

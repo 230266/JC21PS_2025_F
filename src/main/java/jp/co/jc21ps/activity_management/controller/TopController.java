@@ -1,28 +1,20 @@
 package jp.co.jc21ps.activity_management.controller;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import jp.co.jc21ps.activity_management.dto.TopDataDto;
 import jp.co.jc21ps.activity_management.dto.TopDto;
-import jp.co.jc21ps.activity_management.entity.TopDataEntity;
 import jp.co.jc21ps.activity_management.form.TopForm;
 import jp.co.jc21ps.activity_management.form.TopDataForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.TopService;
-import jp.co.jc21ps.dto.SessionDto;
-
+import jp.co.jc21ps.activity_management.dto.SessionDto;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -80,10 +72,9 @@ public class TopController {
         
         //try{
             // セッションから値を取得する
-            SessionDto sessionDto = new SessionDto();
+            SessionDto sessionDto = commonService.getCommSessionDto(session);
             
             //CommonServiceという別クラスを作り、そこからDto経由でセッションを持ってきている
-            sessionDto = commonService.getCommonService(session);
             String userId =  sessionDto.getUserId();
             
             

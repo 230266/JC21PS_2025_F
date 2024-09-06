@@ -90,6 +90,24 @@
     line-height: var(--small-text-line-height);
     font-style: var(--small-text-font-style);
   }
+
+  /* .text-wrapper-2 button {
+    background-color: #007bff;
+    color: white; 
+    border: 1px solid #007bff;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer;
+    outline: none;
+} */
+
+.menu-item-3 button:disabled {
+    background-color: #c0c0c0; /* グレーアウトされたボタンの背景色 */
+    color: #6c757d; /* グレーアウトされたボタンの文字色 */
+    border: 1px solid #6c757d; /* グレーアウトされたボタンの境界線 */
+    cursor: not-allowed; /* グレーアウトされたときのカーソルのスタイル */
+}
   
   .sidebar .menu-item-3 {
     display: flex;

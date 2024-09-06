@@ -49,7 +49,7 @@ public class RegisterActivityService {
         return activityDto;
     }
 
-    //インサートメソッド
+    //インサート
     public String insertActivity(RegisterActivitySaveDto activityDto) throws Exception {
 
         try {

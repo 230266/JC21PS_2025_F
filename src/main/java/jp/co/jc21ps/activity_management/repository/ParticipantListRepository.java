@@ -3,13 +3,9 @@ package jp.co.jc21ps.activity_management.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import jp.co.jc21ps.activity_management.entity.LoginEntity;
 import jp.co.jc21ps.activity_management.entity.ParticipantListEntity;
-import jp.co.jc21ps.activity_management.entity.TopEntity;
 
 @Repository
 public class ParticipantListRepository {

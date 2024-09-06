@@ -14,20 +14,28 @@
             <!-- 部長のみ表示される -->
               <div class="menu-item-3">
                 <img class="group" src="https://c.animaapp.com/dcFBotWX/img/group@2x.png" />
-                <div class="text-wrapper-2"  th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/registerActivity/disp}'" >活動登録</div>
+                <form action="/registerActivity" method="get" class="text-wrapper-2">
+                  <button type="submit" style="all:unset; cursor:pointer;" th:disabled="*{leaderClubId == null}">活動登録</button>
+                </form>
               </div> 
               <div class="menu-item-3">
                 <img class="element" src="https://c.animaapp.com/dcFBotWX/img/----------1-2@2x.png" />
-                <div class="text-wrapper-2"  th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/clubInfoRegister}'" >部署情報登録</div>
+                <form action="/clubInfoRegister" method="get" class="text-wrapper-2">
+                  <button type="submit" style="all:unset; cursor:pointer;" th:disabled="*{leaderClubId == null}">部署情報登録</button>
+                </form>
               </div>
               <div class="menu-item-3">
                 <img class="SNS" src="https://c.animaapp.com/dcFBotWX/img/sns-------4-1.svg" />
-                <div class="text-wrapper-2"  th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/joinApproval}'" >部員登録承認</div>
+                <form action="/joinApproval" method="get" class="text-wrapper-2">
+                  <button type="submit" style="all:unset; cursor:pointer;" th:disabled="*{leaderClubId == null}">部員登録承認</button>
+                </form>
               </div>
               <!-- 全員表示される -->
               <div class="menu-item-3">
                 <img class="element" src="https://c.animaapp.com/dcFBotWX/img/-----------2@2x.png" />
-                <div class="text-wrapper-2"  th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/joinRequest}'" >部員登録申請</div>
+                <form action="/joinRequest" method="get" class="text-wrapper-2">
+                  <button type="submit" style="all:unset; cursor:pointer;">部員登録申請</button>
+                </form>
               </div>
               <form action=""><input type="submit" value="ログアウト"/></form>
           </div>

@@ -6,13 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Map;
-
 import jp.co.jc21ps.activity_management.entity.TopEntity;
 import jp.co.jc21ps.activity_management.entity.TopDataEntity;
 
