@@ -2,6 +2,10 @@ package jp.co.jc21ps.activity_management.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +17,10 @@ import jp.co.jc21ps.activity_management.dto.TopDto;
 import jp.co.jc21ps.activity_management.form.TopForm;
 import jp.co.jc21ps.activity_management.form.TopDataForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
+import jp.co.jc21ps.activity_management.service.ParticipationLimitExceededException;
 import jp.co.jc21ps.activity_management.service.TopService;
 import jp.co.jc21ps.activity_management.dto.SessionDto;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
 
 @Controller
 @RequestMapping("/top")
@@ -26,47 +29,49 @@ public class TopController {
     private final TopService topService;
     private final CommonService commonService;
 
-    public TopController(TopService topService,CommonService commonService) {
+    @Autowired
+    private final MessageSource messageSource;
+
+    public TopController(TopService topService, CommonService commonService, MessageSource messageSource) {
         this.topService = topService;
         this.commonService = commonService;
+        this.messageSource = messageSource;
     }
-    
-    
+
     @PostMapping("/save")
     public ModelAndView toggleParticipation(TopDataForm topDataForm) {
-        
-        //Dtoを呼び出し、dtoにFormから活動IDとユーザーIDを詰め込む
+        ModelAndView mav = new ModelAndView();
         TopDataDto topDataDto = new TopDataDto();
         topDataDto.setActivityId(topDataForm.getActivityId());
         topDataDto.setUserId(topDataForm.getUserId());
-        
-        //参加している場合は削除、参加していない場合は追加
-        //try{
 
-        // アクティビティ参加状況を取得するメソッドを呼び出す
-        boolean isParticipating = topService.getActivityParticipationStatus(topDataDto);
+        // 参加している場合は削除、参加していない場合は追加
+        try {
+            boolean isParticipating = topService.getActivityParticipationStatus(topDataDto);
 
-    
+            if (isParticipating) {
+                topService.deleteActivity(topDataDto);
+            } else {
+                try {
+                    topService.insertActivity(topDataDto);
+                } catch (ParticipationLimitExceededException e) {
+                    mav.addObject("errorMessage", e.getMessage());
+                    mav.setViewName("error");
+                    return mav;
+                }
 
-        //参加していたらfalse,参加していなかったらtrueになる
-        if (isParticipating) {
-            
-            topService.deleteActivity(topDataDto);
-        } else {
-            topService.insertActivity(topDataDto);
+            }
+
+            // 取得できた場合はトップ画面に遷移
+            mav.setViewName("redirect:/top");
+        } catch (Exception e) {
+            // 取得できなかった場合はエラー画面に遷移
+            mav.setViewName("redirect:/error");
         }
 
-        ModelAndView mav = new ModelAndView();
-            //取得できた場合はトップ画面に遷移
-        mav.setViewName("redirect:/top");
-        //}catch(Exception e){
-            //取得できなかった場合はエラー画面に遷移
-        //    mav.setViewName("redirect:/error");
-        //}
-
-    return mav;
+        return mav;
     }
-  
+
     @GetMapping
     public ModelAndView top(HttpSession session,Model model) {
         
@@ -88,11 +93,11 @@ public class TopController {
             TopDto topDto = new TopDto();
             topDto.setUserId(userId);
             List<TopDto> viewAct = topService.getTopData(topDto);
-            
+
             List<TopForm> actList = new ArrayList<>();
 
-            for(TopDto lastForm : viewAct){
-                //TopForm型のactに値を詰めていく
+            for (TopDto lastForm : viewAct) {
+
                 TopForm act = new TopForm();
                 act.setNo(lastForm.getNo());
                 act.setClubId(lastForm.getClubId());
@@ -110,22 +115,20 @@ public class TopController {
                 act.setIsParticipationFlg(lastForm.getIsParticipationFlg());
                 act.setIsMajorityFlg(lastForm.getIsMajorityFlg());
 
-            actList.add(act); 
-                
+                actList.add(act);
+
             }
-            ModelAndView mav = new ModelAndView();
-            if(viewAct.isEmpty()){
-                mav.addObject("message","活動予定はありません。");
-            }else{
-                mav.addObject("topform",actList);
-            }
+            String resultMessage = messageSource.getMessage("notactivitylist", null, Locale.getDefault());
+            mav.addObject("message", resultMessage);
+            mav.addObject("topform", actList);
+
             mav.setViewName("top");
 
-        //}catch(Exception e) {
-            //問題が発生した場合はエラーページにリダイレクト
-        //    mav.setViewName("redirect:/error"); 
-        //}
-        
+        } catch (Exception e) {
+            // 問題が発生した場合はエラーページにリダイレクト
+            mav.setViewName("redirect:/error");
+        }
+
         return mav;
     }
 }

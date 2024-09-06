@@ -4,8 +4,11 @@ import java.util.List;
 
 
 public class ParticipantForm {
+    
     private List<ParticipantListForm> participantList;
     private String activityName;
+    
+    
     public List<ParticipantListForm> getParticipantList() {
         return participantList;
     }

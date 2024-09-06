@@ -156,8 +156,7 @@
   height: 34px;
   align-items: center;
   position: absolute;
-  top: 495px;
-  left: 649px;
+  padding-top: 100px;
 }
 
 .screen .button-base {
@@ -168,6 +167,8 @@
   gap: 8px;
   padding: 6px 22px;
   position: relative;
+  left: 617px;
+  top: 150px;
   flex: 0 0 auto;
   background-color: var(--blue-200);
   border-radius: 40px;
@@ -203,12 +204,16 @@
 }
 
 .screen .overlap {
+
   top: 145px;
   left: 320px;
-  position: absolute;
+
   width: 322px;
   height: 116px;
   border-radius: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .screen .container-in-a {
@@ -219,12 +224,12 @@
   align-items: center;
   gap: 10px;
   padding: 0px 0px 12px;
-  position: absolute;
+
   top: 0;
   left: 0;
   background-color: var(--white);
   border-radius: 16px;
-  box-shadow: var(--shadow-container-card);
+  box-shadow: 0 0 8px gray;
 }
 
 .screen .wrapper {
@@ -279,6 +284,20 @@
 }
 
 .screen .title-3 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-weight: 800;
+  color: var(--grey-900);
+  letter-spacing: normal;
+  line-height: normal;
+  white-space: nowrap;
+  font-style: unset;
+  font-family: math;
+  font-size: 24px;
+}
+
+.screen .title-2-text {
   position: relative;
   width: fit-content;
   margin-top: -1px;
@@ -369,6 +388,7 @@
   gap: 8px;
   padding: 6px 22px;
   position: relative;
+  left: -3px;
   flex: 0 0 auto;
   background-color: var(--blue-200);
   border-radius: 40px;
@@ -423,4 +443,19 @@
   position: absolute;
   top: 92px;
   left: 319px;
+}
+
+.screen .container-posision {
+  left: 292px;
+  position: relative;
+  top: 170px;
+  display: grid;
+  grid-template-columns: repeat(2, 380px);
+  gap: 20px;
+}
+
+.screen .no-activities-message {
+  top: 167px;
+  left: 297px;
+  position: relative;
 }
