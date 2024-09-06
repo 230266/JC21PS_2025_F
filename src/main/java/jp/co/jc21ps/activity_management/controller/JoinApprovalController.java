@@ -14,16 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.JoinApprovalDataDto;
 import jp.co.jc21ps.activity_management.dto.JoinApprovalDto;
+import jp.co.jc21ps.activity_management.dto.SessionDto;
 import jp.co.jc21ps.activity_management.form.JoinApprovalDataForm;
 import jp.co.jc21ps.activity_management.form.JoinApprovalForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.JoinApprovalService;
 import jp.co.jc21ps.dto.JoinApprovalNameDto;
-import jp.co.jc21ps.dto.SessionDto;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@RequestMapping("/JoinApproval")
+@RequestMapping("/joinApproval")
 public class JoinApprovalController {
     private final JoinApprovalService joinApprovalService;
     private final CommonService commonService;
@@ -41,12 +41,15 @@ public class JoinApprovalController {
     public ModelAndView joinApproval(HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
-
-        SessionDto sessionDto = new SessionDto();
-
-        sessionDto = commonService.getCommonService(session);
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
+
+        // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId == null) {
+            mav.setViewName("redirect:/error");
+            return mav;
+        }
 
         try {
             if (userId.isEmpty()) {
@@ -68,7 +71,6 @@ public class JoinApprovalController {
                 requestList.setUserId(dto.getUserId());
                 requestList.setClubName(dto.getClubName());
                 requestList.setUserName(dto.getUserName());
-
                 viewData.add(requestList);
             }
 
@@ -85,7 +87,7 @@ public class JoinApprovalController {
         } catch (Exception e) {
             // メッセージ、ログ
             // セッションからclubIDを持ってきて、mavに詰めて返す
-            sessionDto = commonService.getCommonService(session);
+            sessionDto = commonService.getSessionDto(session);
             // String leaderClubId = sessionDto.getClubId();
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/error");
@@ -102,16 +104,20 @@ public class JoinApprovalController {
         denialDto.setLeaderFlg(joinApprovalDataForm.isLeaderFlg());
 
         ModelAndView mav = new ModelAndView();
-
-        SessionDto sessionDto = new SessionDto();
-        sessionDto = commonService.getCommonService(session);
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
+
+        // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId.isEmpty()) {
+            mav.setViewName("redirect:/error");
+            return mav;
+        }
 
         try {
             // 申請テーブルからdeleteするメソッドを呼び出す
             joinApprovalService.deleteRequest(denialDto);
             mav.addObject("leaderClubId", leaderClubId);
-            mav.setViewName("redirect:/JoinApproval");
+            mav.setViewName("redirect:/joinApproval");
         } catch (Exception e) {
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/error");
@@ -131,15 +137,20 @@ public class JoinApprovalController {
 
         ModelAndView mav = new ModelAndView();
 
-        SessionDto sessionDto = new SessionDto();
-        sessionDto = commonService.getCommonService(session);
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
+
+        // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId == null) {
+            mav.setViewName("redirect:/error");
+            return mav;
+        }
 
         try {
             // 部員テーブルにinsertするメソッドと申請テーブルから取り除くメソッドを呼び出す
             joinApprovalService.insertRequest(denialDto);
             joinApprovalService.deleteRequest(denialDto);
-            mav.setViewName("redirect:/JoinApproval");
+            mav.setViewName("redirect:/joinApproval");
             mav.addObject("leaderClubId", leaderClubId);
 
         } catch (Exception e) {
@@ -148,9 +159,6 @@ public class JoinApprovalController {
             mav.addObject("leaderClubId", leaderClubId);
 
         }
-
         return mav;
-
     }
-
 }

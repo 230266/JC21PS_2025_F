@@ -44,6 +44,7 @@ public class TopController {
         TopDataDto topDataDto = new TopDataDto();
         topDataDto.setActivityId(topDataForm.getActivityId());
         topDataDto.setUserId(topDataForm.getUserId());
+        topDataDto.setClubId(topDataForm.getClubId());
 
         // 参加している場合は削除、参加していない場合は追加
         try {
@@ -59,10 +60,9 @@ public class TopController {
                     mav.setViewName("error");
                     return mav;
                 }
-
             }
-
             // 取得できた場合はトップ画面に遷移
+
             mav.setViewName("redirect:/top");
         } catch (Exception e) {
             // 取得できなかった場合はエラー画面に遷移
@@ -73,27 +73,24 @@ public class TopController {
     }
 
     @GetMapping
-    public ModelAndView top(HttpSession session,Model model) {
-        
-        //try{
+    public ModelAndView top(HttpSession session, Model model) {
+        ModelAndView mav = new ModelAndView();
+        try {
             // セッションから値を取得する
-            SessionDto sessionDto = commonService.getCommSessionDto(session);
-            
-            //CommonServiceという別クラスを作り、そこからDto経由でセッションを持ってきている
-            String userId =  sessionDto.getUserId();
-            
-            
-            //if(userId.isEmpty()){
-            //    //userIdがnullまたはからの場合はエラーページに遷移
-            //    mav.setViewName("redirect:/error");
-            //     return mav;
-            //}
-            
-            //userIdをもとにデータを取得する
+            SessionDto sessionDto = commonService.getSessionDto(session);
+            String userId = sessionDto.getUserId();
+            String leaderClubId = sessionDto.getClubId();
+
+            if (userId == null) {
+                // userIdがnullまたは空の場合はエラーページに遷移
+                mav.setViewName("redirect:/error");
+                return mav;
+            }
+
+            // userIdをもとにデータを取得する
             TopDto topDto = new TopDto();
             topDto.setUserId(userId);
             List<TopDto> viewAct = topService.getTopData(topDto);
-
             List<TopForm> actList = new ArrayList<>();
 
             for (TopDto lastForm : viewAct) {
@@ -114,21 +111,19 @@ public class TopController {
                 act.setMaxParticipant(lastForm.getMaxParticipant());
                 act.setIsParticipationFlg(lastForm.getIsParticipationFlg());
                 act.setIsMajorityFlg(lastForm.getIsMajorityFlg());
-
                 actList.add(act);
 
             }
             String resultMessage = messageSource.getMessage("notactivitylist", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
             mav.addObject("topform", actList);
-
+            mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("top");
 
         } catch (Exception e) {
             // 問題が発生した場合はエラーページにリダイレクト
             mav.setViewName("redirect:/error");
         }
-
         return mav;
     }
 }

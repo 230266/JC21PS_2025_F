@@ -42,30 +42,22 @@ public class RegisterActivityController {
         ModelAndView mav = new ModelAndView();
 
         //セッションからクラブID を取得
-        SessionDto sessionDto = commonService.getCommSessionDto(session);
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //部長クラブIDがセッションに存在しない場合、ログイン画面に遷移
-        if(leaderClubId == null) {
-             mav.setViewName("Login");
-             return mav;
+        //部長クラブIDがセッションに存在しない場合、エラー画面に遷移
+        if(leaderClubId.isEmpty()) {
+            mav.setViewName("Error");
+            return mav;
         }
-
         //formのインスタンス化
         registerActivitySaveForm.setClubId(leaderClubId);
 
-        //clubIdのnullチェック,バリデーション
-        // if (bindingResult.hasErrors()){
-        //      mav.setViewName("Error.html");
-        //      return mav;
-        // }
-        
         //dtoのインスタンス化
         RegisterActivityDto activityDto = new RegisterActivityDto();
 
         //dtoにClubIdを詰め替える
         activityDto.setClubId(leaderClubId);
-        
 
         //サービスのメソッドでデータを取得　※型を合わせる
         RegisterActivityDto registerActivityDto = registerActivityService.findActivity(activityDto);
@@ -104,8 +96,14 @@ public class RegisterActivityController {
         }
 
         //セッションからクラブIDを持ってくる
-        SessionDto sessionDto = commonService.getCommSessionDto(session);
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
+
+        //部長クラブIDがセッションに存在しない場合、エラー画面に遷移
+        if(leaderClubId.isEmpty()) {
+            mav.setViewName("Error");
+            return mav;
+        }
 
         //値を詰める
         try {
@@ -128,7 +126,6 @@ public class RegisterActivityController {
 
             //サービスメソッドの呼び出し 
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
-            //registerActivityService.insertActivity(activitySaveDto);
 
             //メッセージを取得
             String resultMessage = messageSource.getMessage(resultMessageKey, null, Locale.getDefault());
@@ -149,6 +146,7 @@ public class RegisterActivityController {
                 default:
                     mav.setViewName("Error");
             }
+        //DB接続に失敗した場合、エラー画面に遷移する    
         } catch(Exception e) {
             //エラー画面に遷移する
             mav.setViewName("Error");
@@ -156,8 +154,3 @@ public class RegisterActivityController {
         return mav;
     }
 }
-
-
-
-//clubanmeをformで送る
-//Asserttrueのバリデーション

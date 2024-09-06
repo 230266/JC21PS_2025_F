@@ -3,7 +3,6 @@ package jp.co.jc21ps.activity_management.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,10 +43,9 @@ public class ParticipantListController {
                 return mav;
             }
 
-            SessionDto sessionDto = new SessionDto();
-            //CommonServiceという別クラスを作り、そこからDto経由でセッションを持ってきている
-            sessionDto = commonService.getCommSessionDto(session);
-            String userId =  sessionDto.getUserId();
+            SessionDto sessionDto = commonService.getSessionDto(session);
+            String userId = sessionDto.getUserId();
+            String leaderClubId = sessionDto.getClubId();
 
             if (userId.isEmpty()) {
                 mav.setViewName("redirect:/error");
@@ -82,9 +80,10 @@ public class ParticipantListController {
             // 参加者がいる場合の表示
             mav.addObject("participantListForm", participantList);
 
+            mav.addObject("leaderClubId", leaderClubId);
+
             mav.setViewName("ParticipantList");
         } catch (Exception e) {
-
             mav.setViewName("redirect:/error");
         }
         return mav;

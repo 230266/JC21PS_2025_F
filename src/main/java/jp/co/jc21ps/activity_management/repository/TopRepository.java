@@ -62,6 +62,9 @@ public class TopRepository {
         String sqlInsert = """
                 INSERT INTO
                     trn_participant
+                     (activity_id,
+                     user_id
+                      )
                 VALUES (?,?)
                 """;
 

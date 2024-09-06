@@ -19,8 +19,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
 @Controller
 @RequestMapping("/clubInfoRegister")
 
@@ -29,7 +27,8 @@ public class ClubInfoRegisterController {
     private final CommonService commonService;
     private final MessageSource messageSource;
 
-    public ClubInfoRegisterController(ClubInfoRegisterService clubInfoRegisterService, MessageSource messageSource, CommonService commonService) {
+    public ClubInfoRegisterController(ClubInfoRegisterService clubInfoRegisterService, MessageSource messageSource,
+            CommonService commonService) {
         this.clubInfoRegisterService = clubInfoRegisterService;
         this.commonService = commonService;
         this.messageSource = messageSource;
@@ -37,56 +36,56 @@ public class ClubInfoRegisterController {
 
     @GetMapping
     public ModelAndView getClubInfoByClubId(HttpSession session, ClubInfoRegisterSaveForm clubInfoRegisterSaveForm) {
-        
+
         ModelAndView mav = new ModelAndView();
 
-        //セッションからクラブIDを取得
-        ///SessionDto sessionDto = new SessionDto();
-        SessionDto sessionDto = commonService.getCommSessionDto(session);
+        // セッションからクラブIDを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //leaderClubIdがセッションに存在しない場合、エラー画面に遷移
-        if(leaderClubId.isEmpty()) {
+        // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId.isEmpty()) {
             mav.setViewName("Error");
             return mav;
         }
 
-        //formをnew
+        // formをnew
         clubInfoRegisterSaveForm.setLeaderClubId(leaderClubId);
 
-        //dtoをnew
+        // dtoをnew
         ClubInfoRegisterDto dto = new ClubInfoRegisterDto();
-    
-        //dtoにleaderClubIdを詰め替える
+
+        // dtoにleaderClubIdを詰め替える
         dto.setLeaderClubId(leaderClubId);
 
-        //サービスのメソッドでデータを取得
+        // サービスのメソッドでデータを取得
         ClubInfoRegisterDto clubInfoRegisterDto = clubInfoRegisterService.findClubInfo(dto);
-        
-        //formにclubName,clubDescription,LeaderClubIdをセットする
+
+        // formにclubName,clubDescription,LeaderClubIdをセットする
         clubInfoRegisterSaveForm.setClubName(clubInfoRegisterDto.getClubName());
         clubInfoRegisterSaveForm.setClubDescription(clubInfoRegisterDto.getClubDescription());
         clubInfoRegisterSaveForm.setLeaderClubId(clubInfoRegisterDto.getLeaderClubId());
 
-        //leaderClubId,formをmavにつめる
+        // leaderClubId,formをmavにつめる
         mav.addObject("leaderClubId", leaderClubId);
         mav.addObject("clubInfoRegisterSaveForm", clubInfoRegisterSaveForm);
 
-        //viewを指定
+        // viewを指定
         mav.setViewName("ClubInfoRegister");
         return mav;
     }
 
     @PostMapping("/save")
-    public ModelAndView updateClubInfo(@Valid ClubInfoRegisterSaveForm clubInfoRegisterSaveForm, BindingResult bindingResult, HttpSession session) {
+    public ModelAndView updateClubInfo(@Valid ClubInfoRegisterSaveForm clubInfoRegisterSaveForm,
+            BindingResult bindingResult, HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
 
-        //バリデーション
+        // バリデーション
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getAllErrors().stream()
-            .map(ObjectError::getDefaultMessage)
-            .collect(Collectors.toList());
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.toList());
 
             mav.addObject("clubInfoRegisterSaveForm", clubInfoRegisterSaveForm);
             mav.addObject("errorMessages", errorMessages);
@@ -94,13 +93,12 @@ public class ClubInfoRegisterController {
             return mav;
         }
 
-        //セッションからleaderClubIdを取得
-        SessionDto sessionDto = new SessionDto();
-        sessionDto = commonService.getCommSessionDto(session);
+        // セッションからleaderClubIdを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //cleaderClubIdlubIdがセッションに存在しない場合、エラー画面に遷移
-        if(leaderClubId.isEmpty()) {
+        // cleaderClubIdlubIdがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId.isEmpty()) {
             mav.setViewName("Error");
             return mav;
         }
@@ -112,23 +110,11 @@ public class ClubInfoRegisterController {
 
             String result = clubInfoRegisterService.updateClubInfo(clubInfoRegisterDto);
 
-            //メッセージを取得
+            // メッセージを取得
             String resultMessage = messageSource.getMessage(result, null, Locale.getDefault());
 
-            //アップデートできたら部署情報登録画面に遷移
-            // switch(result) {
-            //     case "updateClubInfo":
-            //         mav.addObject("updateClubInfo", resultMessage);
-            //         mav.addObject("leaderClubId", leaderClubId);
-            //         mav.setViewName("ClubInfoRegister");
-            //     break;
-
-            //     default:
-            //     //エラー画面に遷移する
-            //     mav.setViewName("Error");
-            // }
-
-            if("updateClubInfo".equals(result)) {
+            // アップデートできたら部署情報登録画面に遷移
+            if ("updateClubInfo".equals(result)) {
                 mav.addObject("updateClubInfo", resultMessage);
                 mav.addObject("leaderClubId", leaderClubId);
                 mav.setViewName("ClubInfoRegister");
@@ -136,11 +122,11 @@ public class ClubInfoRegisterController {
                 mav.setViewName("Error");
             }
 
-        //DB接続失敗した場合、エラー画面に遷移
-        } catch(Exception e) {
+            // DB接続失敗した場合、エラー画面に遷移
+        } catch (Exception e) {
             mav.setViewName("Error");
         }
         return mav;
     }
-    
-}
+
+}        

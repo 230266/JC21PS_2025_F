@@ -19,71 +19,72 @@ public class JoinRequestRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //初期表示(ユーザーIDから部署名、部署説明を取得するメソッド)
+    // 初期表示(ユーザーIDから部署名、部署説明を取得するメソッド)
     public List<JoinRequestEntity> getJoinRequestById(JoinRequestEntity joinRequestEntity) {
-        
-        //取得したデータをリストにしてエンティティに変換
+
+        // 取得したデータをリストにしてエンティティに変換
         List<JoinRequestEntity> joinRequestEntities = new ArrayList<>();
-        
+
         String sql = """
-                SELECT * FROM 
-                    mst_club 
-                WHERE 
-                    club_id NOT IN 
-                        (SELECT club_id 
-                         FROM trn_join_request 
-                         WHERE user_id = ?) 
-                    AND 
-                    club_id NOT IN 
-                        (SELECT club_id 
-                         FROM trn_club_member 
+                SELECT * FROM
+                    mst_club
+                WHERE
+                    club_id NOT IN
+                        (SELECT club_id
+                         FROM trn_join_request
+                         WHERE user_id = ?)
+                    AND
+                    club_id NOT IN
+                        (SELECT club_id
+                         FROM trn_club_member
                          WHERE user_id = ?)
                 """;
-                //DBから取得する
-                 List<Map<String, Object>> joinRequestList = jdbcTemplate.queryForList(sql, joinRequestEntity.getUserId(), joinRequestEntity.getUserId());
+        // DBから取得する
+        List<Map<String, Object>> joinRequestList = jdbcTemplate.queryForList(sql, joinRequestEntity.getUserId(),
+                joinRequestEntity.getUserId());
 
-                 //空だった場合
-                 if(joinRequestList.isEmpty()) {
-                    return joinRequestEntities;
-                 }
+        // 空だった場合
+        if (joinRequestList.isEmpty()) {
+            return joinRequestEntities;
+        }
 
-                 //リストを回す
-                 for(Map<String, Object> joinRequest : joinRequestList) {
-                    JoinRequestEntity join = new JoinRequestEntity();
-                 
-                    //エンティティに部署IDと部署説明をセットする
-                    //部署名
-                    join.setClubName((String)joinRequest.get("club_name"));
-                    //部署説明
-                    join.setClubDescription((String)joinRequest.get("club_description"));
-                    //clubId
-                    join.setClubId((String)joinRequest.get("club_id"));
-                    
-                    joinRequestEntities.add(join);
+        // リストを回す
+        for (Map<String, Object> joinRequest : joinRequestList) {
+            JoinRequestEntity join = new JoinRequestEntity();
 
-                 }
-                 return joinRequestEntities;
+            // エンティティに部署IDと部署説明をセットする
+            // 部署名
+            join.setClubName((String) joinRequest.get("club_name"));
+            // 部署説明
+            join.setClubDescription((String) joinRequest.get("club_description"));
+            // clubId
+            join.setClubId((String) joinRequest.get("club_id"));
+
+            joinRequestEntities.add(join);
+
+        }
+        return joinRequestEntities;
     }
 
-    //申請処理
+    // 申請処理
     public void insertClub(JoinRequestSaveEntity joinRequestSaveEntity) {
         String sql = """
-                INSERT INTO 
+                INSERT INTO
                     trn_join_request (user_Id,
                                       club_Id,
-                                      delete_flg
+                                      leader_flg
                                       )
                 VALUES (?, ?, false)
                 """;
-            //ここまでIdを持ってくる
-            
-            //パラメータの設定
-            Object[] paramList = {
+        // ここまでIdを持ってくる
+
+        // パラメータの設定
+        Object[] paramList = {
                 joinRequestSaveEntity.getUserId(),
                 joinRequestSaveEntity.getClubId(),
-            };
+        };
 
-            //DBに挿入
-            jdbcTemplate.update(sql, paramList);
+        // DBに挿入
+        jdbcTemplate.update(sql, paramList);
     }
 }

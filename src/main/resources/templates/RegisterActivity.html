@@ -1,209 +1,236 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<<<<<<< HEAD
-=======
 
->>>>>>> dev
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/globals.css}">
-    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/ActivityRegistration.css}">
-  </head>
-  <body>
-    <div class="screen">
-      <div class="div">
-        <div class="sidebar">
-          <div th:replace="header"></div>
-          <div class="title">社内イベント管理</div>
-        </div>
-        <div class="title-2">活動登録</div>
-        <form role="form" th:action="@{/registerActivity/save}" th:object="${registerActivitySaveForm}" method="post">
-          <div class="overlap">
-            <div class="overlap-group">
-              <div class="form-field">
-                <div class="label-description">
-                  <div class="div-2">
-                    <div class="label-wrapper">
-                      <div class="div-2"><div class="label">*活動場所</div></div>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" th:href="@{/css/globals.css}">
+  <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+  <link rel="stylesheet" th:href="@{/css/ActivityRegistration.css}">
+</head>
+
+<body>
+  <div class="screen">
+    <div class="div">
+      <div class="sidebar">
+        <div th:replace="header"></div>
+        <div class="title">社内イベント管理</div>
+      </div>
+      <div class="title-2">活動登録</div>
+      <form role="form" th:action="@{/registerActivity/save}" th:object="${registerActivitySaveForm}" method="post">
+        <div class="overlap">
+          <div class="overlap-group">
+            <div class="form-field">
+              <div class="label-description">
+                <div class="div-2">
+                  <div class="label-wrapper">
+                    <div class="div-2">
+                      <div class="label">*活動場所</div>
                     </div>
-                  </div>
-                </div>
-                <div class="input">
-                  <div class="input-base">
-                    <div class="error-rectangle"></div>
-                    <input class="text" placeholder="活動場所を入力してください" type="text" th:field="*{activityPlace}" />
-                  </div>
-                  <div class="c-error__list">
-                    <ul th:if="${#fields.hasErrors('activityPlace')}" style="color: red;">
-                      <li th:errors="*{activityPlace}"></li>
-                    </ul>
                   </div>
                 </div>
               </div>
-              <div class="form-field-2">
-                <div class="label-description">
-                  <div class="div-2">
-                    <div class="label-wrapper">
-                      <div class="div-2"><div class="label">*募集人数</div></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="input">
-                  <div class="input-base">
-                    <div class="error-rectangle"></div>
-                    <input class="text" placeholder="募集人数を入力してください" type="text" th:field="*{maxParticipant}"/>
-                  </div>
-                  <div class="c-error__list">
-                    <ul th:if="${#fields.hasErrors('maxParticipant')}" style="color: red;">
-                      <li th:errors="*{maxParticipant}"></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="form-field-3">
-                <div class="label-description">
-                  <div class="div-2">
-                    <div class="label-wrapper">
-                      <div class="div-2"><div class="label">活動説明</div></div>
-                      <div class="elements-label"><div class="optional"></div></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-area">
-                  <div class="text-area-base">
-                    <textarea class="input-area" placeholder="活動説明を入力してください" type="text" th:field="*{activityDescription}"></textarea>
-                    <div class="text-area-icon">
-                      <div class="overlap-group-2">
-                        <img class="rectangle" src="https://c.animaapp.com/dcFBotWX/img/rectangle-10.svg" />
-                        <img class="img" src="https://c.animaapp.com/dcFBotWX/img/rectangle-11.svg" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="c-error__list">
-                    <ul th:if="${#fields.hasErrors('activityDescription')}" style="color: red;">
-                      <li th:errors="*{activityDescription}"></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="date-picker">
-                <div class="elements-trigger">
-                  <div class="button">
-                    <div class="button-base">
-                      <div class="button-icon">
-                        <img class="icon" src="https://c.animaapp.com/dcFBotWX/img/icon-21.svg" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="date-input">
-                    <div class="input-base-wrapper">
-                      <div class="input-base-2">
-                        <div class="error-rectangle"></div>
-                        <div class="input-text-wrapper"><input type="date" class="input-text" placeholder="YYYY/MM/DD" th:field="*{activityDate}" /></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="c-error__list">
-                  <ul th:if="${#fields.hasErrors('activityDate')}" style="color: red;">
-                    <li th:errors="*{activityDate}"></li>
-                  </ul>
-                  <div th:if="${impossibleDate != null}" th:text="${impossibleDate}" style="color: red;"></th:if></div>
-                </div>
-              </div>
-            </div>
-            <div class="overlap-2">
-              <div class="div-wrapper">
-                <div class="input-base-2">
+              <div class="input">
+                <div class="input-base">
                   <div class="error-rectangle"></div>
-                  <div class="input-text-wrapper"><input type="time" class="input-text" placeholder="hh:mm" th:field="*{activityStartTime}" /></div>
+                  <input class="text" placeholder="活動場所を入力してください" type="text" th:field="*{activityPlace}" />
                 </div>
                 <div class="c-error__list">
-                  <ul th:if="${#fields.hasErrors('activityStartTime')}" style="color: red;">
-                    <li th:errors="*{activityStartTime}"></li>
+                  <ul th:if="${#fields.hasErrors('activityPlace')}" style="color: red;">
+                    <li th:errors="*{activityPlace}"></li>
                   </ul>
                 </div>
               </div>
-              <div class="text-wrapper-3">〜</div>
             </div>
-            <div class="input-2">
-              <div class="input-base-2">
-                <div class="error-rectangle"></div>
-                <div class="input-text-wrapper"><input type="time" class="input-text" placeholder="hh:mm" th:field="*{activityEndTime}" /></div>
+            <div class="form-field-2">
+              <div class="label-description">
+                <div class="div-2">
+                  <div class="label-wrapper">
+                    <div class="div-2">
+                      <div class="label">*募集人数</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="input">
+                <div class="input-base">
+                  <div class="error-rectangle"></div>
+                  <input class="text" placeholder="募集人数を入力してください" type="text" th:field="*{maxParticipant}" />
+                </div>
+                <div class="c-error__list">
+                  <ul th:if="${#fields.hasErrors('maxParticipant')}" style="color: red;">
+                    <li th:errors="*{maxParticipant}"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="form-field-3">
+              <div class="label-description">
+                <div class="div-2">
+                  <div class="label-wrapper">
+                    <div class="div-2">
+                      <div class="label">活動説明</div>
+                    </div>
+                    <div class="elements-label">
+                      <div class="optional"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-area">
+                <div class="text-area-base">
+                  <textarea class="input-area" placeholder="活動説明を入力してください" type="text"
+                    th:field="*{activityDescription}"></textarea>
+                  <div class="text-area-icon">
+                    <div class="overlap-group-2">
+                      <img class="rectangle" src="https://c.animaapp.com/dcFBotWX/img/rectangle-10.svg" />
+                      <img class="img" src="https://c.animaapp.com/dcFBotWX/img/rectangle-11.svg" />
+                    </div>
+                  </div>
+                </div>
+                <div class="c-error__list">
+                  <ul th:if="${#fields.hasErrors('activityDescription')}" style="color: red;">
+                    <li th:errors="*{activityDescription}"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="date-picker">
+              <div class="elements-trigger">
+                <div class="button">
+                  <div class="button-base">
+                    <div class="button-icon">
+                      <img class="icon" src="https://c.animaapp.com/dcFBotWX/img/icon-21.svg" />
+                    </div>
+                  </div>
+                </div>
+                <div class="date-input">
+                  <div class="input-base-wrapper">
+                    <div class="input-base-2">
+                      <div class="error-rectangle"></div>
+                      <div class="input-text-wrapper"><input type="date" class="input-text" placeholder="YYYY/MM/DD"
+                          th:field="*{activityDate}" /></div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="c-error__list">
-                <ul class="c-error__list" th:if="${#fields.hasErrors('activityEndTime')}" style="color: red;">
-                  <li th:errors="*{activityEndTime}"></li>
+                <ul th:if="${#fields.hasErrors('activityDate')}" style="color: red;">
+                  <li th:errors="*{activityDate}"></li>
                 </ul>
-                <div th:if="${#fields.hasErrors('dateValid')}" th:errors="*{dateValid}" style="color: red;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="form-field-4">
-            <div class="label-description">
-              <div class="div-2">
-                <div class="label-wrapper">
-                  <div class="div-2"><div class="label">*活動名</div></div>
+                <div th:if="${impossibleDate != null}" th:text="${impossibleDate}" style="color: red;">
+                  </th:if>
                 </div>
               </div>
             </div>
-            <div class="input">
-              <div class="input-base">
+          </div>
+          <div class="overlap-2">
+            <div class="div-wrapper">
+              <div class="input-base-2">
                 <div class="error-rectangle"></div>
-                <input class="text" placeholder="活動名を入力してください" type="text" th:field="*{activityName}" />
+                <div class="input-text-wrapper"><input type="time" class="input-text" placeholder="hh:mm"
+                    th:field="*{activityStartTime}" /></div>
               </div>
+              <div class="c-error__list">
+                <ul th:if="${#fields.hasErrors('activityStartTime')}" style="color: red;">
+                  <li th:errors="*{activityStartTime}"></li>
+                </ul>
+              </div>
+            </div>
+            <div class="text-wrapper-3">〜</div>
+          </div>
+          <div class="input-2">
+            <div class="input-base-2">
+              <div class="error-rectangle"></div>
+              <div class="input-text-wrapper"><input type="time" class="input-text" placeholder="hh:mm"
+                  th:field="*{activityEndTime}" /></div>
             </div>
             <div class="c-error__list">
-              <ul th:if="${#fields.hasErrors('activityName')}" style="color: red;">
-                <li th:errors="*{activityName}"></li>
+              <ul class="c-error__list" th:if="${#fields.hasErrors('activityEndTime')}" style="color: red;">
+                <li th:errors="*{activityEndTime}"></li>
               </ul>
-            </div>
+              <div th:if="${#fields.hasErrors('dateValid')}" th:errors="*{dateValid}" style="color: red;"></div>
             </div>
           </div>
-          <div class="label-description-2">
+        </div>
+        <div class="form-field-4">
+          <div class="label-description">
             <div class="div-2">
               <div class="label-wrapper">
-                <div class="div-2"><div class="label">部署名</div></div>
+                <div class="div-2">
+                  <div class="label">*活動名</div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="label-description-3">
-            <div class="div-2">
-              <div class="label-wrapper">
-                <div class="div-2"><div class="label-2" th:text="*{registerActivitySaveForm.clubName}"></div></div>
-                <input type="hidden" name="clubName" th:value="${registerActivitySaveForm.clubName}" />
-              </div>
+          <div class="input">
+            <div class="input-base">
+              <div class="error-rectangle"></div>
+              <input class="text" placeholder="活動名を入力してください" type="text" th:field="*{activityName}" />
             </div>
           </div>
-          <div class="label-description-4">
-            <div class="div-2">
-              <div class="label-wrapper">
-                <div class="div-2"><div class="label">*活動日</div></div>
-              </div>
-            </div>
+          <div class="c-error__list">
+            <ul th:if="${#fields.hasErrors('activityName')}" style="color: red;">
+              <li th:errors="*{activityName}"></li>
+            </ul>
           </div>
-          <div class="label-description-5">
-            <div class="div-2">
-              <div class="label-wrapper">
-                <div class="div-2"><div class="label">*活動時間</div></div>
-              </div>
-            </div>
+        </div>
+    </div>
+    <div class="label-description-2">
+      <div class="div-2">
+        <div class="label-wrapper">
+          <div class="div-2">
+            <div class="label">部署名</div>
           </div>
-          <div class="frame">
-            <div class="div-2">
-              <button class="button-2" type="submit">
-                <div class="button-base-3"><div class="button-text-2">登録</div></div>
-              </button>
-            </div>
-          </div>
-        </form>
-        <form action="/top" method="get">
-          <button class="button-base-wrapper" type="submit">
-            <div class="button-base-2"><div class="button-text">戻る</div></div>
-          </button>
-        </form>
+        </div>
       </div>
     </div>
-  </body>
+    <div class="label-description-3">
+      <div class="div-2">
+        <div class="label-wrapper">
+          <div class="div-2">
+            <div class="label-2" th:text="*{registerActivitySaveForm.clubName}"></div>
+          </div>
+          <input type="hidden" name="clubName" th:value="${registerActivitySaveForm.clubName}" />
+        </div>
+      </div>
+    </div>
+    <div class="label-description-4">
+      <div class="div-2">
+        <div class="label-wrapper">
+          <div class="div-2">
+            <div class="label">*活動日</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="label-description-5">
+      <div class="div-2">
+        <div class="label-wrapper">
+          <div class="div-2">
+            <div class="label">*活動時間</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="div-2">
+        <button class="button-2" type="submit">
+          <div class="button-base-3">
+            <div class="button-text-2">登録</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    </form>
+    <form action="/top" method="get">
+      <button class="button-base-wrapper" type="submit">
+        <div class="button-base-2">
+          <div class="button-text">戻る</div>
+        </div>
+      </button>
+    </form>
+  </div>
+  </div>
+</body>
+
 </html>

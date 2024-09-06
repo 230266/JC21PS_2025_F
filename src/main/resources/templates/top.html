@@ -29,29 +29,15 @@
           <div class="text-wrapper-7">活動説明</div>
           <div class="text-wrapper-8">参加ステータス</div>
         </div>
-<<<<<<< HEAD
-        <div class="list">
-          <div class="navbar">
-            <div class="text-wrapper-9">No.</div>
-            <div class="text-wrapper-clubname">部署名</div>
-            <div class="text-wrapper-actname">活動名</div>
-            <div class="text-wrapper-actday">活動日</div>
-            <div class="text-wrapper-4">活動時間</div>
-            <div class="text-wrapper-actname">活動場所</div>
-            <div class="text-wrapper-6">参加予定人数/募集人数</div>
-            <div class="text-wrapper-7">活動説明</div>
-            <div class="text-wrapper-8">参加ステータス</div>
-          </div>
-          <!-- メッセージがある場合の表示 -->
-          <div th:if="${activityRegisterCompleteMessage}" style="color: black" th:text="${activityRegisterCompleteMessage}"></div>
-=======
+        <!-- メッセージがある場合の表示 -->
+        <div th:if="${activityRegisterCompleteMessage}" style="color: black"
+          th:text="${activityRegisterCompleteMessage}"></div>
         <!-- エラーメッセージの表示 -->
         <div th:if="${errorMessage != null}" class="error-message">
           <p th:text="${errorMessage}"></p>
         </div>
         <!-- メッセージがある場合の表示 -->
         <div th:if="${topform == null or #lists.isEmpty(topform)}">
->>>>>>> dev
           <div th:if="${message != null}" class="no-activities-message">
             <p th:text="${message}"></p>
           </div>
@@ -77,6 +63,8 @@
             <form th:action="@{/top/save}" th:object="${topDataForm}" method="post">
               <input type="hidden" name="activityId" th:value="${actList.activityId}" />
               <input type="hidden" name="userId" th:value="${session.userId}" />
+              <input type="hidden" name="clubId" th:value="${actList.clubId}" />
+
               <div class="pill">
                 <div class="tag">
                   <!-- 参加ボタンと不参加ボタンの制御 -->

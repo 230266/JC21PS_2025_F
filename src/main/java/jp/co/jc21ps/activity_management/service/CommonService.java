@@ -7,7 +7,7 @@ import jp.co.jc21ps.activity_management.dto.SessionDto;
 @Service
 public  class CommonService {
 
-    public SessionDto getCommSessionDto(HttpSession session) {
+    public SessionDto getSessionDto(HttpSession session) {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setUserId((String) session.getAttribute("userId"));
         sessionDto.setClubId((String) session.getAttribute("clubId"));

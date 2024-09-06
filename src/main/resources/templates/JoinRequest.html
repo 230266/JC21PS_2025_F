@@ -28,7 +28,6 @@
                           <div class="action-stripe-wrapper">
                           <form th:action="@{/joinRequest/save}" th:object="${joinRequestSaveForm}" method="post">
                             <input type="hidden" name="clubId" th:value="${joinRequestList.clubId}" />
-                            <!-- <div class="action-stripe-wrapper"> -->
                               <div class="action-stripe">
                                 <button class="button" type="submit">
                                   <div class="button-base">
@@ -39,18 +38,13 @@
                                   </div>
                                 </button>
                               </div>
-                            <!-- </div> -->
                           </form>
                           </div>
                           <div class="description" th:text="*{joinRequestList.clubDescription}"></div>
                         </div>
                       </div>
                     </div>
-                    <!-- </div> -->
                   </div>
-                  <!-- <a href="/top" class="backButton">
-                    <div class="button-base-1"><div class="button-text-1">戻る</div></div>
-                  </a> -->
                 <div>
                 </div>
                 <div class="div-2">
