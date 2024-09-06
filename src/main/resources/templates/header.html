@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/globals.css}">
-    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-  </head>
-  <body>
-    <div class="sidebar">
-        <div class="list">
-          <div class="list-2">
-            <div class="menu-item"><div class="text-wrapper">メニュー</div></div>
-            <!-- 部長のみ表示される -->
-              <div class="menu-item-2">
-                <img class="group" src="img/group.png" />
-                <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/registerActivity}'" value="活動登録"/>
-              </div> 
-              <div class="menu-item-3">
-                <img class="element" src="img/1-2.png" />
-                <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/clubInfoRegister}'" value="部署情報登録"/>
-              </div>
-              <div class="menu-item-3">
-                <img class="SNS" src="img/sns-4-1.svg" />
-                <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}" onclick="location.href='@{/joinApproval}'" value="部員登録承認"/>
-              </div>
-              <!-- 全員表示される -->
-              <div class="menu-item-3">
-                <img class="element" src="img/2.png" />
-                <input type="button" onclick="location.href='@{/joinRequest}'" value="部員登録申請"/>
-              </div>
-              <form action=""><input type="submit" value="ログアウト"/></form>
-          </div>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" th:href="@{/css/globals.css}">
+  <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="list">
+      <div class="list-2">
+        <div class="menu-item">
+          <div class="text-wrapper">メニュー</div>
         </div>
+        <!-- 部長のみ表示される -->
+        <div class="menu-item-2">
+          <img class="group" src="img/group.png" />
+          <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}"
+            onclick="location.href='@{/registerActivity}'" value="活動登録" />
+        </div>
+        <div class="menu-item-3">
+          <img class="element" src="img/1-2.png" />
+          <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}"
+            th:onclick="|location.href='@{/clubInfoRegister}'|" value="部署情報登録" />
+        </div>
+        <div class="menu-item-3">
+          <img class="SNS" src="img/sns-4-1.svg" />
+          <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}"
+            th:onclick="|location.href='@{/JoinApproval}'|" value="部員登録承認" />
+
+        </div>
+        <!-- 全員表示される -->
+        <div class="menu-item-3">
+          <img class="element" src="img/2.png" />
+          <input type="button" onclick="location.href='@{/joinRequest}'" value="部員登録申請" />
+
+        </div>
+        <form action="/Logout"><input type="submit" value="ログアウト" /></form>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

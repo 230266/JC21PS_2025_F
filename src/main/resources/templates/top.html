@@ -1,69 +1,82 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/globals.css}">
-    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <!-- <link rel="stylesheet" href="top.css" /> -->
-    <link rel="stylesheet" th:href="@{/css/top.css}">
-  </head>
-  <body>
-    <div class="screen">
-      <div class="div">
-         <!--ヘッダー-->
-        <div class="sidebar">
-          <div th:replace="header"></div>
-          <div class="title">社内イベント管理</div>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" th:href="@{/css/globals.css}">
+  <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+  <!-- <link rel="stylesheet" href="top.css" /> -->
+  <link rel="stylesheet" th:href="@{/css/top.css}">
+</head>
+
+<body>
+  <div class="screen">
+    <div class="div">
+      <!--ヘッダー-->
+      <div class="sidebar">
+        <div th:replace="header"></div>
+        <div class="title">社内イベント管理</div>
+      </div>
+      <div class="list">
+        <div class="navbar">
+          <div class="text-wrapper-9">No.</div>
+          <div class="text-wrapper-clubname">部署名</div>
+          <div class="text-wrapper-actname">活動名</div>
+          <div class="text-wrapper-actday">活動日</div>
+          <div class="text-wrapper-4">活動時間</div>
+          <div class="text-wrapper-actname">活動場所</div>
+          <div class="text-wrapper-6">参加予定人数/募集人数</div>
+          <div class="text-wrapper-7">活動説明</div>
+          <div class="text-wrapper-8">参加ステータス</div>
         </div>
-        <div class="list">
-          <div class="navbar">
-            <div class="text-wrapper-9">No.</div>
-            <div class="text-wrapper-clubname">部署名</div>
-            <div class="text-wrapper-actname">活動名</div>
-            <div class="text-wrapper-actday">活動日</div>
-            <div class="text-wrapper-4">活動時間</div>
-            <div class="text-wrapper-actname">活動場所</div>
-            <div class="text-wrapper-6">参加予定人数/募集人数</div>
-            <div class="text-wrapper-7">活動説明</div>
-            <div class="text-wrapper-8">参加ステータス</div>
-          </div>
-          <!-- メッセージがある場合の表示 -->
+        <!-- エラーメッセージの表示 -->
+        <div th:if="${errorMessage != null}" class="error-message">
+          <p th:text="${errorMessage}"></p>
+        </div>
+        <!-- メッセージがある場合の表示 -->
+        <div th:if="${topform == null or #lists.isEmpty(topform)}">
           <div th:if="${message != null}" class="no-activities-message">
             <p th:text="${message}"></p>
           </div>
-          <!-- リストがある場合の表示 -->
-          <div th:if="${topform} != null">
-            <div class="navbar-2" th:each="actList : ${topform}">
-              <div class="text-wrapper-9" th:text="${actList.no}"></div>
-              <div class="IT" th:text="${actList.clubName}"></div>
-              <div class="text-wrapper-10">
-                <a th:href="@{/ParticipantList(activityId=${actList.activityId})}" th:text="${actList.activityName}"></a>
-              </div>
-              <!--<div class="text-wrapper-10" th:text="${actList.activityName}"></div>-->
-              <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
-              <div class="text-wrapper-acttime" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}"></div>
-              <div class="text-wrapper-10" th:text="${actList.activityPlace}"></div>
-              <div class="text-wrapper-11" th:text="${actList.participantsCount} + '/' + ${actList.maxParticipant}"></div>
-              <div class="text-wrapper-12" th:text="${actList.activityDescription}"></div>
-              <form th:action="@{/top/save}" th:object="${topDataForm}" method="post">
-                <input type="hidden" name="activityId" th:value="${actList.activityId}" />
-                <input type="hidden" name="userId" th:value="${session.userId}" />
-                <div class="pill">
-                    <div class="tag">
-                        <!-- 参加ボタンと不参加ボタンの制御 -->
-                        <div class="text-wrapper-13" th:if="${actList.isParticipationFlg == false}">
-                            <button type="submit" name="participationStatus" value="participate">参加</button>
-                        </div>
-                        <div class="text-wrapper-13" th:if="${actList.isParticipationFlg == true}">
-                            <button type="submit" name="participationStatus" value="notParticipate">不参加</button>
-                        </div>
-                    </div>
+        </div>
+        <!-- リストがある場合の表示 -->
+        <div th:if="${topform} != null">
+          <div class="navbar-2" th:each="actList : ${topform}">
+            <div class="text-wrapper-9" th:text="${actList.no}"></div>
+            <div class="IT" th:text="${actList.clubName}"></div>
+            <div class="text-wrapper-10">
+              <a th:href="@{/ParticipantList(activityId=${actList.activityId})}" th:text="${actList.activityName}"></a>
+            </div>
+            <!--<div class="text-wrapper-10" th:text="${actList.activityName}"></div>-->
+            <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
+            <div class="text-wrapper-acttime" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}">
+            </div>
+            <div class="text-wrapper-10" th:text="${actList.activityPlace}"></div>
+            <div class="text-wrapper-11" th:classappend="${actList.isMajorityFlg ? 'red-text' : ''}"
+              th:text="${actList.participantsCount} + '/' + ${actList.maxParticipant}"></div>
+            <div class="text-wrapper-12"
+              th:style="'max-height: ' + (${actList.activityDescription.length() > 45} ? '81px' : 'auto') + '; overflow: ' + (${actList.activityDescription.length() > 45} ? 'auto' : 'hidden')"
+              th:text="${actList.activityDescription}"></div>
+            <form th:action="@{/top/save}" th:object="${topDataForm}" method="post">
+              <input type="hidden" name="activityId" th:value="${actList.activityId}" />
+              <input type="hidden" name="userId" th:value="${session.userId}" />
+              <div class="pill">
+                <div class="tag">
+                  <!-- 参加ボタンと不参加ボタンの制御 -->
+                  <div class="text-wrapper-13" th:if="${actList.isParticipationFlg == false}">
+                    <button type="submit" name="participationStatus" value="participate">参加</button>
+                  </div>
+                  <div class="text-wrapper-13" th:if="${actList.isParticipationFlg == true}">
+                    <button type="submit" name="participationStatus" value="notParticipate">不参加</button>
+                  </div>
                 </div>
-              </form>
+              </div>
+            </form>
           </div>
-        </div>  
+        </div>
       </div>
     </div>
-    </div>
-  </body>
+  </div>
+</body>
+
 </html>

@@ -49,7 +49,7 @@
 
 .screen .text-wrapper-clubname {
   width: 109px;
-  color: #000000;
+  color: #828282;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -57,7 +57,7 @@
   -webkit-box-orient: vertical;
   position: relative;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -65,7 +65,7 @@
 
 .screen .text-wrapper-actname {
   width: 180px;
-  color: #000000;
+  color: #828282;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -73,7 +73,7 @@
   -webkit-box-orient: vertical;
   position: relative;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -83,8 +83,8 @@
   position: relative;
   width: 107px;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
-  color: #000000;
+  font-weight: 700;
+  color: #828282;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -115,8 +115,8 @@
   width: 115px;
   position: relative;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
-  color: #000000;
+  font-weight: 700;
+  color: #828282;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -148,8 +148,8 @@
   text-align: center;
   position: relative;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
-  color: #000000;
+  font-weight: 700;
+  color: #828282;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -164,8 +164,8 @@
   width: 207px;
   position: relative;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
-  color: #000000;
+  font-weight: 700;
+  color: #828282;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -181,8 +181,8 @@
   margin-right: -163px;
   position: relative;
   font-family: "Inter", Helvetica;
-  font-weight: 500;
-  color: #000000;
+  font-weight: 700;
+  color: #828282;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
@@ -194,7 +194,7 @@
 }
 
 
-  
+
 
 .screen .navbar-2 {
   display: flex;
@@ -286,10 +286,7 @@
   width: 201px;
   height: 81px;
   color: #000000;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   position: relative;
   font-family: "Inter", Helvetica;
@@ -297,6 +294,11 @@
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
+  overflow-y: scroll;
+  max-height: 81px;
+  /* 高さを指定し、それを超えた場合にスクロールを追加 */
+  box-sizing: border-box;
+  /* パディングとボーダーを含めたサイズ */
 }
 
 .screen .pill {
@@ -310,11 +312,11 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px 8px;
+  padding: 1px 1px;
   position: relative;
   background-color: #ffffff;
   border-radius: 8px;
-  border: 1px solid;
+  border: 2px solid;
   border-color: #e0e0e0;
 }
 
@@ -537,4 +539,42 @@
   position: relative;
   width: 25px;
   height: 25px;
+}
+
+/* ボタンの基本スタイル */
+.pill button {
+  background-color: #ffffff;
+  /* 背景色を白に設定 */
+  color: #000000;
+  /* テキスト色を黒に設定（必要に応じて変更） */
+  border: none;
+  /* ボーダーの色を指定 */
+  border-radius: 4px;
+  /* ボーダーの角を丸くする（オプション） */
+  padding: 6px 10px;
+  /* ボタンの内側の余白 */
+  font-family: "Open Sans", Helvetica;
+  /* フォントの設定 */
+  font-weight: 600;
+  /* フォントの太さ */
+  font-size: 14px;
+  /* フォントサイズ */
+  cursor: pointer;
+  /* カーソルをポインターに変更 */
+  transition: background-color 0.3s, color 0.3s;
+  /* ホバー時のスムーズな変化 */
+}
+
+.text-wrapper-11.red-text {
+  color: red !important;
+  font-weight: bold !important;
+}
+
+.error-message {
+  color: red;
+  /* エラーメッセージの文字色 */
+  font-weight: bold;
+  /* 太字にする */
+  margin-bottom: 20px;
+  /* 下の余白 */
 }

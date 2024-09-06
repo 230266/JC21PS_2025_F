@@ -40,7 +40,6 @@ public class JoinApprovalRepository {
                     request.club_id = ?
                 """;
 
-        // ?の内容をかっこの中に書く
         List<Map<String, Object>> joinApprovalList = jdbcTemplate.queryForList(sql, joinApprovalEntity.getClubId());
 
         // JoinApprovalEnitity型のリスト、これにデータを詰めていく
@@ -71,6 +70,7 @@ public class JoinApprovalRepository {
         return JoinApprovalListEntities;
     }
 
+    // 部署名だけ取得する
     public String getClubName(JoinApprovalEntity joinApprovalEntity) {
         String sql = """
                           SELECT
@@ -91,6 +91,7 @@ public class JoinApprovalRepository {
         return ((String) clubName.get("club_name"));
     }
 
+    // insertする
     public void insertRequest(JoinApprovalDataEntity joinApprovalDataEntity) {
         String sqlInsert = """
                 INSERT INTO
@@ -108,6 +109,7 @@ public class JoinApprovalRepository {
         jdbcTemplate.update(sqlInsert, paramList);
     }
 
+    // deleteする
     public void deleteRequest(JoinApprovalDataEntity joinApprovalDataEntity) {
         String sqlDelete = """
                 DELETE FROM

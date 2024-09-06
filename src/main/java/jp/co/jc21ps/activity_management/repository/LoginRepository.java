@@ -8,48 +8,45 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Repository
 public class LoginRepository {
-    
+
     private final JdbcTemplate jdbcTemplate;
 
     public LoginRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public LoginEntity getLoginData(LoginEntity loginEntity){
+    public LoginEntity getLoginData(LoginEntity loginEntity) {
         String sql = """
-                SELECT
-                 user.user_id,
-                 member.club_id,
-                 user.login_name
-                FROM
-                 mst_user user
-                LEFT JOIN
-                 trn_club_member member 
-                ON
-                 user.user_id = member.user_id 
+                           SELECT
+                            user.user_id,
+                            member.club_id,
+                            user.login_name
+                           FROM
+                            mst_user user
+                           LEFT JOIN
+                            trn_club_member member
+                           ON
+                            user.user_id = member.user_id
+                           AND
+                            member.leader_flg = 1
+                           WHERE
+                            user.login_name = ?
                 AND
-                 member.leader_flg = 1 
-                WHERE 
-                 user.login_name = ?
-				 AND
-                  user.password =  ? ;
-                """;
-         
-        
-        //
-        List<Map<String,Object>> loginList =  jdbcTemplate.queryForList(sql,loginEntity.getLoginName(),loginEntity.getPassword());
-        
+                             user.password =  ? ;
+                           """;
+
+        List<Map<String, Object>> loginList = jdbcTemplate.queryForList(sql, loginEntity.getLoginName(),
+                loginEntity.getPassword());
+
         if (loginList.size() == 0) {
             return new LoginEntity("", "", null, null);
         }
-        
-        //LoginEntityに値を詰めている
-        Map<String,Object> login = loginList.get(0);
+
+        Map<String, Object> login = loginList.get(0);
         return new LoginEntity(
-            (String)login.get("login_Name"),
-            null,
-            (String)login.get("user_Id"),
-            (String)login.get("club_Id")
-        );
+                (String) login.get("login_Name"),
+                null,
+                (String) login.get("user_Id"),
+                (String) login.get("club_Id"));
     }
 }

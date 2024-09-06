@@ -20,13 +20,6 @@ public class LoginForm {
     private String userId;
     private String clubId;
 
-    public LoginForm(String loginName,String password, String userId,String clubId){
-        this.loginName = loginName;
-        this.password = password;
-        this.userId = userId;
-        this.clubId = clubId;
-
-    }
     
     public String getLoginName() {
         return loginName;

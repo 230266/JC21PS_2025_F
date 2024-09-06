@@ -1,49 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/globals.css}">
-    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
-  </head>
-  <body>
-    <div class="screen">
-      <div class="element-signup-form-wrapper">
-        <div class="element-signup-form">
-          <div class="copy"><div class="text-wrapper">社内イベント管理システム</div></div>
-          <form th:action="@{login}" th:object="${loginForm}" method="post">
-            <!-- エラーメッセージがあれば表示 -->
-            <div th:if="${error}" style="color: red;" th:text="${error}"></div>
-              <div class="input-and-button">
-                <div class="form-field">
-                    <div class="input">
-                      <div class="input-base">
-                        <div class="error-rectangle"></div>
-                        <div class="text">
-                         
-                            <input type="text" name="loginName" placeholder="ログインID" class="input-text">
-                          
-                      </div>
-                    </div>
-                </div>
-                <div class="form-field">
-                  <div class="input">
-                    <div class="input-base">
-                      <div class="error-rectangle"></div>
-                      <div class="text">
-                       
-                          <input type="password" name="password" placeholder="パスワード" class ="input-text"></div>
-                     
-                    </div>
-                  </div>
-              </div>
-                <button class="button">
-                  <div class="button-base"><div class="button-text"><input type ="submit" value="ログイン" class="button-text"></div></div>
-                </button>
-              </div>
-            </form>  
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" th:href="@{/css/globals.css}">
+  <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+  <div class="screen">
+    <div class="element-signup-form-wrapper">
+      <div class="element-signup-form">
+        <div class="copy">
+          <div class="text-wrapper">社内イベント管理システム</div>
         </div>
+        <form th:action="@{login}" th:object="${loginForm}" method="post">
+          <!-- エラーメッセージがあれば表示 -->
+          <div th:if="${#fields.hasErrors('loginName')}" style="color: red;" th:errors="*{loginName}"></div>
+          <div th:if="${#fields.hasErrors('password')}" style="color: red;" th:errors="*{password}"></div>
+          <div th:if="${error}" style="color: red;" th:text="${error}"></div>
+          <div class="input-and-button">
+            <div class="form-field">
+              <div class="input">
+                <div class="input-base">
+                  <div class="error-rectangle"></div>
+                  <div class="text">
+
+                    <input type="text" th:field="*{loginName}" placeholder="ログインID" class="input-text">
+
+                  </div>
+                </div>
+              </div>
+              <div class="form-field">
+                <div class="input">
+                  <div class="input-base">
+                    <div class="error-rectangle"></div>
+                    <div class="text">
+
+                      <input type="password" th:field="*{password}" placeholder="パスワード" class="input-text">
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <button class="button">
+                <div class="button-base">
+                  <div class="button-text"><input type="submit" value="ログイン" class="button-text"></div>
+                </div>
+              </button>
+            </div>
+        </form>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

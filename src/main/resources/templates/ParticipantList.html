@@ -16,33 +16,46 @@
         <div class="overlap-group">
           <div class="table">
             <div class="div-2">
-              
-              <div class="elements-column">
-                <div class="div-2">
-                  <div class="table-column-header">
-                    <div class="table-column-header-2">
-                      <div class="header-and-sort">
-                        <div class="header-text-icon"><div class="column-header">参加者名</div></div>
-                        <div class="sort-icon">
-                          <img class="icon" src="https://c.animaapp.com/TtW2WmO5/img/icon-33.svg" />
+              <div class="list-container">
+                <div class="elements-column">
+                  <div class="div-2">
+                    <div class="table-column-header">
+                      <div class="table-column-header-2">
+                        <div class="header-and-sort">
+                          <div class="header-text-icon"><div class="column-header">参加者名</div></div>
+                          <div class="sort-icon">
+                            <img class="icon" src="https://c.animaapp.com/TtW2WmO5/img/icon-33.svg" />
+                          </div>
                         </div>
+                        <img class="line" src="https://c.animaapp.com/TtW2WmO5/img/line-17.svg" />
                       </div>
-                      <img class="line" src="https://c.animaapp.com/TtW2WmO5/img/line-17.svg" />
                     </div>
-                  </div>
-                  <div th:each="participant : ${participantListForm}" class="table-cell">
-                    <div class="table-cell-content">
-                      <div class="description" th:text="${participant.userName}"></div>
+                    
+                    <!--participantListFormが空の場合をthymeleafで書く-->
+                    
+                      <!-- メッセージがある場合の表示 -->
+                    <div th:if="${participantListForm == null or #lists.isEmpty(participantListForm)}">
+                      <div class="no-activities-message">
+                        <p th:text="${message}"></p>
+                      </div>
                     </div>
-                  </div>
-                    <!-- メッセージがある場合の表示 -->
-                    <div th:if="${message != null}" class="no-activities-message">
-                      <p th:text="${message}"></p>
+                    <div th:each="participant : ${participantListForm}" class="table-cell">
+                      <div class="table-cell-content">
+                        <div class="description" th:text="${participant.userName}"></div>
+                      </div>
                     </div>
+                    <!-- 戻るボタン -->
+                  <div class="back-button">
+                    <a href="/top" class="button">
+                        <div class="button-base">
+                            <div class="button-text">戻る</div>
+                        </div>
+                    </a>
                   </div>
-                </div>
+                 
               </div>
             </div>
+            
           </div>
           <div class="label-description">
             <div class="div-3">
@@ -64,9 +77,7 @@
             </div>
           </div>
         </div>
-        <a href="/top" class="button">
-          <div class="button-base"><div class="button-text">戻る</div></div>
-        </a>
+        
       </div>
     </div>
   </body>

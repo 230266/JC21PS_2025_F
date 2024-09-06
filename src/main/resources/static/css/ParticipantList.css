@@ -212,6 +212,8 @@
   gap: 8px;
   position: relative;
   flex: 0 0 auto;
+  top: -69px;
+  left: -208px;
 }
 
 .screen .label-wrapper {
@@ -371,8 +373,8 @@
 
 .screen .title-2 {
   height: 54px;
-  top: 24px;
-  left: 330px;
+  top: -112px;
+
   font-size: 36px;
   letter-spacing: -0.36px;
   line-height: 54px;
@@ -415,7 +417,7 @@
   height: 34px;
   align-items: center;
   position: absolute;
-  top: 495px;
+
   left: 699px;
 }
 
@@ -432,6 +434,7 @@
   border-radius: 40px;
   border: 2px solid;
   border-color: var(--blue-800);
+  left: -450px
 }
 
 .screen .button-text {
@@ -450,4 +453,21 @@
 .screen .no-activities-message {
   top: 13px;
   position: relative;
+}
+
+/* back-buttonクラスのスタイル追加 */
+.screen .back-button {
+  display: flex;
+  justify-content: center;
+  /* ボタンを中央に配置 */
+  margin-top: 20px;
+  /* ボタンとリストの間にスペースを追加 */
+}
+
+.screen .list-container {
+  display: flex;
+  flex-direction: column;
+  /* リストとボタンを縦に並べる */
+  align-items: flex-start;
+  /* リストとボタンを左揃え */
 }

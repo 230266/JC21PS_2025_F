@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import ch.qos.logback.core.model.Model;
-
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.JoinApprovalDataDto;
 import jp.co.jc21ps.activity_management.dto.JoinApprovalDto;
@@ -40,23 +38,25 @@ public class JoinApprovalController {
     }
 
     @GetMapping
-    public ModelAndView joinApproval(HttpSession session, Model model) {
+    public ModelAndView joinApproval(HttpSession session) {
+
         ModelAndView mav = new ModelAndView();
+
+        SessionDto sessionDto = new SessionDto();
+
+        sessionDto = commonService.getCommonService(session);
+        String userId = sessionDto.getUserId();
+        String leaderClubId = sessionDto.getClubId();
+
         try {
-
-            SessionDto sessionDto = new SessionDto();
-            sessionDto = commonService.getCommonService(session);
-            String userId = sessionDto.getUserId();
-            String clubId = sessionDto.getClubId();
-
             if (userId.isEmpty()) {
-                mav.setViewName("redirect:/error");
+                mav.setViewName("redirect:/top");
                 return mav;
             }
 
             JoinApprovalDto joinApprovalDto = new JoinApprovalDto();
             joinApprovalDto.setUserId(userId);
-            joinApprovalDto.setClubId(clubId);
+            joinApprovalDto.setClubId(leaderClubId);
 
             JoinApprovalNameDto viewList = joinApprovalService.getJoinApprovalData(joinApprovalDto);
 
@@ -78,44 +78,74 @@ public class JoinApprovalController {
             String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
             mav.addObject("joinApprovalform", viewData);
+            // String leaderClubId = sessionDto.getClubId();
+            mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("JoinApproval");
 
         } catch (Exception e) {
+            // メッセージ、ログ
+            // セッションからclubIDを持ってきて、mavに詰めて返す
+            sessionDto = commonService.getCommonService(session);
+            // String leaderClubId = sessionDto.getClubId();
+            mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/error");
         }
         return mav;
     }
 
+    // 否認
     @PostMapping("/Denial")
-    public ModelAndView denial(JoinApprovalDataForm joinApprovalDataForm) {
+    public ModelAndView denial(JoinApprovalDataForm joinApprovalDataForm, HttpSession session) {
         JoinApprovalDataDto denialDto = new JoinApprovalDataDto();
         denialDto.setUserId(joinApprovalDataForm.getUserId());
         denialDto.setClubId(joinApprovalDataForm.getClubId());
         denialDto.setLeaderFlg(joinApprovalDataForm.isLeaderFlg());
 
-        joinApprovalService.deleteRequest(denialDto);
         ModelAndView mav = new ModelAndView();
 
-        mav.setViewName("redirect:/JoinApproval");
+        SessionDto sessionDto = new SessionDto();
+        sessionDto = commonService.getCommonService(session);
+        String leaderClubId = sessionDto.getClubId();
+
+        try {
+            // 申請テーブルからdeleteするメソッドを呼び出す
+            joinApprovalService.deleteRequest(denialDto);
+            mav.addObject("leaderClubId", leaderClubId);
+            mav.setViewName("redirect:/JoinApproval");
+        } catch (Exception e) {
+            mav.addObject("leaderClubId", leaderClubId);
+            mav.setViewName("redirect:/error");
+        }
 
         return mav;
 
     }
 
+    // 承認
     @PostMapping("/Approval")
-    public ModelAndView Approval(JoinApprovalDataForm joinApprovalDataForm) {
+    public ModelAndView Approval(JoinApprovalDataForm joinApprovalDataForm, HttpSession session) {
         JoinApprovalDataDto denialDto = new JoinApprovalDataDto();
         denialDto.setUserId(joinApprovalDataForm.getUserId());
         denialDto.setClubId(joinApprovalDataForm.getClubId());
         denialDto.setLeaderFlg(joinApprovalDataForm.isLeaderFlg());
+
         ModelAndView mav = new ModelAndView();
 
+        SessionDto sessionDto = new SessionDto();
+        sessionDto = commonService.getCommonService(session);
+        String leaderClubId = sessionDto.getClubId();
+
         try {
+            // 部員テーブルにinsertするメソッドと申請テーブルから取り除くメソッドを呼び出す
             joinApprovalService.insertRequest(denialDto);
             joinApprovalService.deleteRequest(denialDto);
             mav.setViewName("redirect:/JoinApproval");
+            mav.addObject("leaderClubId", leaderClubId);
+
         } catch (Exception e) {
+            // メッセージ、ログ
             mav.setViewName("redirect:/error");
+            mav.addObject("leaderClubId", leaderClubId);
 
         }
 
