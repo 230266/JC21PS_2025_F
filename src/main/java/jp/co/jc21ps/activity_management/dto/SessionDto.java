@@ -1,11 +1,9 @@
-package jp.co.jc21ps.dto;
+package jp.co.jc21ps.activity_management.dto;
 
 public class SessionDto {
     private String userId;
     private String clubId;
     private String userName;
-    
-    
     
     public String getUserId() {
         return userId;

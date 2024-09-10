@@ -29,6 +29,9 @@
           <div class="text-wrapper-7">活動説明</div>
           <div class="text-wrapper-8">参加ステータス</div>
         </div>
+        <!-- メッセージがある場合の表示 -->
+        <div th:if="${activityRegisterCompleteMessage}" style="color: black"
+          th:text="${activityRegisterCompleteMessage}"></div>
         <!-- エラーメッセージの表示 -->
         <div th:if="${errorMessage != null}" class="error-message">
           <p th:text="${errorMessage}"></p>
@@ -60,6 +63,8 @@
             <form th:action="@{/top/save}" th:object="${topDataForm}" method="post">
               <input type="hidden" name="activityId" th:value="${actList.activityId}" />
               <input type="hidden" name="userId" th:value="${session.userId}" />
+              <input type="hidden" name="clubId" th:value="${actList.clubId}" />
+
               <div class="pill">
                 <div class="tag">
                   <!-- 参加ボタンと不参加ボタンの制御 -->

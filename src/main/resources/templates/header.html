@@ -16,27 +16,32 @@
           <div class="text-wrapper">メニュー</div>
         </div>
         <!-- 部長のみ表示される -->
-        <div class="menu-item-2">
-          <img class="group" src="img/group.png" />
-          <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}"
-            onclick="location.href='@{/registerActivity}'" value="活動登録" />
+        <div class="menu-item-3">
+          <img class="group" src="https://c.animaapp.com/dcFBotWX/img/group@2x.png" />
+          <form action="/registerActivity" method="get" class="text-wrapper-2">
+            <button type="submit" style="all:unset; cursor:pointer;" th:disabled="*{leaderClubId == null}">活動登録</button>
+          </form>
         </div>
         <div class="menu-item-3">
-          <img class="element" src="img/1-2.png" />
-          <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}"
-            th:onclick="|location.href='@{/clubInfoRegister}'|" value="部署情報登録" />
+          <img class="element" src="https://c.animaapp.com/dcFBotWX/img/----------1-2@2x.png" />
+          <form action="/clubInfoRegister" method="get" class="text-wrapper-2">
+            <button type="submit" style="all:unset; cursor:pointer;"
+              th:disabled="*{leaderClubId == null}">部署情報登録</button>
+          </form>
         </div>
         <div class="menu-item-3">
-          <img class="SNS" src="img/sns-4-1.svg" />
-          <input type="button" th:class="${leaderClubId == null ? 'disabled' : ''}"
-            th:onclick="|location.href='@{/JoinApproval}'|" value="部員登録承認" />
-
+          <img class="SNS" src="https://c.animaapp.com/dcFBotWX/img/sns-------4-1.svg" />
+          <form action="/joinApproval" method="get" class="text-wrapper-2">
+            <button type="submit" style="all:unset; cursor:pointer;"
+              th:disabled="*{leaderClubId == null}">部員登録承認</button>
+          </form>
         </div>
         <!-- 全員表示される -->
         <div class="menu-item-3">
-          <img class="element" src="img/2.png" />
-          <input type="button" onclick="location.href='@{/joinRequest}'" value="部員登録申請" />
-
+          <img class="element" src="https://c.animaapp.com/dcFBotWX/img/-----------2@2x.png" />
+          <form action="/joinRequest" method="get" class="text-wrapper-2">
+            <button type="submit" style="all:unset; cursor:pointer;">部員登録申請</button>
+          </form>
         </div>
         <form action="/Logout"><input type="submit" value="ログアウト" /></form>
       </div>

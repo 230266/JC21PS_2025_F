@@ -19,8 +19,7 @@ import jp.co.jc21ps.activity_management.form.TopDataForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.ParticipationLimitExceededException;
 import jp.co.jc21ps.activity_management.service.TopService;
-import jp.co.jc21ps.dto.SessionDto;
-
+import jp.co.jc21ps.activity_management.dto.SessionDto;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -45,6 +44,7 @@ public class TopController {
         TopDataDto topDataDto = new TopDataDto();
         topDataDto.setActivityId(topDataForm.getActivityId());
         topDataDto.setUserId(topDataForm.getUserId());
+        topDataDto.setClubId(topDataForm.getClubId());
 
         // 参加している場合は削除、参加していない場合は追加
         try {
@@ -60,10 +60,9 @@ public class TopController {
                     mav.setViewName("error");
                     return mav;
                 }
-
             }
-
             // 取得できた場合はトップ画面に遷移
+
             mav.setViewName("redirect:/top");
         } catch (Exception e) {
             // 取得できなかった場合はエラー画面に遷移
@@ -76,22 +75,22 @@ public class TopController {
     @GetMapping
     public ModelAndView top(HttpSession session, Model model) {
         ModelAndView mav = new ModelAndView();
-
         try {
-            SessionDto sessionDto = new SessionDto();
-
-            sessionDto = commonService.getCommonService(session);
+            // セッションから値を取得する
+            SessionDto sessionDto = commonService.getSessionDto(session);
             String userId = sessionDto.getUserId();
+            String leaderClubId = sessionDto.getClubId();
 
-            if (userId.isEmpty()) {
+            if (userId == null) {
+                // userIdがnullまたは空の場合はエラーページに遷移
                 mav.setViewName("redirect:/error");
                 return mav;
             }
 
+            // userIdをもとにデータを取得する
             TopDto topDto = new TopDto();
             topDto.setUserId(userId);
             List<TopDto> viewAct = topService.getTopData(topDto);
-
             List<TopForm> actList = new ArrayList<>();
 
             for (TopDto lastForm : viewAct) {
@@ -112,21 +111,19 @@ public class TopController {
                 act.setMaxParticipant(lastForm.getMaxParticipant());
                 act.setIsParticipationFlg(lastForm.getIsParticipationFlg());
                 act.setIsMajorityFlg(lastForm.getIsMajorityFlg());
-
                 actList.add(act);
 
             }
             String resultMessage = messageSource.getMessage("notactivitylist", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
             mav.addObject("topform", actList);
-
+            mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("top");
 
         } catch (Exception e) {
             // 問題が発生した場合はエラーページにリダイレクト
             mav.setViewName("redirect:/error");
         }
-
         return mav;
     }
 }

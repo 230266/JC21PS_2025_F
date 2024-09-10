@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" th:href="@{/css/globals.css}">
+    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+    <link rel="stylesheet" th:href="@{/css/DepartmentRegistration.css}">
+  </head>
+  <body>
+    <div class="screen">
+      <div class="div">
+        <form role="form" th:action="@{/clubInfoRegister/save}" th:object="${clubInfoRegisterSaveForm}" method="post">
+          <div class="completemessage" th:if="${updateClubInfo != null}" th:text="${updateClubInfo}"></th:if></div>
+          <div class="label-description">
+            <div class="div-2">
+              <div class="label-wrapper">
+                <div class="div-2"><div class="label">*部署名</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="label-description-2">
+            <div class="div-2">
+              <div class="label-wrapper">
+                <div class="div-2"><div class="text-wrapper" th:text="${clubInfoRegisterSaveForm.clubName}"></div></div>
+                <input type="hidden" name="leaderClubId" th:value="${clubInfoRegisterSaveForm.leaderClubId}" />
+                <input type="hidden" name="clubName" th:value="${clubInfoRegisterSaveForm.clubName}" />
+              </div>
+            </div>
+          </div>
+          <div class="form-field">
+            <div class="label-description-3">
+              <div class="div-2">
+                <div class="label-wrapper">
+                  <div class="div-2"><div class="label">*活動説明</div></div>
+                  <div class="elements-label"><div class="optional"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="text-area">
+              <div class="text-area-base">
+                <textarea class="input-area" placeholder="活動説明を入力してください" th:field="*{clubDescription}"></textarea>
+                <div class="text-area-icon">
+                  <div class="overlap-group">
+                    <img class="rectangle" src="https://c.animaapp.com/qM6Db6i8/img/rectangle-10.svg" />
+                    <img class="img" src="https://c.animaapp.com/qM6Db6i8/img/rectangle-11.svg" />
+                  </div>
+                </div>
+              </div>
+              <div class="c-error__list">
+                <ul th:if="${#fields.hasErrors('clubDescription')}" style="color: red;">
+                  <li th:errors="*{clubDescription}"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="title-2">部署情報登録</div>
+          <div class="frame">
+            <div class="div-2">
+              <button class="button-base-wrapper">
+                <div class="button-base-2"><div class="button-text-2">登録</div></div>
+              </button>
+            </div>
+          </div>
+        </form>
+        <form action="/top" method="get">
+          <button class="button">
+            <div class="button-base"><div class="button-text">戻る</div></div>
+          </button>
+        </form>
+        <div class="sidebar">
+          <div th:replace="header"></div>
+          <div class="title">社内イベント管理</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

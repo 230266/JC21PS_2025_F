@@ -45,6 +45,7 @@ public class LoginController {
 
             return mav;
         }
+
         loginInfoReturnDto = loginService.getLoginService(loginDto);
 
         // セッションにdtoからとれたデータを詰める
@@ -54,6 +55,8 @@ public class LoginController {
             session.setAttribute("clubId", loginInfoReturnDto.getClubId());
 
             // トップに遷移
+            // 画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
+            mav.addObject("leaderClubId", loginInfoReturnDto.getClubId());
             mav.setViewName("redirect:/top");
         } else {
             mav.addObject("login-error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");

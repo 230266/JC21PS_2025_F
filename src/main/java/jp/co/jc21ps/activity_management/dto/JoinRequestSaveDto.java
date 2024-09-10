@@ -1,6 +1,6 @@
-package jp.co.jc21ps.activity_management.entity;
+package jp.co.jc21ps.activity_management.dto;
 
-public class JoinRequestSaveEntity {
+public class JoinRequestSaveDto {
     //ユーザーID
     private String userId;
 
@@ -10,14 +10,16 @@ public class JoinRequestSaveEntity {
     //deleteフラグ
     private boolean deleteFlg;
 
-    public JoinRequestSaveEntity() {
+    //デフォルト
+    public JoinRequestSaveDto() {
 
     }
 
-    // public JoinRequestSaveEntity(String userId, String clubId){
-    //     this.userId = userId;
-    //     this.clubId = clubId;
-    // }
+    //引数あり
+    public JoinRequestSaveDto(String userId, String clubId, boolean deleteFlg) {
+        this.userId = userId;
+        this.clubId = clubId;
+    }
 
     //ユーザーID
     public void setUserId(String userId) {
@@ -37,7 +39,7 @@ public class JoinRequestSaveEntity {
         return clubId;
     }
 
-    //deleteフラグ
+    //deleteFlg
     public void setDeleteFlg(boolean deleteFlg) {
         this.deleteFlg = deleteFlg;
     }

@@ -3,7 +3,6 @@ package jp.co.jc21ps.activity_management.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +13,7 @@ import jp.co.jc21ps.activity_management.form.ParticipantListForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.ParticipantListService;
 import jp.co.jc21ps.dto.ParticipantDto;
-import jp.co.jc21ps.dto.SessionDto;
+import jp.co.jc21ps.activity_management.dto.SessionDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
@@ -44,9 +43,9 @@ public class ParticipantListController {
                 return mav;
             }
 
-            SessionDto sessionDto = new SessionDto();
-            sessionDto = commonService.getCommonService(session);
+            SessionDto sessionDto = commonService.getSessionDto(session);
             String userId = sessionDto.getUserId();
+            String leaderClubId = sessionDto.getClubId();
 
             if (userId.isEmpty()) {
                 mav.setViewName("redirect:/error");
@@ -81,9 +80,10 @@ public class ParticipantListController {
             // 参加者がいる場合の表示
             mav.addObject("participantListForm", participantList);
 
+            mav.addObject("leaderClubId", leaderClubId);
+
             mav.setViewName("ParticipantList");
         } catch (Exception e) {
-
             mav.setViewName("redirect:/error");
         }
         return mav;

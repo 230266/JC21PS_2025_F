@@ -66,6 +66,7 @@ public class TopService {
         TopDataEntity topDataEntity = new TopDataEntity();
         topDataEntity.setActivityId(topDataDto.getActivityId());
         topDataEntity.setUserId(topDataDto.getUserId());
+        topDataEntity.setClubId(topDataDto.getClubId());
 
         // アクティビティの上限人数を取得
         Integer maxParticipants = topRepository.getMaxParticipants(topDataEntity);

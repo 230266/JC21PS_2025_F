@@ -1,7 +1,7 @@
 package jp.co.jc21ps.activity_management.dto;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+//import java.sql.Date;
+//import java.time.LocalDateTime;
 
 public class RegisterActivitySaveDto {
     private String activityId;
@@ -83,7 +83,7 @@ public class RegisterActivitySaveDto {
     }
 
     //募集人数
-    public void setMaxParticipant(String MaxParticipant) {
+    public void setMaxParticipant(String maxParticipant) {
         this.maxParticipant = maxParticipant;
     }
 
