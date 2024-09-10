@@ -142,7 +142,7 @@ public class JoinRequestController {
 
             // インサート失敗したらエラー画面へリダイレクト
         } else {
-            mav.setViewName("Error");
+            mav.setViewName("error");
         }
         return mav;
     }

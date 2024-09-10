@@ -39,7 +39,7 @@ public class ParticipantListController {
         ModelAndView mav = new ModelAndView();
         try {
             if (activityId.isEmpty()) {
-                mav.setViewName("redirect:/error");
+                mav.setViewName("error");
                 return mav;
             }
 
@@ -48,7 +48,7 @@ public class ParticipantListController {
             String leaderClubId = sessionDto.getClubId();
 
             if (userId.isEmpty()) {
-                mav.setViewName("redirect:/error");
+                mav.setViewName("error");
                 return mav;
             }
 
@@ -84,7 +84,7 @@ public class ParticipantListController {
 
             mav.setViewName("ParticipantList");
         } catch (Exception e) {
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
         }
         return mav;
 

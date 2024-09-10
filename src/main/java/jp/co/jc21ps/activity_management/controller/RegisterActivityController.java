@@ -28,92 +28,94 @@ public class RegisterActivityController {
     private final MessageSource messageSource;
     private final CommonService commonService;
 
-    //サービスをセット,
-    public RegisterActivityController(RegisterActivityService registerActivityService, MessageSource messageSource, CommonService commonService) {
+    // サービスをセット,
+    public RegisterActivityController(RegisterActivityService registerActivityService, MessageSource messageSource,
+            CommonService commonService) {
         this.registerActivityService = registerActivityService;
         this.commonService = commonService;
         this.messageSource = messageSource;
     }
 
     @GetMapping
-    public ModelAndView getActivityByClubId(HttpSession session, RegisterActivitySaveForm  registerActivitySaveForm) { 
+    public ModelAndView getActivityByClubId(HttpSession session, RegisterActivitySaveForm registerActivitySaveForm) {
 
-        //ModelAndViewのインスタンス化
+        // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
-        //セッションからクラブID を取得
+        // セッションからクラブID を取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //部長クラブIDがセッションに存在しない場合、エラー画面に遷移
-        if(leaderClubId.isEmpty()) {
-            mav.setViewName("Error");
+        // 部長クラブIDがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId.isEmpty()) {
+            mav.setViewName("error");
             return mav;
         }
-        //formのインスタンス化
+        // formのインスタンス化
         registerActivitySaveForm.setClubId(leaderClubId);
 
-        //dtoのインスタンス化
+        // dtoのインスタンス化
         RegisterActivityDto activityDto = new RegisterActivityDto();
 
-        //dtoにClubIdを詰め替える
+        // dtoにClubIdを詰め替える
         activityDto.setClubId(leaderClubId);
 
-        //サービスのメソッドでデータを取得　※型を合わせる
+        // サービスのメソッドでデータを取得 ※型を合わせる
         RegisterActivityDto registerActivityDto = registerActivityService.findActivity(activityDto);
-        
-        //formに渡すためにclubNameをセットする
+
+        // formに渡すためにclubNameをセットする
         registerActivitySaveForm.setClubName(registerActivityDto.getClubName());
 
-        //html(View)の名前を指定する
+        // html(View)の名前を指定する
         mav.setViewName("RegisterActivity");
 
-        //formオブジェクトを追加
+        // formオブジェクトを追加
         mav.addObject("registerActivitySaveForm", registerActivitySaveForm);
         mav.addObject("leaderClubId", leaderClubId);
         return mav;
     }
 
-    //入力エラー文を返す
+    // 入力エラー文を返す
     @PostMapping("/save")
-    //form
-    public ModelAndView insertActivity(@Valid RegisterActivitySaveForm registerActivitySaveForm, BindingResult bindingResult, HttpSession session) {
+    // form
+    public ModelAndView insertActivity(@Valid RegisterActivitySaveForm registerActivitySaveForm,
+            BindingResult bindingResult, HttpSession session) {
 
-        //ModelAndViewのインスタンス化
+        // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
-        //バリデーション
+        // バリデーション
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getAllErrors().stream()
-            .map(ObjectError::getDefaultMessage)
-            .collect(Collectors.toList());
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.toList());
 
-            //バリデーションエラーをリストに変換
+            // バリデーションエラーをリストに変換
             mav.addObject("registerActivitySaveForm", registerActivitySaveForm);
             mav.addObject("errorMessages", errorMessages);
             mav.setViewName("RegisterActivity");
             return mav;
         }
 
-        //セッションからクラブIDを持ってくる
+        // セッションからクラブIDを持ってくる
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        //部長クラブIDがセッションに存在しない場合、エラー画面に遷移
-        if(leaderClubId.isEmpty()) {
-            mav.setViewName("Error");
+        // 部長クラブIDがセッションに存在しない場合、エラー画面に遷移
+        if (leaderClubId.isEmpty()) {
+            mav.setViewName("error");
             return mav;
         }
 
-        //値を詰める
+        // 値を詰める
         try {
-            //dtoのインスタンス化
+            // dtoのインスタンス化
             RegisterActivitySaveDto activitySaveDto = new RegisterActivitySaveDto();
 
-            //リポジトリからシーケンスメソッドを持ってくる
+            // リポジトリからシーケンスメソッドを持ってくる
             String newActivityId = registerActivityService.getNextActivityId();
 
-            //dtoに値を設定
+            // dtoに値を設定
             activitySaveDto.setActivityId(newActivityId);
             activitySaveDto.setActivityName(registerActivitySaveForm.getActivityName());
             activitySaveDto.setActivityDate(registerActivitySaveForm.getActivityDate());
@@ -124,32 +126,32 @@ public class RegisterActivityController {
             activitySaveDto.setMaxParticipant(registerActivitySaveForm.getMaxParticipant());
             activitySaveDto.setClubId(registerActivitySaveForm.getClubId());
 
-            //サービスメソッドの呼び出し 
+            // サービスメソッドの呼び出し
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
 
-            //メッセージを取得
+            // メッセージを取得
             String resultMessage = messageSource.getMessage(resultMessageKey, null, Locale.getDefault());
 
-            //入力が成功したら、トップ画面に遷移する → メッセージ表示
-            switch(resultMessageKey) {
+            // 入力が成功したら、トップ画面に遷移する → メッセージ表示
+            switch (resultMessageKey) {
                 case "activityRegisterCompleteMessage":
                     mav.addObject("activityRegisterCompleteMessage", resultMessage);
                     mav.addObject("leaderClubId", leaderClubId);
                     mav.setViewName("Top");
-                break;
+                    break;
 
                 case "impossibleDate":
                     mav.addObject("impossibleDate", resultMessage);
                     mav.addObject("leaderClubId", leaderClubId);
                     mav.setViewName("RegisterActivity");
-                break;
+                    break;
                 default:
-                    mav.setViewName("Error");
+                    mav.setViewName("error");
             }
-        //DB接続に失敗した場合、エラー画面に遷移する    
-        } catch(Exception e) {
-            //エラー画面に遷移する
-            mav.setViewName("Error");
+            // DB接続に失敗した場合、エラー画面に遷移する
+        } catch (Exception e) {
+            // エラー画面に遷移する
+            mav.setViewName("error");
         }
         return mav;
     }

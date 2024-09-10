@@ -66,7 +66,7 @@ public class TopController {
             mav.setViewName("redirect:/top");
         } catch (Exception e) {
             // 取得できなかった場合はエラー画面に遷移
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
         }
 
         return mav;
@@ -83,7 +83,7 @@ public class TopController {
 
             if (userId == null) {
                 // userIdがnullまたは空の場合はエラーページに遷移
-                mav.setViewName("redirect:/error");
+                mav.setViewName("error");
                 return mav;
             }
 
@@ -122,7 +122,7 @@ public class TopController {
 
         } catch (Exception e) {
             // 問題が発生した場合はエラーページにリダイレクト
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
         }
         return mav;
     }

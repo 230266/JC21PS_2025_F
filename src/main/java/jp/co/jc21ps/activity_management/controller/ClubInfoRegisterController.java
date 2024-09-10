@@ -45,7 +45,7 @@ public class ClubInfoRegisterController {
 
         // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
-            mav.setViewName("Error");
+            mav.setViewName("error");
             return mav;
         }
 
@@ -71,7 +71,7 @@ public class ClubInfoRegisterController {
         mav.addObject("clubInfoRegisterSaveForm", clubInfoRegisterSaveForm);
 
         // viewを指定
-        mav.setViewName("ClubInfoRegister");
+        mav.setViewName("clubInfoRegister");
         return mav;
     }
 
@@ -99,7 +99,7 @@ public class ClubInfoRegisterController {
 
         // cleaderClubIdlubIdがセッションに存在しない場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
-            mav.setViewName("Error");
+            mav.setViewName("error");
             return mav;
         }
 
@@ -119,14 +119,14 @@ public class ClubInfoRegisterController {
                 mav.addObject("leaderClubId", leaderClubId);
                 mav.setViewName("ClubInfoRegister");
             } else {
-                mav.setViewName("Error");
+                mav.setViewName("error");
             }
 
             // DB接続失敗した場合、エラー画面に遷移
         } catch (Exception e) {
-            mav.setViewName("Error");
+            mav.setViewName("error");
         }
         return mav;
     }
 
-}        
+}

@@ -47,7 +47,7 @@ public class JoinApprovalController {
 
         // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
         if (leaderClubId == null) {
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
             return mav;
         }
 
@@ -90,7 +90,7 @@ public class JoinApprovalController {
             sessionDto = commonService.getSessionDto(session);
             // String leaderClubId = sessionDto.getClubId();
             mav.addObject("leaderClubId", leaderClubId);
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
         }
         return mav;
     }
@@ -109,7 +109,7 @@ public class JoinApprovalController {
 
         // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
             return mav;
         }
 
@@ -120,7 +120,7 @@ public class JoinApprovalController {
             mav.setViewName("redirect:/joinApproval");
         } catch (Exception e) {
             mav.addObject("leaderClubId", leaderClubId);
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
         }
 
         return mav;
@@ -142,7 +142,7 @@ public class JoinApprovalController {
 
         // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
         if (leaderClubId == null) {
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
             return mav;
         }
 
@@ -155,7 +155,7 @@ public class JoinApprovalController {
 
         } catch (Exception e) {
             // メッセージ、ログ
-            mav.setViewName("redirect:/error");
+            mav.setViewName("error");
             mav.addObject("leaderClubId", leaderClubId);
 
         }
