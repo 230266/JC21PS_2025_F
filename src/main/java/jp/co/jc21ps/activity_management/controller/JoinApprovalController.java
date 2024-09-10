@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class JoinApprovalController {
     private final JoinApprovalService joinApprovalService;
     private final CommonService commonService;
+    @Autowired
     private final MessageSource messageSource;
 
     public JoinApprovalController(JoinApprovalService joinApprovalService, CommonService commonService,
@@ -41,29 +43,25 @@ public class JoinApprovalController {
         ModelAndView mav = new ModelAndView();
 
         SessionDto sessionDto = new SessionDto();
+
         sessionDto = commonService.getCommonService(session);
         String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
 
         try {
-            // せっしょんのuserIdが空の時、ログイン画面に遷移する
             if (userId.isEmpty()) {
-                mav.setViewName("redirect:/login");
+                mav.setViewName("redirect:/top");
                 return mav;
             }
 
-            // 取得できた場合、joinApprovalDtoにセットする
             JoinApprovalDto joinApprovalDto = new JoinApprovalDto();
             joinApprovalDto.setUserId(userId);
             joinApprovalDto.setClubId(leaderClubId);
 
-            // serviceからgetJoinApprovalDataメソッド（画面表示用のメソッド）をセッションのuserId,clubIdを引数に取得する
             JoinApprovalNameDto viewList = joinApprovalService.getJoinApprovalData(joinApprovalDto);
 
-            // Formに返す用のリスト
             List<JoinApprovalForm> viewData = new ArrayList<>();
 
-            // さっき取得したviewList.getJoinApprovalDto()をdtoに詰める
             for (JoinApprovalDto dto : viewList.getJoinApprovalDto()) {
                 JoinApprovalForm requestList = new JoinApprovalForm();
                 requestList.setClubId(dto.getClubId());
@@ -76,17 +74,16 @@ public class JoinApprovalController {
 
             mav.addObject("clubName", viewList.getClubName());
 
-            // 参加者がいなかった場合に活動名とメッセージだけ表示する
+            // 参加者がいなかった場合に活動名だけ表示する
             String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
-
             mav.addObject("message", resultMessage);
-            mav.addObject("joinApprovalform", viewData);// List<JoinApprovalForm>をmavにいれて返す
+            mav.addObject("joinApprovalform", viewData);
+            // String leaderClubId = sessionDto.getClubId();
             mav.addObject("leaderClubId", leaderClubId);
-
-            // JoinApprovalという画面に遷移する
             mav.setViewName("JoinApproval");
 
         } catch (Exception e) {
+            // メッセージ、ログ
             // セッションからclubIDを持ってきて、mavに詰めて返す
             sessionDto = commonService.getCommonService(session);
             // String leaderClubId = sessionDto.getClubId();
