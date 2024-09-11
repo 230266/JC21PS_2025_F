@@ -16,13 +16,19 @@ public class LoginService {
     }
 
     public LoginDto getLoginService(LoginDto loginDtoParam) {
-        LoginEntity loginEntity = new LoginEntity(loginDtoParam.getLoginName(), loginDtoParam.getPassword(), null,
-                null);
+        LoginEntity loginEntity = new LoginEntity();
+        loginEntity.setUserId(loginDtoParam.getUserId());
+        loginEntity.setClubId(loginDtoParam.getClubId());
+        loginEntity.setLoginName(loginDtoParam.getLoginName());
+        loginEntity.setPassword(loginDtoParam.getPassword());
+
         LoginEntity loginData = LoginRepository.getLoginData(loginEntity);
+        LoginDto loginDtoResp = new LoginDto();
+        loginDtoResp.setUserId(loginData.getUserId());
+        loginDtoResp.setUserId(loginData.getClubId());
+        loginDtoResp.setUserId(loginData.getLoginName());
+        loginDtoResp.setUserId(loginData.getPassword());
 
-        LoginDto loginDtoResp = new LoginDto(loginData.getUserId(), loginData.getClubId(), loginData.getLoginName(),
-                loginData.getPassword());
         return loginDtoResp;
-
     }
 }

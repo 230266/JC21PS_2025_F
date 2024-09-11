@@ -39,14 +39,20 @@ public class LoginRepository {
                 loginEntity.getPassword());
 
         if (loginList.size() == 0) {
-            return new LoginEntity("", "", null, null);
+            LoginEntity returnLoginEntity = new LoginEntity();
+            returnLoginEntity.setPassword("");
+            returnLoginEntity.setLoginName("");
+            returnLoginEntity.setUserId(null);
+            returnLoginEntity.setClubId(null);
+            return returnLoginEntity;
         }
 
         Map<String, Object> login = loginList.get(0);
-        return new LoginEntity(
-                (String) login.get("login_Name"),
-                null,
-                (String) login.get("user_Id"),
-                (String) login.get("club_Id"));
+        LoginEntity returnLoginEntity = new LoginEntity();
+        returnLoginEntity.setClubId((String) login.get("club_id"));
+        returnLoginEntity.setUserId((String) login.get("user_id"));
+        returnLoginEntity.setLoginName((String) login.get("login_name"));
+        returnLoginEntity.setPassword(null);
+        return returnLoginEntity;
     }
 }

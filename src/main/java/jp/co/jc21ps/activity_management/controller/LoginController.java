@@ -36,8 +36,13 @@ public class LoginController {
     ModelAndView postResult(@Valid LoginForm loginForm, BindingResult bindingResult, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/login.html");
-        LoginDto loginDto = new LoginDto(null, null, loginForm.getLoginName(), loginForm.getPassword());
-        LoginDto loginInfoReturnDto = new LoginDto(null, null, null, null);
+        LoginDto loginDto = new LoginDto();
+        loginDto.setUserId(loginForm.getUserId());
+        loginDto.setClubId(loginForm.getClubId());
+        loginDto.setLoginName(loginForm.getLoginName());
+        loginDto.setPassword(loginForm.getPassword());
+
+        LoginDto loginInfoReturnDto = new LoginDto();
 
         // バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
         if (bindingResult.hasErrors()) {
