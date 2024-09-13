@@ -1,12 +1,10 @@
 package jp.co.jc21ps.activity_management.controller;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
+
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import jp.co.jc21ps.activity_management.dto.SessionDto;
 import jp.co.jc21ps.activity_management.form.RegisterActivitySaveForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
@@ -86,13 +84,13 @@ public class RegisterActivityController {
 
         // バリデーション
         if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors().stream()
-                    .map(ObjectError::getDefaultMessage)
-                    .collect(Collectors.toList());
+            // List<String> errorMessages = bindingResult.getAllErrors().stream()
+            // .map(ObjectError::getDefaultMessage)
+            // .collect(Collectors.toList());
 
             // バリデーションエラーをリストに変換
             mav.addObject("registerActivitySaveForm", registerActivitySaveForm);
-            mav.addObject("errorMessages", errorMessages);
+            // mav.addObject("errorMessages", errorMessages);
             mav.setViewName("RegisterActivity");
             return mav;
         }
@@ -124,7 +122,7 @@ public class RegisterActivityController {
             activitySaveDto.setActivityEndTime(registerActivitySaveForm.getActivityEndTime());
             activitySaveDto.setActivityDescription(registerActivitySaveForm.getActivityDescription());
             activitySaveDto.setMaxParticipant(registerActivitySaveForm.getMaxParticipant());
-            activitySaveDto.setClubId(registerActivitySaveForm.getClubId());
+            activitySaveDto.setClubId(leaderClubId);
 
             // サービスメソッドの呼び出し
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
@@ -137,7 +135,7 @@ public class RegisterActivityController {
                 case "activityRegisterCompleteMessage":
                     mav.addObject("activityRegisterCompleteMessage", resultMessage);
                     mav.addObject("leaderClubId", leaderClubId);
-                    mav.setViewName("Top");
+                    mav.setViewName("redirect:/top");
                     break;
 
                 case "impossibleDate":

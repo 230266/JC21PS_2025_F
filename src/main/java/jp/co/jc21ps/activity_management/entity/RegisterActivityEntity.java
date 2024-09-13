@@ -3,23 +3,23 @@ package jp.co.jc21ps.activity_management.entity;
 //初期表示画面のエンティティ
 public class RegisterActivityEntity {
 
-    //部署名
+    // 部署名
     private String clubName;
 
-    //部署ID
+    // 部署ID
     private String clubId;
 
-    //デフォルトコンストラクタ
+    // デフォルトコンストラクタ
     public RegisterActivityEntity() {
-        
+
     }
 
-    public RegisterActivityEntity(String clubName, String clubId) {
-        this.clubName = clubName;
-        this.clubId = clubId;
-    }
+    // public RegisterActivityEntity(String clubName, String clubId) {
+    // this.clubName = clubName;
+    // this.clubId = clubId;
+    // }
 
-    //部署名
+    // 部署名
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
@@ -28,13 +28,13 @@ public class RegisterActivityEntity {
         return clubName;
     }
 
-    //部署ID
+    // 部署ID
     public void setClubId(String clubId) {
         this.clubId = clubId;
     }
+
     public String getClubId() {
         return clubId;
     }
 
 }
-
