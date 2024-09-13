@@ -6,6 +6,10 @@ public class LoginDto {
     private String loginName;
     private String password;
 
+    public LoginDto() {
+
+    }
+
     public void setUserId(String userId) {
         this.userId = userId;
     }

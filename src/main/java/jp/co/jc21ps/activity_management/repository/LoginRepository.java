@@ -15,44 +15,44 @@ public class LoginRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public LoginEntity getLoginData(LoginEntity loginEntity) {
+    public LoginEntity getLoginData(LoginEntity paramListEntity) {
         String sql = """
-                           SELECT
-                            user.user_id,
-                            member.club_id,
-                            user.login_name
-                           FROM
-                            mst_user user
-                           LEFT JOIN
-                            trn_club_member member
-                           ON
-                            user.user_id = member.user_id
-                           AND
-                            member.leader_flg = 1
-                           WHERE
-                            user.login_name = ?
+                SELECT
+                 user.user_id,
+                 member.club_id,
+                 user.login_name
+                FROM
+                 mst_user user
+                LEFT JOIN
+                 trn_club_member member
+                ON
+                 user.user_id = member.user_id
                 AND
-                             user.password =  ? ;
-                           """;
+                 member.leader_flg = 1
+                WHERE
+                 user.login_name = ?
+                 AND
+                  user.password =  ? ;
+                """;
 
-        List<Map<String, Object>> loginList = jdbcTemplate.queryForList(sql, loginEntity.getLoginName(),
-                loginEntity.getPassword());
+        List<Map<String, Object>> loginList = jdbcTemplate.queryForList(sql, paramListEntity.getLoginName(),
+                paramListEntity.getPassword());
 
         if (loginList.size() == 0) {
-            LoginEntity returnLoginEntity = new LoginEntity();
-            returnLoginEntity.setPassword("");
-            returnLoginEntity.setLoginName("");
-            returnLoginEntity.setUserId(null);
-            returnLoginEntity.setClubId(null);
-            return returnLoginEntity;
+            LoginEntity responseEntity = new LoginEntity();
+            responseEntity.setPassword("");
+            responseEntity.setLoginName("");
+            responseEntity.setUserId(null);
+            responseEntity.setClubId(null);
+            return responseEntity;
         }
 
         Map<String, Object> login = loginList.get(0);
-        LoginEntity returnLoginEntity = new LoginEntity();
-        returnLoginEntity.setClubId((String) login.get("club_id"));
-        returnLoginEntity.setUserId((String) login.get("user_id"));
-        returnLoginEntity.setLoginName((String) login.get("login_name"));
-        returnLoginEntity.setPassword(null);
-        return returnLoginEntity;
+        LoginEntity responseEntity = new LoginEntity();
+        responseEntity.setClubId((String) login.get("club_id"));
+        responseEntity.setUserId((String) login.get("user_id"));
+        responseEntity.setLoginName((String) login.get("login_name"));
+        responseEntity.setPassword(null);
+        return responseEntity;
     }
 }

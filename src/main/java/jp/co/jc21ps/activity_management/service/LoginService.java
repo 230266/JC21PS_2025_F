@@ -9,26 +9,26 @@ import jp.co.jc21ps.activity_management.repository.LoginRepository;
 @Service
 public class LoginService {
 
-    private final LoginRepository LoginRepository;
+    private final LoginRepository loginRepository;
 
-    public LoginService(LoginRepository LoginRepository) {
-        this.LoginRepository = LoginRepository;
+    public LoginService(LoginRepository loginRepository) {
+        this.loginRepository = loginRepository;
     }
 
-    public LoginDto getLoginService(LoginDto loginDtoParam) {
-        LoginEntity loginEntity = new LoginEntity();
-        loginEntity.setUserId(loginDtoParam.getUserId());
-        loginEntity.setClubId(loginDtoParam.getClubId());
-        loginEntity.setLoginName(loginDtoParam.getLoginName());
-        loginEntity.setPassword(loginDtoParam.getPassword());
+    public LoginDto getLoginData(LoginDto paramListDto) {
+        LoginEntity paramListEntity = new LoginEntity();
+        paramListEntity.setUserId(null);
+        paramListEntity.setClubId(null);
+        paramListEntity.setLoginName(paramListDto.getLoginName());
+        paramListEntity.setPassword(paramListDto.getPassword());
 
-        LoginEntity loginData = LoginRepository.getLoginData(loginEntity);
-        LoginDto loginDtoResp = new LoginDto();
-        loginDtoResp.setUserId(loginData.getUserId());
-        loginDtoResp.setUserId(loginData.getClubId());
-        loginDtoResp.setUserId(loginData.getLoginName());
-        loginDtoResp.setUserId(loginData.getPassword());
+        LoginEntity loginData = loginRepository.getLoginData(paramListEntity);
+        LoginDto responseDto = new LoginDto();
+        responseDto.setUserId(loginData.getUserId());
+        responseDto.setClubId(loginData.getClubId());
+        responseDto.setLoginName(loginData.getLoginName());
+        responseDto.setPassword(null);
 
-        return loginDtoResp;
+        return responseDto;
     }
 }
