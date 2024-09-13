@@ -20,6 +20,7 @@ public class JoinApprovalRepository {
 
     // 画面表示
     public List<JoinApprovalEntity> getJoinApprovalList(JoinApprovalEntity joinApprovalEntity) {
+
         String sql = """
                 SELECT
                     club.club_name,

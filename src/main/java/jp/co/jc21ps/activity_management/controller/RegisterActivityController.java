@@ -123,7 +123,7 @@ public class RegisterActivityController {
             activitySaveDto.setActivityEndTime(registerActivitySaveForm.getActivityEndTime());
             activitySaveDto.setActivityDescription(registerActivitySaveForm.getActivityDescription());
             activitySaveDto.setMaxParticipant(registerActivitySaveForm.getMaxParticipant());
-            activitySaveDto.setClubId(registerActivitySaveForm.getClubId());
+            activitySaveDto.setClubId(leaderClubId);
 
             // サービスメソッドの呼び出し
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
@@ -136,7 +136,7 @@ public class RegisterActivityController {
                 case "activityRegisterCompleteMessage":
                     mav.addObject("activityRegisterCompleteMessage", resultMessage);
                     mav.addObject("leaderClubId", leaderClubId);
-                    mav.setViewName("Top");
+                    mav.setViewName("redirect:/top");
                     break;
 
                 case "impossibleDate":
