@@ -9,11 +9,12 @@ public class ClubInfoRegisterDto {
 
     }
 
-    public ClubInfoRegisterDto(String leaderClubId, String clubName, String clubDescription) {
-        this.leaderClubId = leaderClubId;
-        this.clubName = clubName;
-        this.clubDescription = clubDescription;
-    }
+    // public ClubInfoRegisterDto(String leaderClubId, String clubName, String
+    // clubDescription) {
+    // this.leaderClubId = leaderClubId;
+    // this.clubName = clubName;
+    // this.clubDescription = clubDescription;
+    // }
 
     public String getLeaderClubId() {
         return leaderClubId;
@@ -37,5 +38,5 @@ public class ClubInfoRegisterDto {
 
     public void setClubDescription(String clubDescription) {
         this.clubDescription = clubDescription;
-    } 
+    }
 }

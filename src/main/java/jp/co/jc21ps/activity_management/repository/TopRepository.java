@@ -117,6 +117,7 @@ public class TopRepository {
                     trn_participant as participant ON participant.user_id = ?
                 AND
                     participant.activity_id = activity.activity_id
+                AND activity.activity_start_time > now()
                 WHERE
                     member.user_id = ?
                 ORDER BY
