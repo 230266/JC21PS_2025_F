@@ -15,12 +15,12 @@ public class LoginService {
         this.loginRepository = loginRepository;
     }
 
-    public LoginDto getLoginData(LoginDto paramListDto) {
+    public LoginDto getLoginData(LoginDto paramDto) {
         LoginEntity paramListEntity = new LoginEntity();
         paramListEntity.setUserId(null);
         paramListEntity.setClubId(null);
-        paramListEntity.setLoginName(paramListDto.getLoginName());
-        paramListEntity.setPassword(paramListDto.getPassword());
+        paramListEntity.setLoginName(paramDto.getLoginName());
+        paramListEntity.setPassword(paramDto.getPassword());
 
         LoginEntity loginData = loginRepository.getLoginData(paramListEntity);
         LoginDto responseDto = new LoginDto();

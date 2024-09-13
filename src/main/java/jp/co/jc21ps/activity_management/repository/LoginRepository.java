@@ -15,7 +15,7 @@ public class LoginRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public LoginEntity getLoginData(LoginEntity paramListEntity) {
+    public LoginEntity getLoginData(LoginEntity paramEntity) {
         String sql = """
                 SELECT
                  user.user_id,
@@ -35,8 +35,8 @@ public class LoginRepository {
                   user.password =  ? ;
                 """;
 
-        List<Map<String, Object>> loginList = jdbcTemplate.queryForList(sql, paramListEntity.getLoginName(),
-                paramListEntity.getPassword());
+        List<Map<String, Object>> loginList = jdbcTemplate.queryForList(sql, paramEntity.getLoginName(),
+                paramEntity.getPassword());
 
         if (loginList.size() == 0) {
             LoginEntity responseEntity = new LoginEntity();

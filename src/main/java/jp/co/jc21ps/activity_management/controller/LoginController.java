@@ -33,14 +33,14 @@ public class LoginController {
     }
 
     @PostMapping
-    ModelAndView checkLoginData(@Valid LoginForm paramListForm, BindingResult bindingResult, HttpSession session) {
+    ModelAndView checkLoginData(@Valid LoginForm paramForm, BindingResult bindingResult, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/login.html");
         LoginDto loginDto = new LoginDto();
-        loginDto.setUserId(paramListForm.getUserId());
-        loginDto.setClubId(paramListForm.getClubId());
-        loginDto.setLoginName(paramListForm.getLoginName());
-        loginDto.setPassword(paramListForm.getPassword());
+        loginDto.setUserId(paramForm.getUserId());
+        loginDto.setClubId(paramForm.getClubId());
+        loginDto.setLoginName(paramForm.getLoginName());
+        loginDto.setPassword(paramForm.getPassword());
 
         // バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
         if (bindingResult.hasErrors()) {
