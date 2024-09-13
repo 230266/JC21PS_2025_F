@@ -46,7 +46,7 @@ public class JoinApprovalController {
         String leaderClubId = sessionDto.getClubId();
 
         // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
-        if (leaderClubId == null) {
+        if (leaderClubId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }
