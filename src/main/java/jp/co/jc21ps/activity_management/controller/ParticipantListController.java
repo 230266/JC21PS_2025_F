@@ -34,7 +34,7 @@ public class ParticipantListController {
     }
 
     @GetMapping
-    public ModelAndView ParticipantList(@RequestParam(value = "activityId", required = true) String activityId,
+    public ModelAndView dispParticipantList(@RequestParam(value = "activityId", required = true) String activityId,
             HttpSession session) {
 
         // ModelAndViewのインスタンス化
@@ -60,31 +60,31 @@ public class ParticipantListController {
             }
 
             // dtoのインスタンス化
-            ParticipantListDto participantListDto = new ParticipantListDto();
+            ParticipantListDto setSessionDto = new ParticipantListDto();
 
             // dtoに活動ID、ユーザーIDを詰め替える
-            participantListDto.setActivityId(activityId);
-            participantListDto.setUserId(userId);
+            setSessionDto.setActivityId(activityId);
+            setSessionDto.setUserId(userId);
 
             // サービスのメソッドでデータを取得
-            ParticipantDto viewList = participantListService.getListData(participantListDto);
-            List<ParticipantListForm> participantList = new ArrayList<>();
+            ParticipantDto viewData = participantListService.getParticipantListData(setSessionDto);
+            List<ParticipantListForm> responseListForm = new ArrayList<>();
 
-            for (ParticipantListDto dto : viewList.getPariticipantDto()) {
-                ParticipantListForm viewsetlist = new ParticipantListForm();
-                viewsetlist.setActivityId(dto.getActivityId());
-                viewsetlist.setUserId(dto.getUserId());
-                viewsetlist.setUserName(dto.getUserName());
-                viewsetlist.setActivityName(dto.getActivityName());
+            for (ParticipantListDto dto : viewData.getPariticipantListDto()) {
+                ParticipantListForm responseForm = new ParticipantListForm();
+                responseForm.setActivityId(dto.getActivityId());
+                responseForm.setUserId(dto.getUserId());
+                responseForm.setUserName(dto.getUserName());
+                responseForm.setActivityName(dto.getActivityName());
 
-                participantList.add(viewsetlist);
+                responseListForm.add(responseForm);
             }
 
             // 参加者がいる場合の表示
-            mav.addObject("participantListForm", participantList);
+            mav.addObject("participantListForm", responseListForm);
 
             // 参加者がいない場合、活動名だけ表示する
-            mav.addObject("activityName", viewList.getActivityName());
+            mav.addObject("activityName", viewData.getActivityName());
 
             // メッセージ
             String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());

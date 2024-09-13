@@ -16,7 +16,7 @@ public class ParticipantListRepository {
     }
 
     // 画面表示
-    public List<ParticipantListEntity> getParticipantList(ParticipantListEntity participantListEntity) {
+    public List<ParticipantListEntity> getParticipantListData(ParticipantListEntity paramEntity) {
         String sql = """
                 SELECT
                     trn_participant.activity_id,
@@ -38,35 +38,35 @@ public class ParticipantListRepository {
                     """;
 
         List<Map<String, Object>> participantList = jdbcTemplate.queryForList(sql,
-                participantListEntity.getActivityId());
+                paramEntity.getActivityId());
 
-        List<ParticipantListEntity> participantListEntities = new ArrayList<>();
+        List<ParticipantListEntity> responseListEntity = new ArrayList<>();
 
         // 空だった場合
         if (participantList.isEmpty()) {
-            return participantListEntities;
+            return responseListEntity;
         }
 
         for (Map<String, Object> participant : participantList) {
-            ParticipantListEntity list = new ParticipantListEntity();
+            ParticipantListEntity responseEntity = new ParticipantListEntity();
 
             // 活動ID
-            list.setActivityId((String) participant.get("activity_id"));
+            responseEntity.setActivityId((String) participant.get("activity_id"));
             // ユーザーID
-            list.setUserId((String) participant.get("user_id"));
+            responseEntity.setUserId((String) participant.get("user_id"));
             // 活動名
-            list.setActivityName((String) participant.get("activity_name"));
+            responseEntity.setActivityName((String) participant.get("activity_name"));
             // ユーザー名
-            list.setUserName((String) participant.get("user_name"));
+            responseEntity.setUserName((String) participant.get("user_name"));
 
-            participantListEntities.add(list);
+            responseListEntity.add(responseEntity);
         }
 
-        return participantListEntities;
+        return responseListEntity;
 
     }
 
-    public String getActivityName(ParticipantListEntity participantListEntity) {
+    public String getActivityName(ParticipantListEntity paramEntity) {
         String sql = """
                 SELECT
                     activity_name
@@ -75,13 +75,13 @@ public class ParticipantListRepository {
                 WHERE
                    activity_id = ?
                 """;
-        List<Map<String, Object>> actNameList = jdbcTemplate.queryForList(sql, participantListEntity.getActivityId());
+        List<Map<String, Object>> actNameList = jdbcTemplate.queryForList(sql, paramEntity.getActivityId());
 
         if (actNameList.isEmpty()) {
             return "";
         }
 
-        Map<String, Object> actName = actNameList.get(0);
-        return ((String) actName.get("activity_name"));
+        Map<String, Object> responseActName = actNameList.get(0);
+        return ((String) responseActName.get("activity_name"));
     }
 }

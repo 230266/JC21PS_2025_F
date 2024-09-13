@@ -19,32 +19,32 @@ public class ParticipantListService {
     }
 
     // 画面表示用
-    public ParticipantDto getListData(ParticipantListDto participantListDto) {
+    public ParticipantDto getParticipantListData(ParticipantListDto paramDto) {
         ParticipantListEntity participantListEntity = new ParticipantListEntity();
-        participantListEntity.setActivityId(participantListDto.getActivityId());
-        participantListEntity.setUserId(participantListDto.getUserId());
-        participantListEntity.setUserName(participantListDto.getUserName());
+        participantListEntity.setActivityId(paramDto.getActivityId());
+        participantListEntity.setUserId(paramDto.getUserId());
+        participantListEntity.setUserName(paramDto.getUserName());
 
-        String actName = participantListRepository.getActivityName(participantListEntity);
+        String responseActName = participantListRepository.getActivityName(participantListEntity);
 
-        //
-        List<ParticipantListEntity> lists = participantListRepository.getParticipantList(participantListEntity);
+        List<ParticipantListEntity> participantList = participantListRepository
+                .getParticipantListData(participantListEntity);
 
-        List<ParticipantListDto> viewData = new ArrayList<>();
-        ParticipantDto participantDto = new ParticipantDto();
+        List<ParticipantListDto> responseListDto = new ArrayList<>();
+        ParticipantDto responseDto = new ParticipantDto();
 
-        for (ParticipantListEntity entity : lists) {
-            ParticipantListDto dto = new ParticipantListDto();
-            dto.setActivityId(entity.getActivityId());
-            dto.setUserId(entity.getUserId());
-            dto.setActivityName(entity.getActivityName());
-            dto.setUserName(entity.getUserName());
+        for (ParticipantListEntity entity : participantList) {
+            ParticipantListDto setDto = new ParticipantListDto();
+            setDto.setActivityId(entity.getActivityId());
+            setDto.setUserId(entity.getUserId());
+            setDto.setActivityName(entity.getActivityName());
+            setDto.setUserName(entity.getUserName());
 
-            viewData.add(dto);
+            responseListDto.add(setDto);
         }
-        participantDto.setPariticipantDto(viewData);
-        participantDto.setActivityName(actName);
+        responseDto.setPariticipantListDto(responseListDto);
+        responseDto.setActivityName(responseActName);
 
-        return participantDto;
+        return responseDto;
     }
 }
