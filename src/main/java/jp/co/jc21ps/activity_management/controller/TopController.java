@@ -38,42 +38,8 @@ public class TopController {
         this.messageSource = messageSource;
     }
 
-    @PostMapping("/save")
-    public ModelAndView toggleParticipation(TopDataForm topDataForm) {
-        ModelAndView mav = new ModelAndView();
-        TopDataDto topDataDto = new TopDataDto();
-        topDataDto.setActivityId(topDataForm.getActivityId());
-        topDataDto.setUserId(topDataForm.getUserId());
-        topDataDto.setClubId(topDataForm.getClubId());
-
-        // 参加している場合は削除、参加していない場合は追加
-        try {
-            boolean isParticipating = topService.getActivityParticipationStatus(topDataDto);
-
-            if (isParticipating) {
-                topService.deleteActivity(topDataDto);
-            } else {
-                try {
-                    topService.insertActivity(topDataDto);
-                } catch (ParticipationLimitExceededException e) {
-                    mav.addObject("errorMessage", e.getMessage());
-                    mav.setViewName("error");
-                    return mav;
-                }
-            }
-            // 取得できた場合はトップ画面に遷移
-
-            mav.setViewName("redirect:/top");
-        } catch (Exception e) {
-            // 取得できなかった場合はエラー画面に遷移
-            mav.setViewName("error");
-        }
-
-        return mav;
-    }
-
     @GetMapping
-    public ModelAndView top(HttpSession session, Model model) {
+    public ModelAndView dispTop(HttpSession session, Model model) {
         ModelAndView mav = new ModelAndView();
         try {
             // セッションから値を取得する
@@ -90,38 +56,67 @@ public class TopController {
             // userIdをもとにデータを取得する
             TopDto topDto = new TopDto();
             topDto.setUserId(userId);
-            List<TopDto> viewAct = topService.getTopData(topDto);
-            List<TopForm> actList = new ArrayList<>();
+            List<TopDto> topDataList = topService.getTopData(topDto);
+            List<TopForm> responseForm = new ArrayList<>();
 
-            for (TopDto lastForm : viewAct) {
-
-                TopForm act = new TopForm();
-                act.setNo(lastForm.getNo());
-                act.setClubId(lastForm.getClubId());
-                act.setClubName(lastForm.getClubName());
-                act.setActivityId(lastForm.getActivityId());
-                act.setActivityName(lastForm.getActivityName());
-                act.setActivityPlace(lastForm.getActivityPlace());
-                act.setDispActivityDate(lastForm.getDispActivityDate());
-                act.setDispActivityTime(lastForm.getDispActivityTime());
-                act.setActivityStartTime(lastForm.getActivityStartTime());
-                act.setActivityEndTime(lastForm.getActivityEndTime());
-                act.setActivityDescription(lastForm.getActivityDescription());
-                act.setParticipantsCount(lastForm.getParticipantsCount());
-                act.setMaxParticipant(lastForm.getMaxParticipant());
-                act.setIsParticipationFlg(lastForm.getIsParticipationFlg());
-                act.setIsMajorityFlg(lastForm.getIsMajorityFlg());
-                actList.add(act);
-
+            for (TopDto form : topDataList) {
+                TopForm setTopData = new TopForm();
+                setTopData.setNo(form.getNo());
+                setTopData.setClubId(form.getClubId());
+                setTopData.setClubName(form.getClubName());
+                setTopData.setActivityId(form.getActivityId());
+                setTopData.setActivityName(form.getActivityName());
+                setTopData.setActivityPlace(form.getActivityPlace());
+                setTopData.setDispActivityDate(form.getDispActivityDate());
+                setTopData.setDispActivityTime(form.getDispActivityTime());
+                setTopData.setActivityStartTime(form.getActivityStartTime());
+                setTopData.setActivityEndTime(form.getActivityEndTime());
+                setTopData.setActivityDescription(form.getActivityDescription());
+                setTopData.setParticipantsCount(form.getParticipantsCount());
+                setTopData.setMaxParticipant(form.getMaxParticipant());
+                setTopData.setIsParticipationFlg(form.getIsParticipationFlg());
+                setTopData.setIsMajorityFlg(form.getIsMajorityFlg());
+                responseForm.add(setTopData);
             }
             String resultMessage = messageSource.getMessage("notactivitylist", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
-            mav.addObject("topform", actList);
+            mav.addObject("topform", responseForm);
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("top");
-
         } catch (Exception e) {
-            // 問題が発生した場合はエラーページにリダイレクト
+            mav.setViewName("error");
+        }
+        return mav;
+    }
+
+    @PostMapping("/save")
+    public ModelAndView toggleParticipation(TopDataForm paramForm) {
+
+        ModelAndView mav = new ModelAndView();
+        TopDataDto paramDto = new TopDataDto();
+
+        paramDto.setActivityId(paramForm.getActivityId());
+        paramDto.setUserId(paramForm.getUserId());
+        paramDto.setClubId(paramForm.getClubId());
+
+        // 参加している場合は削除、参加していない場合は追加
+        try {
+            boolean isParticipating = topService.getActivityParticipationStatus(paramDto);
+            if (isParticipating) {
+                topService.deleteActivity(paramDto);
+            } else {
+                try {
+                    topService.insertActivity(paramDto);
+                } catch (ParticipationLimitExceededException e) {
+                    mav.addObject("errorMessage", e.getMessage());
+                    mav.setViewName("error");
+                    return mav;
+                }
+            }
+            // 取得できた場合はトップ画面に遷移
+            mav.setViewName("redirect:/top");
+        } catch (Exception e) {
+            // 取得できなかった場合はエラー画面に遷移
             mav.setViewName("error");
         }
         return mav;

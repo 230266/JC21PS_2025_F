@@ -27,14 +27,14 @@ public class TopService {
     }
 
     // アクティビティの参加状態を取得
-    public boolean getActivityParticipationStatus(TopDataDto topDataDto) {
+    public boolean getActivityParticipationStatus(TopDataDto paramDto) {
         // TopDataEntityを呼び出し、Dtoでゲットした活動ID、ユーザーIDをセットする
-        TopDataEntity topDataEntity = new TopDataEntity();
-        topDataEntity.setActivityId(topDataDto.getActivityId());
-        topDataEntity.setUserId(topDataDto.getUserId());
+        TopDataEntity paramEntity = new TopDataEntity();
+        paramEntity.setActivityId(paramDto.getActivityId());
+        paramEntity.setUserId(paramDto.getUserId());
 
         // repositoryから該当するデータが何件あるかを確認したメソッドを呼び出す
-        int participants = topRepository.isActivityParticipating(topDataEntity);
+        int participants = topRepository.isActivityParticipating(paramEntity);
 
         // 初期値をfalseで指定する
         boolean flg = false;
@@ -51,28 +51,29 @@ public class TopService {
 
     // デリート呼び出し
     @Transactional
-    public void deleteActivity(TopDataDto topDataDto) {
-        TopDataEntity topDataEntity = new TopDataEntity();
-        topDataEntity.setActivityId(topDataDto.getActivityId());
-        topDataEntity.setUserId(topDataDto.getUserId());
+    public void deleteActivity(TopDataDto paramDto) {
+        TopDataEntity paramEntity = new TopDataEntity();
+        paramEntity.setActivityId(paramDto.getActivityId());
+        paramEntity.setUserId(paramDto.getUserId());
 
         // RepositoryのdeleteActivityを呼び出す
-        topRepository.deleteActivity(topDataEntity);
+        topRepository.deleteActivity(paramEntity);
     }
 
     // インサート呼び出し
     @Transactional
-    public void insertActivity(TopDataDto topDataDto) {
-        TopDataEntity topDataEntity = new TopDataEntity();
-        topDataEntity.setActivityId(topDataDto.getActivityId());
-        topDataEntity.setUserId(topDataDto.getUserId());
-        topDataEntity.setClubId(topDataDto.getClubId());
+    public void insertActivity(TopDataDto paramDto) {
+
+        TopDataEntity paramEntity = new TopDataEntity();
+        paramEntity.setActivityId(paramDto.getActivityId());
+        paramEntity.setUserId(paramDto.getUserId());
+        paramEntity.setClubId(paramDto.getClubId());
 
         // アクティビティの上限人数を取得
-        Integer maxParticipants = topRepository.getMaxParticipants(topDataEntity);
+        Integer maxParticipants = topRepository.getMaxParticipants(paramEntity);
 
         // 現在の参加者数を取得
-        int currentParticipants = topRepository.isActivityParticipating(topDataEntity);
+        int currentParticipants = topRepository.isActivityParticipating(paramEntity);
 
         if (currentParticipants > maxParticipants) {
             String errorMessage = messageSource.getMessage("participation.limit.exceeded", null,
@@ -81,38 +82,37 @@ public class TopService {
         }
 
         // RepositoryのinsertActivityを呼び出す
-        topRepository.insertActivity(topDataEntity);
+        topRepository.saveActivity(paramEntity);
     }
 
     // 画面表示用
-    public List<TopDto> getTopData(TopDto topDto) {
-        TopEntity topEntity = new TopEntity();
-        topEntity.setUserId(topDto.getUserId());
+    public List<TopDto> getTopData(TopDto paramDto) {
+        TopEntity paramEntity = new TopEntity();
+        paramEntity.setUserId(paramDto.getUserId());
 
-        List<TopEntity> tops = topRepository.getTop(topEntity);
+        List<TopEntity> topData = topRepository.getTopData(paramEntity);
 
         // 取ってきた値をdtoを介してcontrollerに投げる用
-        List<TopDto> viewData = new ArrayList<>();
+        List<TopDto> responseDto = new ArrayList<>();
 
         // TopEntityからTopDtoに変換し、リストに追加
-        for (TopEntity entity : tops) {
+        for (TopEntity entity : topData) {
 
             // TopDto型のDtoに値を詰めている
-            TopDto dto = new TopDto();
-            dto.setNo(entity.getNo());
-            dto.setClubId(entity.getClubId());
-            dto.setClubName(entity.getClubName());
-            dto.setActivityId(entity.getActivityId());
-            dto.setActivityName(entity.getActivityName());
-            dto.setActivityPlace(entity.getActivityPlace());
-            dto.setDispActivityDate(entity.getDispActivityDate());
-            dto.setActivityStartTime(entity.getActivityStartTime());
-            dto.setActivityEndTime(entity.getActivityEndTime());
-            dto.setActivityDescription(entity.getActivityDescription());
-            dto.setParticipantsCount(entity.getParticipantsCount());
-            dto.setMaxParticipant(entity.getMaxParticipant());
-
-            dto.setIsParticipationFlg(entity.getIsParticipationFlg());
+            TopDto setDto = new TopDto();
+            setDto.setNo(entity.getNo());
+            setDto.setClubId(entity.getClubId());
+            setDto.setClubName(entity.getClubName());
+            setDto.setActivityId(entity.getActivityId());
+            setDto.setActivityName(entity.getActivityName());
+            setDto.setActivityPlace(entity.getActivityPlace());
+            setDto.setDispActivityDate(entity.getDispActivityDate());
+            setDto.setActivityStartTime(entity.getActivityStartTime());
+            setDto.setActivityEndTime(entity.getActivityEndTime());
+            setDto.setActivityDescription(entity.getActivityDescription());
+            setDto.setParticipantsCount(entity.getParticipantsCount());
+            setDto.setMaxParticipant(entity.getMaxParticipant());
+            setDto.setIsParticipationFlg(entity.getIsParticipationFlg());
 
             // 過半数フラグの設定
             int participantsCount = entity.getParticipantsCount();
@@ -121,19 +121,17 @@ public class TopService {
             try {
                 maxParticipant = Integer.parseInt(entity.getMaxParticipant());
             } catch (NumberFormatException e) {
-
                 // エラー処理: maxParticipant が数値に変換できない場合
                 System.err.println("Invalid format for maxParticipant: " + e.getMessage());
 
                 // 必要に応じてデフォルト値を設定するなどの処理を追加
-                maxParticipant = 0; // デフォルト値として0を設定
+                // デフォルト値として0を設定
+                maxParticipant = 0;
             }
 
-            dto.setIsMajorityFlg(maxParticipant > 0 && participantsCount >= (maxParticipant / 2.0));
-
-            viewData.add(dto);
+            setDto.setIsMajorityFlg(maxParticipant > 0 && participantsCount >= (maxParticipant / 2.0));
+            responseDto.add(setDto);
         }
-
-        return viewData;
+        return responseDto;
     }
 }

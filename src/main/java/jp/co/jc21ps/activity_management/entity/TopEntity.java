@@ -1,56 +1,54 @@
 package jp.co.jc21ps.activity_management.entity;
 
-
-
 public class TopEntity {
-    
-    //ユーザーID
+
+    // ユーザーID
     private String userId;
-    
-    //NO
+
+    // NO
     private int no;
-    
-    //部活ID
+
+    // 部活ID
     private String clubId;
-    
-    //部活名
+
+    // 部活名
     private String clubName;
-    
-    //活動ID
+
+    // 活動ID
     private String activityId;
-    
-    //活動名
+
+    // 活動名
     private String activityName;
-    
-    //活動場所
+
+    // 活動場所
     private String activityPlace;
-    
-    //活動日(表示用)
+
+    // 活動日(表示用)
     private String dispActivityDate;
-    
-    //活動時間(表示用)
+
+    // 活動時間(表示用)
     private String dispActivityTime;
 
-    //開始時間
+    // 開始時間
     private String activityStartTime;
 
-    //終了時間
+    // 終了時間
     private String activityEndTime;
 
-    //活動説明
+    // 活動説明
     private String activityDescription;
 
-    //参加予定人数
+    // 参加予定人数
     private int participantsCount;
 
     // 参加上限人数
-	private String maxParticipant;
+    private String maxParticipant;
 
-	// 参加予定フラグ
-	private boolean isParticipationFlg;
+    // 参加予定フラグ
+    private boolean isParticipationFlg;
 
-	// 過半数フラグ
-	private boolean isMajorityFlg;
+    // 過半数フラグ
+    private boolean isMajorityFlg;
 
     public String getUserId() {
         return userId;
@@ -180,4 +178,3 @@ public class TopEntity {
         this.isMajorityFlg = isMajorityFlg;
     }
 }
-    
