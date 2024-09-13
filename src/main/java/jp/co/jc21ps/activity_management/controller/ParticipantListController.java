@@ -36,26 +36,37 @@ public class ParticipantListController {
     @GetMapping
     public ModelAndView ParticipantList(@RequestParam(value = "activityId", required = true) String activityId,
             HttpSession session) {
+
+        // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
+
         try {
+
+            // リクエストパラメータから送られてくる活動IDが存在しない場合、エラー画面に遷移
             if (activityId.isEmpty()) {
                 mav.setViewName("error");
                 return mav;
             }
 
+            // セッションからユーザーID、部署IDを取得
             SessionDto sessionDto = commonService.getSessionDto(session);
             String userId = sessionDto.getUserId();
             String leaderClubId = sessionDto.getClubId();
 
+            // ユーザーIDがセッションに存在しない場合、エラー画面に遷移
             if (userId.isEmpty()) {
                 mav.setViewName("error");
                 return mav;
             }
 
+            // dtoのインスタンス化
             ParticipantListDto participantListDto = new ParticipantListDto();
+
+            // dtoに活動ID、ユーザーIDを詰め替える
             participantListDto.setActivityId(activityId);
             participantListDto.setUserId(userId);
 
+            // サービスのメソッドでデータを取得
             ParticipantDto viewList = participantListService.getListData(participantListDto);
             List<ParticipantListForm> participantList = new ArrayList<>();
 
@@ -69,20 +80,22 @@ public class ParticipantListController {
                 participantList.add(viewsetlist);
             }
 
-            mav.addObject("activityName", viewList.getActivityName());
-
-            // 参加者がいなかった場合に活動名だけ表示する
-            String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());
-
-            // メッセージ移動
-            mav.addObject("message", resultMessage);
-
             // 参加者がいる場合の表示
             mav.addObject("participantListForm", participantList);
 
+            // 参加者がいない場合、活動名だけ表示する
+            mav.addObject("activityName", viewList.getActivityName());
+
+            // メッセージ
+            String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());
+            mav.addObject("message", resultMessage);
+
+            // 部長クラブID
             mav.addObject("leaderClubId", leaderClubId);
 
+            // html(View)の名前を指定する
             mav.setViewName("ParticipantList");
+
         } catch (Exception e) {
             mav.setViewName("error");
         }

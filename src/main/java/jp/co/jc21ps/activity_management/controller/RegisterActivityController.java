@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+
 import jp.co.jc21ps.activity_management.dto.SessionDto;
 import jp.co.jc21ps.activity_management.form.RegisterActivitySaveForm;
 import jp.co.jc21ps.activity_management.service.CommonService;

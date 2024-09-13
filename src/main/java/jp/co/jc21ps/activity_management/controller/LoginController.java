@@ -25,7 +25,7 @@ public class LoginController {
     }
 
     @GetMapping
-    public ModelAndView index(Model model) {
+    public ModelAndView dispLogin(Model model) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/login");
         mav.addObject("loginForm", new LoginForm());
@@ -33,11 +33,14 @@ public class LoginController {
     }
 
     @PostMapping
-    ModelAndView postResult(@Valid LoginForm loginForm, BindingResult bindingResult, HttpSession session) {
+    ModelAndView checkLoginData(@Valid LoginForm paramForm, BindingResult bindingResult, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/login.html");
-        LoginDto loginDto = new LoginDto(null, null, loginForm.getLoginName(), loginForm.getPassword());
-        LoginDto loginInfoReturnDto = new LoginDto(null, null, null, null);
+        LoginDto loginDto = new LoginDto();
+        loginDto.setUserId(paramForm.getUserId());
+        loginDto.setClubId(paramForm.getClubId());
+        loginDto.setLoginName(paramForm.getLoginName());
+        loginDto.setPassword(paramForm.getPassword());
 
         // バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
         if (bindingResult.hasErrors()) {
@@ -45,21 +48,25 @@ public class LoginController {
 
             return mav;
         }
-
-        loginInfoReturnDto = loginService.getLoginService(loginDto);
+        LoginDto loginData = loginService.getLoginData(loginDto);
+        LoginForm responseForm = new LoginForm();
+        responseForm.setUserId(loginData.getUserId());
+        responseForm.setClubId(loginData.getClubId());
+        responseForm.setLoginName(loginData.getLoginName());
+        responseForm.setPassword(loginData.getPassword());
 
         // セッションにdtoからとれたデータを詰める
-        if (!ObjectUtils.isEmpty(loginInfoReturnDto.getLoginName())) {
-            session.setAttribute("loginName", loginInfoReturnDto.getLoginName());
-            session.setAttribute("userId", loginInfoReturnDto.getUserId());
-            session.setAttribute("clubId", loginInfoReturnDto.getClubId());
+        if (!ObjectUtils.isEmpty(responseForm.getLoginName())) {
+            session.setAttribute("loginName", responseForm.getLoginName());
+            session.setAttribute("userId", responseForm.getUserId());
+            session.setAttribute("clubId", responseForm.getClubId());
 
             // トップに遷移
             // 画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
-            mav.addObject("leaderClubId", loginInfoReturnDto.getClubId());
+            mav.addObject("leaderClubId", responseForm.getClubId());
             mav.setViewName("redirect:/top");
         } else {
-            mav.addObject("login-error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
+            mav.addObject("error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
             mav.setViewName("/login.html");
         }
 
