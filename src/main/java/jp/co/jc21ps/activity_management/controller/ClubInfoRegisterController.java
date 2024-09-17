@@ -24,8 +24,8 @@ public class ClubInfoRegisterController {
     private final CommonService commonService;
     private final MessageSource messageSource;
 
-    public ClubInfoRegisterController(ClubInfoRegisterService clubInfoRegisterService, MessageSource messageSource,
-            CommonService commonService) {
+    public ClubInfoRegisterController(ClubInfoRegisterService clubInfoRegisterService,
+            MessageSource messageSource, CommonService commonService) {
         this.clubInfoRegisterService = clubInfoRegisterService;
         this.commonService = commonService;
         this.messageSource = messageSource;
@@ -45,13 +45,15 @@ public class ClubInfoRegisterController {
             return mav;
         }
 
+        // TODO ここはいらない
         paramForm.setLeaderClubId(leaderClubId);
 
         ClubInfoRegisterDto dto = new ClubInfoRegisterDto();
         dto.setLeaderClubId(leaderClubId);
 
         try {
-            ClubInfoRegisterDto clubInfoRegisterDto = clubInfoRegisterService.getClubInfoByClubId(dto);
+            ClubInfoRegisterDto clubInfoRegisterDto =
+                    clubInfoRegisterService.getClubInfoByClubId(dto);
 
             // formにclubName,clubDescription,LeaderClubIdをセットする
             ClubInfoRegisterSaveForm responseForm = new ClubInfoRegisterSaveForm();

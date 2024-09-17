@@ -84,7 +84,8 @@ public class JoinRequestController {
         // 引数のjoinRequestSaveFormからメッセージを取得、addObjectにセットする.if文どっちも
         if (responseForm.isEmpty()) {
             // メッセージプロパティーズから
-            String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
+            String notRequestClubMessage =
+                    messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
             mav.addObject("notRequestClubMessage", notRequestClubMessage);
             if (!ObjectUtils.isEmpty(paramForm)) {
                 mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
@@ -131,8 +132,8 @@ public class JoinRequestController {
         // //インサート成功したら部員登録申請画面へリダイレクト
         if (result) {
             // メッセージを取得
-            String joinRequestCompleteMessage = messageSource.getMessage("joinRequestCompleteMessage", null,
-                    Locale.getDefault());
+            String joinRequestCompleteMessage = messageSource
+                    .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
 
             // 下を追加する,formにメッセージをセットする
             paramForm.setMessage(joinRequestCompleteMessage);
