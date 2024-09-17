@@ -92,7 +92,7 @@ public class ClubInfoRegisterController {
 
         try {
             ClubInfoRegisterDto clubInfoRegisterDto = new ClubInfoRegisterDto();
-            clubInfoRegisterDto.setLeaderClubId(paramForm.getLeaderClubId());
+            clubInfoRegisterDto.setLeaderClubId(leaderClubId);
             clubInfoRegisterDto.setClubDescription(paramForm.getClubDescription());
             String result = clubInfoRegisterService.updateClubInfo(clubInfoRegisterDto);
 
