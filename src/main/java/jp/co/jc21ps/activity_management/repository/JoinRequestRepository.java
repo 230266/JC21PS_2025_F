@@ -20,10 +20,10 @@ public class JoinRequestRepository {
     }
 
     // 初期表示(ユーザーIDから部署名、部署説明を取得するメソッド)
-    public List<JoinRequestEntity> getJoinRequestById(JoinRequestEntity joinRequestEntity) {
+    public List<JoinRequestEntity> getJoinRequestById(JoinRequestEntity paramEntity) {
 
         // 取得したデータをリストにしてエンティティに変換
-        List<JoinRequestEntity> joinRequestEntities = new ArrayList<>();
+        List<JoinRequestEntity> responseEntity = new ArrayList<>();
 
         String sql = """
                 SELECT * FROM
@@ -40,34 +40,34 @@ public class JoinRequestRepository {
                          WHERE user_id = ?)
                 """;
         // DBから取得する
-        List<Map<String, Object>> joinRequestList = jdbcTemplate.queryForList(sql, joinRequestEntity.getUserId(),
-                joinRequestEntity.getUserId());
+        List<Map<String, Object>> joinRequestList = jdbcTemplate.queryForList(sql, paramEntity.getUserId(),
+                paramEntity.getUserId());
 
         // 空だった場合
         if (joinRequestList.isEmpty()) {
-            return joinRequestEntities;
+            return responseEntity;
         }
 
         // リストを回す
         for (Map<String, Object> joinRequest : joinRequestList) {
-            JoinRequestEntity join = new JoinRequestEntity();
+            JoinRequestEntity joinData = new JoinRequestEntity();
 
             // エンティティに部署IDと部署説明をセットする
             // 部署名
-            join.setClubName((String) joinRequest.get("club_name"));
+            joinData.setClubName((String) joinRequest.get("club_name"));
             // 部署説明
-            join.setClubDescription((String) joinRequest.get("club_description"));
+            joinData.setClubDescription((String) joinRequest.get("club_description"));
             // clubId
-            join.setClubId((String) joinRequest.get("club_id"));
+            joinData.setClubId((String) joinRequest.get("club_id"));
 
-            joinRequestEntities.add(join);
+            responseEntity.add(joinData);
 
         }
-        return joinRequestEntities;
+        return responseEntity;
     }
 
     // 申請処理
-    public void insertClub(JoinRequestSaveEntity joinRequestSaveEntity) {
+    public void insertClub(JoinRequestSaveEntity paramEntity) {
         String sql = """
                 INSERT INTO
                     trn_join_request (user_Id,
@@ -80,8 +80,8 @@ public class JoinRequestRepository {
 
         // パラメータの設定
         Object[] paramList = {
-                joinRequestSaveEntity.getUserId(),
-                joinRequestSaveEntity.getClubId(),
+                paramEntity.getUserId(),
+                paramEntity.getClubId(),
         };
 
         // DBに挿入

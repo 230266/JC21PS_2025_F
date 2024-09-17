@@ -20,7 +20,7 @@ public class RegisterActivityRepository {
     public RegisterActivityEntity getActivityByClubId(RegisterActivityEntity paramEntity) {
 
         // 取得したデータをRegisterActivityEntityに変換、エンティティに引数なしのコンストラクタ作ってる
-        RegisterActivityEntity entity = new RegisterActivityEntity();
+        RegisterActivityEntity responseEntity = new RegisterActivityEntity();
 
         String sql = """
                 SELECT
@@ -32,15 +32,15 @@ public class RegisterActivityRepository {
                 """;
 
         // clubIdに対応する活動情報を取得
-        Map<String, Object> result = jdbcTemplate.queryForMap(sql, paramEntity.getClubId());
+        Map<String, Object> getResult = jdbcTemplate.queryForMap(sql, paramEntity.getClubId());
 
         // エンティティにclubNameをセットする
-        entity.setClubName((String) result.get("club_name")); // List場合は、ListにEntityをaddしてあげて返す。List.add(Entity)
-        return entity; // Listで返さない場合は、Listにaddせずに返す。
+        responseEntity.setClubName((String) getResult.get("club_name")); // List場合は、ListにEntityをaddしてあげて返す。List.add(Entity)
+        return responseEntity; // Listで返さない場合は、Listにaddせずに返す。
     }
 
     // 入力された値を登録するメソッド
-    public void insertActivity(RegisterActivitySaveEntity activitySaveEntity) {
+    public void saveActivity(RegisterActivitySaveEntity paramEntity) {
         String sql = """
                 INSERT INTO
                     trn_activity (activity_id,
@@ -56,14 +56,14 @@ public class RegisterActivityRepository {
 
         // パラメータの設定
         Object[] paramList = {
-                activitySaveEntity.getActivityId(),
-                activitySaveEntity.getClubId(),
-                activitySaveEntity.getActivityName(),
-                activitySaveEntity.getActivityPlace(),
-                activitySaveEntity.getActivityStartTime(), // LocalDateTime型
-                activitySaveEntity.getActivityEndTime(), // LocalDateTime型
-                activitySaveEntity.getActivityDescription(),
-                activitySaveEntity.getMaxParticipant(), // int型
+                paramEntity.getActivityId(),
+                paramEntity.getClubId(),
+                paramEntity.getActivityName(),
+                paramEntity.getActivityPlace(),
+                paramEntity.getActivityStartTime(), // LocalDateTime型
+                paramEntity.getActivityEndTime(), // LocalDateTime型
+                paramEntity.getActivityDescription(),
+                paramEntity.getMaxParticipant(), // int型
         };
 
         // DBに挿入

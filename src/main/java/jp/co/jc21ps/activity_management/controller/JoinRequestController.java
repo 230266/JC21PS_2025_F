@@ -39,7 +39,7 @@ public class JoinRequestController {
     }
 
     @GetMapping
-    public ModelAndView getJoinRequestById(HttpSession session, JoinRequestSaveForm joinRequestSaveForm,
+    public ModelAndView getJoinRequestById(HttpSession session, JoinRequestSaveForm paramForm,
             @ModelAttribute("joinOkMessage") String joinOkMessage) {
 
         // ModelAndViewのインスタンス化
@@ -69,31 +69,31 @@ public class JoinRequestController {
         // サービスのメソッドでデータを取得
         List<JoinRequestDto> joinRequestList = joinRequestService.findRequest(joinRequestDto);
         // formにリストをつめる
-        List<JoinRequestSaveForm> joinRequestSaveFormList = new ArrayList<>();
+        List<JoinRequestSaveForm> responseForm = new ArrayList<>();
 
         for (JoinRequestDto dto : joinRequestList) {
-            JoinRequestSaveForm joinForm = new JoinRequestSaveForm();
+            JoinRequestSaveForm saveData = new JoinRequestSaveForm();
 
             // formに渡すために部署名、部署説明をセットする
-            joinForm.setClubName(dto.getClubName());
-            joinForm.setClubDescription(dto.getClubDescription());
-            joinForm.setClubId(dto.getClubId());
-            joinRequestSaveFormList.add(joinForm);
+            saveData.setClubName(dto.getClubName());
+            saveData.setClubDescription(dto.getClubDescription());
+            saveData.setClubId(dto.getClubId());
+            responseForm.add(saveData);
         }
-        joinRequestSaveForm.setMessage(joinOkMessage);
+        paramForm.setMessage(joinOkMessage);
         // 引数のjoinRequestSaveFormからメッセージを取得、addObjectにセットする.if文どっちも
-        if (joinRequestSaveFormList.isEmpty()) {
+        if (responseForm.isEmpty()) {
             // メッセージプロパティーズから
             String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
             mav.addObject("notRequestClubMessage", notRequestClubMessage);
-            if (!ObjectUtils.isEmpty(joinRequestSaveForm)) {
-                mav.addObject("joinRequestCompleteMessage", joinRequestSaveForm.getMessage());
+            if (!ObjectUtils.isEmpty(paramForm)) {
+                mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
             }
         } else {
-            if (!ObjectUtils.isEmpty(joinRequestSaveForm)) {
-                mav.addObject("joinRequestCompleteMessage", joinRequestSaveForm.getMessage());
+            if (!ObjectUtils.isEmpty(paramForm)) {
+                mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
             }
-            mav.addObject("joinRequestSaveForm", joinRequestSaveFormList);
+            mav.addObject("joinRequestSaveForm", responseForm);
         }
         mav.addObject("leaderClubId", leaderClubId);
 
@@ -104,7 +104,7 @@ public class JoinRequestController {
 
     // インサート処理
     @PostMapping("/save")
-    public ModelAndView insertRequestClub(HttpSession session, JoinRequestSaveForm joinRequestSaveForm,
+    public ModelAndView insertRequestClub(HttpSession session, JoinRequestSaveForm paramForm,
             RedirectAttributes redirectAttributes) {
 
         // ModelAndViewのインスタンス化
@@ -123,7 +123,7 @@ public class JoinRequestController {
         // dtoをnew
         JoinRequestSaveDto joinRequestSaveDto = new JoinRequestSaveDto();
         joinRequestSaveDto.setUserId(userId);
-        joinRequestSaveDto.setClubId(joinRequestSaveForm.getClubId());
+        joinRequestSaveDto.setClubId(paramForm.getClubId());
 
         // delete_flgを呼び出す
         boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
@@ -135,8 +135,8 @@ public class JoinRequestController {
                     Locale.getDefault());
 
             // 下を追加する,formにメッセージをセットする
-            joinRequestSaveForm.setMessage(joinRequestCompleteMessage);
-            redirectAttributes.addFlashAttribute("joinOkMessage", joinRequestSaveForm.getMessage());
+            paramForm.setMessage(joinRequestCompleteMessage);
+            redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
             // mav.addObject("joinRequestSaveForm", joinRequestSaveForm);
             mav.setViewName("redirect:/joinRequest");
 
@@ -147,7 +147,3 @@ public class JoinRequestController {
         return mav;
     }
 }
-
-// これで申請したのを復元できる
-// DELETE FROM trn_join_request
-// WHERE user_id = '00000002' AND club_id = 'C001';

@@ -15,23 +15,23 @@ import jp.co.jc21ps.dto.JoinApprovalNameDto;
 
 @Service
 public class JoinApprovalService {
-    private final JoinApprovalRepository joinApprovalRepository;
+    private final JoinApprovalRepository paramRepository;
 
-    public JoinApprovalService(JoinApprovalRepository joinApprovalRepository) {
-        this.joinApprovalRepository = joinApprovalRepository;
+    public JoinApprovalService(JoinApprovalRepository paramRepository) {
+        this.paramRepository = paramRepository;
     }
 
     // 画面表示用
-    public JoinApprovalNameDto getJoinApprovalData(JoinApprovalDto joinApprovalDto) {
-        JoinApprovalEntity joinApprovalEntity = new JoinApprovalEntity();
-        joinApprovalEntity.setClubId(joinApprovalDto.getClubId());
-        joinApprovalEntity.setUserId(joinApprovalDto.getUserId());
-        joinApprovalEntity.setUserName(joinApprovalDto.getUserName());
-        joinApprovalEntity.setClubName(joinApprovalDto.getClubName());
+    public JoinApprovalNameDto getJoinApprovalData(JoinApprovalDto paramDto) {
+        JoinApprovalEntity paramEntity = new JoinApprovalEntity();
+        paramEntity.setClubId(paramDto.getClubId());
+        paramEntity.setUserId(paramDto.getUserId());
+        paramEntity.setUserName(paramDto.getUserName());
+        paramEntity.setClubName(paramDto.getClubName());
 
-        String clubName = joinApprovalRepository.getClubName(joinApprovalEntity);
+        String clubName = paramRepository.getClubName(paramEntity);
 
-        List<JoinApprovalEntity> approvalLists = joinApprovalRepository.getJoinApprovalList(joinApprovalEntity);
+        List<JoinApprovalEntity> approvalLists = paramRepository.getJoinApprovalList(paramEntity);
 
         // 取ってきた値をdtoを介してcontrollerに投げる用
         List<JoinApprovalDto> viewData = new ArrayList<>();
@@ -44,31 +44,31 @@ public class JoinApprovalService {
             dto.setLeaderFlg(entity.isLeaderFlg());
             viewData.add(dto);
         }
-        JoinApprovalNameDto joinApprovalNameDto = new JoinApprovalNameDto();
-        joinApprovalNameDto.setJoinApprovalDto(viewData);
-        joinApprovalNameDto.setClubName(clubName);
+        JoinApprovalNameDto responseDto = new JoinApprovalNameDto();
+        responseDto.setJoinApprovalDto(viewData);
+        responseDto.setClubName(clubName);
 
-        return joinApprovalNameDto;
+        return responseDto;
     }
 
     @Transactional
-    public void deleteRequest(JoinApprovalDataDto joinApprovalDataDto) {
+    public void deleteRequestInfo(JoinApprovalDataDto paramDto) {
         JoinApprovalDataEntity joinApprovalDataEntity = new JoinApprovalDataEntity();
-        joinApprovalDataEntity.setUserId(joinApprovalDataDto.getUserId());
-        joinApprovalDataEntity.setClubId(joinApprovalDataDto.getClubId());
-        joinApprovalDataEntity.setLeaderFlg(joinApprovalDataDto.isLeaderFlg());
+        joinApprovalDataEntity.setUserId(paramDto.getUserId());
+        joinApprovalDataEntity.setClubId(paramDto.getClubId());
+        joinApprovalDataEntity.setLeaderFlg(paramDto.isLeaderFlg());
 
-        joinApprovalRepository.deleteRequest(joinApprovalDataEntity);
+        paramRepository.deleteRequestInfo(joinApprovalDataEntity);
     }
 
     @Transactional
-    public void insertRequest(JoinApprovalDataDto joinApprovalDataDto) {
+    public void insertRequestInfo(JoinApprovalDataDto paramDto) {
         JoinApprovalDataEntity joinApprovalDataEntity = new JoinApprovalDataEntity();
-        joinApprovalDataEntity.setUserId(joinApprovalDataDto.getUserId());
-        joinApprovalDataEntity.setClubId(joinApprovalDataDto.getClubId());
-        joinApprovalDataEntity.setLeaderFlg(joinApprovalDataDto.isLeaderFlg());
+        joinApprovalDataEntity.setUserId(paramDto.getUserId());
+        joinApprovalDataEntity.setClubId(paramDto.getClubId());
+        joinApprovalDataEntity.setLeaderFlg(paramDto.isLeaderFlg());
 
-        joinApprovalRepository.insertRequest(joinApprovalDataEntity);
+        paramRepository.insertRequestInfo(joinApprovalDataEntity);
     }
 
 }

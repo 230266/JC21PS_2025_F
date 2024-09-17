@@ -19,7 +19,7 @@ public class JoinApprovalRepository {
     }
 
     // 画面表示
-    public List<JoinApprovalEntity> getJoinApprovalList(JoinApprovalEntity joinApprovalEntity) {
+    public List<JoinApprovalEntity> getJoinApprovalList(JoinApprovalEntity paramEntity) {
 
         String sql = """
                 SELECT
@@ -41,14 +41,14 @@ public class JoinApprovalRepository {
                     request.club_id = ?
                 """;
 
-        List<Map<String, Object>> joinApprovalList = jdbcTemplate.queryForList(sql, joinApprovalEntity.getClubId());
+        List<Map<String, Object>> joinApprovalList = jdbcTemplate.queryForList(sql, paramEntity.getClubId());
 
         // JoinApprovalEnitity型のリスト、これにデータを詰めていく
-        List<JoinApprovalEntity> JoinApprovalListEntities = new ArrayList<>();
+        List<JoinApprovalEntity> responseEntity = new ArrayList<>();
 
         // 空だった場合
         if (joinApprovalList.isEmpty()) {
-            return JoinApprovalListEntities;
+            return responseEntity;
         }
 
         for (Map<String, Object> joinApprovalLoop : joinApprovalList) {
@@ -66,13 +66,13 @@ public class JoinApprovalRepository {
             // 部署名
             viewList.setClubName((String) joinApprovalLoop.get("club_name"));
 
-            JoinApprovalListEntities.add(viewList);
+            responseEntity.add(viewList);
         }
-        return JoinApprovalListEntities;
+        return responseEntity;
     }
 
     // 部署名だけ取得する
-    public String getClubName(JoinApprovalEntity joinApprovalEntity) {
+    public String getClubName(JoinApprovalEntity paramEntity) {
         String sql = """
                           SELECT
                                club_name
@@ -82,18 +82,18 @@ public class JoinApprovalRepository {
                 club_id = ?
                            """;
 
-        List<Map<String, Object>> clubNameList = jdbcTemplate.queryForList(sql, joinApprovalEntity.getClubId());
+        List<Map<String, Object>> clubNameList = jdbcTemplate.queryForList(sql, paramEntity.getClubId());
 
         if (clubNameList.isEmpty()) {
             return "";
         }
 
-        Map<String, Object> clubName = clubNameList.get(0);
-        return ((String) clubName.get("club_name"));
+        Map<String, Object> responseEntity = clubNameList.get(0);
+        return ((String) responseEntity.get("club_name"));
     }
 
     // insertする
-    public void insertRequest(JoinApprovalDataEntity joinApprovalDataEntity) {
+    public void insertRequestInfo(JoinApprovalDataEntity paramEntity) {
         String sqlInsert = """
                 INSERT INTO
                     trn_club_member
@@ -102,16 +102,16 @@ public class JoinApprovalRepository {
                 """;
 
         Object[] paramList = {
-                joinApprovalDataEntity.getClubId(),
-                joinApprovalDataEntity.getUserId(),
-                joinApprovalDataEntity.isLeaderFlg()
+                paramEntity.getClubId(),
+                paramEntity.getUserId(),
+                paramEntity.isLeaderFlg()
         };
 
         jdbcTemplate.update(sqlInsert, paramList);
     }
 
     // deleteする
-    public void deleteRequest(JoinApprovalDataEntity joinApprovalDataEntity) {
+    public void deleteRequestInfo(JoinApprovalDataEntity paramEntity) {
         String sqlDelete = """
                 DELETE FROM
                     trn_join_request
@@ -123,9 +123,9 @@ public class JoinApprovalRepository {
                     leader_flg = ?
                 """;
         Object[] paramList = {
-                joinApprovalDataEntity.getClubId(),
-                joinApprovalDataEntity.getUserId(),
-                joinApprovalDataEntity.isLeaderFlg()
+                paramEntity.getClubId(),
+                paramEntity.getUserId(),
+                paramEntity.isLeaderFlg()
         };
 
         jdbcTemplate.update(sqlDelete, paramList);

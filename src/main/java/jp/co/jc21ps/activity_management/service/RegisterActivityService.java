@@ -32,34 +32,37 @@ public class RegisterActivityService {
     // RegisterActivityDto activityDto = new RegisterActivityDto();
 
     // dto型のメソッドで返す
-    public RegisterActivityDto findActivity(RegisterActivityDto activityDto) {
+    public RegisterActivityDto findActivity(RegisterActivityDto paramDto) {
 
         // エンティティのインスタンス化
         RegisterActivityEntity activityEntity = new RegisterActivityEntity();
 
         // エンティティにClubIdを詰め替える
-        activityEntity.setClubId(activityDto.getClubId());
+        activityEntity.setClubId(paramDto.getClubId());
 
         // リポジトリのメソッドにエンティティに詰め替えたclubIdを渡す
         RegisterActivityEntity activity = registerActivityRepository.getActivityByClubId(activityEntity);
 
-        // 活動名だけdtoに渡す
-        activityDto.setClubName(activity.getClubName());
+        // レスポンスのDto
+        RegisterActivityDto responseDto = new RegisterActivityDto();
 
-        return activityDto;
+        // 活動名だけdtoに渡す
+        responseDto.setClubName(activity.getClubName());
+
+        return responseDto;
     }
 
     // インサート
-    public String insertActivity(RegisterActivitySaveDto activitySaveDto) throws Exception {
+    public String insertActivity(RegisterActivitySaveDto paramDto) throws Exception {
 
         try {
             // 引数で指定するentityの作成(new)
-            RegisterActivitySaveEntity activityEntity = new RegisterActivitySaveEntity();
+            RegisterActivitySaveEntity responseEntity = new RegisterActivitySaveEntity();
 
             // dtoから時間のデータを取得し、変数に代入
-            String date = activitySaveDto.getActivityDate();
-            String startTime = activitySaveDto.getActivityStartTime();
-            String endTime = activitySaveDto.getActivityEndTime();
+            String date = paramDto.getActivityDate();
+            String startTime = paramDto.getActivityStartTime();
+            String endTime = paramDto.getActivityEndTime();
 
             // 日付と時間を組み合わせる
             String registStartTime = date + " " + startTime;
@@ -82,27 +85,22 @@ public class RegisterActivityService {
             } else {
 
                 // maxParticipantをStringからintに変換する
-                int maxParticipant = Integer.parseInt(activitySaveDto.getMaxParticipant());
+                int maxParticipant = Integer.parseInt(paramDto.getMaxParticipant());
 
                 // dto をentityに詰めなおす
-                activityEntity.setActivityId(activitySaveDto.getActivityId());
-                activityEntity.setActivityName(activitySaveDto.getActivityName());
-                activityEntity.setActivityPlace(activitySaveDto.getActivityPlace());
-                activityEntity.setActivityStartTime(startDateTime); // LocalDateTime型
-                activityEntity.setActivityEndTime(endDateTime); // LocalDateTime型
-                activityEntity.setActivityDescription(activitySaveDto.getActivityDescription());
-                // activityEntity.setMaxParticipant(maxParticipant); //int型
-                activityEntity.setMaxParticipant(maxParticipant);
-                activityEntity.setClubId(activitySaveDto.getClubId());
-
-                // activitySaveDto.setMaxParticipant("6");
+                responseEntity.setActivityId(paramDto.getActivityId());
+                responseEntity.setActivityName(paramDto.getActivityName());
+                responseEntity.setActivityPlace(paramDto.getActivityPlace());
+                responseEntity.setActivityStartTime(startDateTime); // LocalDateTime型
+                responseEntity.setActivityEndTime(endDateTime); // LocalDateTime型
+                responseEntity.setActivityDescription(paramDto.getActivityDescription());
+                responseEntity.setMaxParticipant(maxParticipant);
+                responseEntity.setClubId(paramDto.getClubId());
 
                 // リポジトリのインサートメソッドにエンティティを埋め込む
-                registerActivityRepository.insertActivity(activityEntity);
+                registerActivityRepository.saveActivity(responseEntity);
 
                 // 成功のメッセージを返す
-                // return messageSource.getMessage("activityRegisterCompleteMessage", null,
-                // Locale.getDefault());
                 return "activityRegisterCompleteMessage";
             }
 

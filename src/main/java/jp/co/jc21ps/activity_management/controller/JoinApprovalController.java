@@ -38,7 +38,7 @@ public class JoinApprovalController {
     }
 
     @GetMapping
-    public ModelAndView joinApproval(HttpSession session) {
+    public ModelAndView getjoinApproval(HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
         SessionDto sessionDto = commonService.getSessionDto(session);
@@ -63,7 +63,7 @@ public class JoinApprovalController {
 
             JoinApprovalNameDto viewList = joinApprovalService.getJoinApprovalData(joinApprovalDto);
 
-            List<JoinApprovalForm> viewData = new ArrayList<>();
+            List<JoinApprovalForm> responseForm = new ArrayList<>();
 
             for (JoinApprovalDto dto : viewList.getJoinApprovalDto()) {
                 JoinApprovalForm requestList = new JoinApprovalForm();
@@ -71,7 +71,7 @@ public class JoinApprovalController {
                 requestList.setUserId(dto.getUserId());
                 requestList.setClubName(dto.getClubName());
                 requestList.setUserName(dto.getUserName());
-                viewData.add(requestList);
+                responseForm.add(requestList);
             }
 
             mav.addObject("clubName", viewList.getClubName());
@@ -79,7 +79,7 @@ public class JoinApprovalController {
             // 参加者がいなかった場合に活動名だけ表示する
             String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
-            mav.addObject("joinApprovalform", viewData);
+            mav.addObject("joinApprovalform", responseForm);
             // String leaderClubId = sessionDto.getClubId();
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("JoinApproval");
@@ -97,11 +97,11 @@ public class JoinApprovalController {
 
     // 否認
     @PostMapping("/Denial")
-    public ModelAndView denial(JoinApprovalDataForm joinApprovalDataForm, HttpSession session) {
-        JoinApprovalDataDto denialDto = new JoinApprovalDataDto();
-        denialDto.setUserId(joinApprovalDataForm.getUserId());
-        denialDto.setClubId(joinApprovalDataForm.getClubId());
-        denialDto.setLeaderFlg(joinApprovalDataForm.isLeaderFlg());
+    public ModelAndView denialRequest(JoinApprovalDataForm paramForm, HttpSession session) {
+        JoinApprovalDataDto paramDto = new JoinApprovalDataDto();
+        paramDto.setUserId(paramForm.getUserId());
+        paramDto.setClubId(paramForm.getClubId());
+        paramDto.setLeaderFlg(paramForm.isLeaderFlg());
 
         ModelAndView mav = new ModelAndView();
         SessionDto sessionDto = commonService.getSessionDto(session);
@@ -115,7 +115,7 @@ public class JoinApprovalController {
 
         try {
             // 申請テーブルからdeleteするメソッドを呼び出す
-            joinApprovalService.deleteRequest(denialDto);
+            joinApprovalService.deleteRequestInfo(paramDto);
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/joinApproval");
         } catch (Exception e) {
@@ -129,11 +129,11 @@ public class JoinApprovalController {
 
     // 承認
     @PostMapping("/Approval")
-    public ModelAndView Approval(JoinApprovalDataForm joinApprovalDataForm, HttpSession session) {
-        JoinApprovalDataDto denialDto = new JoinApprovalDataDto();
-        denialDto.setUserId(joinApprovalDataForm.getUserId());
-        denialDto.setClubId(joinApprovalDataForm.getClubId());
-        denialDto.setLeaderFlg(joinApprovalDataForm.isLeaderFlg());
+    public ModelAndView ApprovalRequest(JoinApprovalDataForm paramForm, HttpSession session) {
+        JoinApprovalDataDto paramDto = new JoinApprovalDataDto();
+        paramDto.setUserId(paramForm.getUserId());
+        paramDto.setClubId(paramForm.getClubId());
+        paramDto.setLeaderFlg(paramForm.isLeaderFlg());
 
         ModelAndView mav = new ModelAndView();
 
@@ -148,8 +148,8 @@ public class JoinApprovalController {
 
         try {
             // 部員テーブルにinsertするメソッドと申請テーブルから取り除くメソッドを呼び出す
-            joinApprovalService.insertRequest(denialDto);
-            joinApprovalService.deleteRequest(denialDto);
+            joinApprovalService.insertRequestInfo(paramDto);
+            joinApprovalService.deleteRequestInfo(paramDto);
             mav.setViewName("redirect:/joinApproval");
             mav.addObject("leaderClubId", leaderClubId);
 

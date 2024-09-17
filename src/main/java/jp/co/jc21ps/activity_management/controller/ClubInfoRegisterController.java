@@ -32,7 +32,7 @@ public class ClubInfoRegisterController {
     }
 
     @GetMapping
-    public ModelAndView getClubInfoByClubId(HttpSession session, ClubInfoRegisterSaveForm clubInfoRegisterSaveForm) {
+    public ModelAndView getClubInfo(HttpSession session, ClubInfoRegisterSaveForm paramForm) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -45,7 +45,7 @@ public class ClubInfoRegisterController {
             return mav;
         }
 
-        clubInfoRegisterSaveForm.setLeaderClubId(leaderClubId);
+        paramForm.setLeaderClubId(leaderClubId);
 
         ClubInfoRegisterDto dto = new ClubInfoRegisterDto();
         dto.setLeaderClubId(leaderClubId);
@@ -54,13 +54,14 @@ public class ClubInfoRegisterController {
             ClubInfoRegisterDto clubInfoRegisterDto = clubInfoRegisterService.getClubInfoByClubId(dto);
 
             // formにclubName,clubDescription,LeaderClubIdをセットする
-            clubInfoRegisterSaveForm.setClubName(clubInfoRegisterDto.getClubName());
-            clubInfoRegisterSaveForm.setClubDescription(clubInfoRegisterDto.getClubDescription());
-            clubInfoRegisterSaveForm.setLeaderClubId(clubInfoRegisterDto.getLeaderClubId());
+            ClubInfoRegisterSaveForm responseForm = new ClubInfoRegisterSaveForm();
+            responseForm.setClubName(clubInfoRegisterDto.getClubName());
+            responseForm.setClubDescription(clubInfoRegisterDto.getClubDescription());
+            responseForm.setLeaderClubId(clubInfoRegisterDto.getLeaderClubId());
 
             // leaderClubId,formをmavにつめる
             mav.addObject("leaderClubId", leaderClubId);
-            mav.addObject("clubInfoRegisterSaveForm", clubInfoRegisterSaveForm);
+            mav.addObject("clubInfoRegisterSaveForm", responseForm);
             mav.setViewName("clubInfoRegister");
 
         } catch (Exception e) {
@@ -70,14 +71,14 @@ public class ClubInfoRegisterController {
     }
 
     @PostMapping("/save")
-    public ModelAndView updateClubInfo(@Valid ClubInfoRegisterSaveForm clubInfoRegisterSaveForm,
+    public ModelAndView updateClubInfo(@Valid ClubInfoRegisterSaveForm paramForm,
             BindingResult bindingResult, HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
 
         // バリデーション
         if (bindingResult.hasErrors()) {
-            mav.addObject("clubInfoRegisterSaveForm", clubInfoRegisterSaveForm);
+            mav.addObject("clubInfoRegisterSaveForm", paramForm);
             mav.setViewName("ClubInfoRegister");
             return mav;
         }
@@ -93,8 +94,8 @@ public class ClubInfoRegisterController {
 
         try {
             ClubInfoRegisterDto clubInfoRegisterDto = new ClubInfoRegisterDto();
-            clubInfoRegisterDto.setLeaderClubId(clubInfoRegisterSaveForm.getLeaderClubId());
-            clubInfoRegisterDto.setClubDescription(clubInfoRegisterSaveForm.getClubDescription());
+            clubInfoRegisterDto.setLeaderClubId(paramForm.getLeaderClubId());
+            clubInfoRegisterDto.setClubDescription(paramForm.getClubDescription());
             String result = clubInfoRegisterService.updateClubInfo(clubInfoRegisterDto);
 
             // メッセージを取得

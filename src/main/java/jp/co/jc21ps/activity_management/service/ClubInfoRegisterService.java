@@ -14,32 +14,33 @@ public class ClubInfoRegisterService {
     }
 
     // dto型のメソッドで返す
-    public ClubInfoRegisterDto getClubInfoByClubId(ClubInfoRegisterDto dto) {
+    public ClubInfoRegisterDto getClubInfoByClubId(ClubInfoRegisterDto paramDto) {
 
         // entityをnew
         ClubInfoRegisterEntity entity = new ClubInfoRegisterEntity();
 
         // entityにleaderclubIdを詰め替える
-        entity.setLeaderClubId(dto.getLeaderClubId());
+        entity.setLeaderClubId(paramDto.getLeaderClubId());
 
         // リポジトリのメソッドにエンティティに詰め替えたleaderclubIdを渡す
-        ClubInfoRegisterEntity clubInfoRegister = clubInfoRegisterRepository.getClubInfoByClubId(entity);
+        ClubInfoRegisterEntity clubInfoRegister = clubInfoRegisterRepository.getClubInfo(entity);
 
         // 部署名、部署説明をdtoに渡す
-        dto.setClubName(clubInfoRegister.getClubName());
-        dto.setClubDescription(clubInfoRegister.getClubDescription());
-        return dto;
+        ClubInfoRegisterDto responseDto = new ClubInfoRegisterDto();
+        responseDto.setClubName(clubInfoRegister.getClubName());
+        responseDto.setClubDescription(clubInfoRegister.getClubDescription());
+        return responseDto;
     }
 
     // アップデート
-    public String updateClubInfo(ClubInfoRegisterDto clubInfoRegisterDto) throws Exception {
+    public String updateClubInfo(ClubInfoRegisterDto paramDto) throws Exception {
 
-        ClubInfoRegisterEntity clubInfoRegisterEntity = new ClubInfoRegisterEntity();
+        ClubInfoRegisterEntity responseEntity = new ClubInfoRegisterEntity();
 
-        clubInfoRegisterEntity.setLeaderClubId(clubInfoRegisterDto.getLeaderClubId());
-        clubInfoRegisterEntity.setClubDescription(clubInfoRegisterDto.getClubDescription());
+        responseEntity.setLeaderClubId(paramDto.getLeaderClubId());
+        responseEntity.setClubDescription(paramDto.getClubDescription());
 
-        clubInfoRegisterRepository.updateClubInfo(clubInfoRegisterEntity);
+        clubInfoRegisterRepository.updateClubInfo(responseEntity);
 
         // 成功のメッセージを返す
         return "updateClubInfo";

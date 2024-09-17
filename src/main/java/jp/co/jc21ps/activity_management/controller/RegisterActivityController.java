@@ -36,7 +36,7 @@ public class RegisterActivityController {
     }
 
     @GetMapping
-    public ModelAndView getActivityByClubId(HttpSession session, RegisterActivitySaveForm registerActivitySaveForm) {
+    public ModelAndView getActivity(HttpSession session, RegisterActivitySaveForm paramForm) {
 
         // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
@@ -51,7 +51,7 @@ public class RegisterActivityController {
             return mav;
         }
         // formのインスタンス化
-        registerActivitySaveForm.setClubId(leaderClubId);
+        paramForm.setClubId(leaderClubId);
 
         // dtoのインスタンス化
         RegisterActivityDto activityDto = new RegisterActivityDto();
@@ -62,14 +62,16 @@ public class RegisterActivityController {
         // サービスのメソッドでデータを取得 ※型を合わせる
         RegisterActivityDto registerActivityDto = registerActivityService.findActivity(activityDto);
 
+        RegisterActivitySaveForm responseForm = new RegisterActivitySaveForm();
+
         // formに渡すためにclubNameをセットする
-        registerActivitySaveForm.setClubName(registerActivityDto.getClubName());
+        responseForm.setClubName(registerActivityDto.getClubName());
 
         // html(View)の名前を指定する
         mav.setViewName("RegisterActivity");
 
         // formオブジェクトを追加
-        mav.addObject("registerActivitySaveForm", registerActivitySaveForm);
+        mav.addObject("registerActivitySaveForm", responseForm);
         mav.addObject("leaderClubId", leaderClubId);
         return mav;
     }
@@ -77,7 +79,7 @@ public class RegisterActivityController {
     // 入力エラー文を返す
     @PostMapping("/save")
     // form
-    public ModelAndView insertActivity(@Valid RegisterActivitySaveForm registerActivitySaveForm,
+    public ModelAndView insertActivity(@Valid RegisterActivitySaveForm paramForm,
             BindingResult bindingResult, HttpSession session) {
 
         // ModelAndViewのインスタンス化
@@ -90,7 +92,7 @@ public class RegisterActivityController {
             // .collect(Collectors.toList());
 
             // バリデーションエラーをリストに変換
-            mav.addObject("registerActivitySaveForm", registerActivitySaveForm);
+            mav.addObject("registerActivitySaveForm", paramForm);
             // mav.addObject("errorMessages", errorMessages);
             mav.setViewName("RegisterActivity");
             return mav;
@@ -116,13 +118,13 @@ public class RegisterActivityController {
 
             // dtoに値を設定
             activitySaveDto.setActivityId(newActivityId);
-            activitySaveDto.setActivityName(registerActivitySaveForm.getActivityName());
-            activitySaveDto.setActivityDate(registerActivitySaveForm.getActivityDate());
-            activitySaveDto.setActivityPlace(registerActivitySaveForm.getActivityPlace());
-            activitySaveDto.setActivityStartTime(registerActivitySaveForm.getActivityStartTime());
-            activitySaveDto.setActivityEndTime(registerActivitySaveForm.getActivityEndTime());
-            activitySaveDto.setActivityDescription(registerActivitySaveForm.getActivityDescription());
-            activitySaveDto.setMaxParticipant(registerActivitySaveForm.getMaxParticipant());
+            activitySaveDto.setActivityName(paramForm.getActivityName());
+            activitySaveDto.setActivityDate(paramForm.getActivityDate());
+            activitySaveDto.setActivityPlace(paramForm.getActivityPlace());
+            activitySaveDto.setActivityStartTime(paramForm.getActivityStartTime());
+            activitySaveDto.setActivityEndTime(paramForm.getActivityEndTime());
+            activitySaveDto.setActivityDescription(paramForm.getActivityDescription());
+            activitySaveDto.setMaxParticipant(paramForm.getMaxParticipant());
             activitySaveDto.setClubId(leaderClubId);
 
             // サービスメソッドの呼び出し
