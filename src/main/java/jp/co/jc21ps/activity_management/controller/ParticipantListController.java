@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/ParticipantList")
+@RequestMapping("/participantList")
 public class ParticipantListController {
     private final ParticipantListService participantListService;
     private final CommonService commonService;
@@ -40,32 +40,31 @@ public class ParticipantListController {
         // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
+        // リクエストパラメータから送られてくる活動IDが存在しない場合、エラー画面に遷移
+        if (activityId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
+
+        // セッションからユーザーID、部署IDを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
+        String userId = sessionDto.getUserId();
+        String leaderClubId = sessionDto.getClubId();
+
+        // ユーザーIDがセッションに存在しない場合、エラー画面に遷移
+        if (userId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
+
+        // dtoのインスタンス化
+        ParticipantListDto setSessionDto = new ParticipantListDto();
+
+        // dtoに活動ID、ユーザーIDを詰め替える
+        setSessionDto.setActivityId(activityId);
+        setSessionDto.setUserId(userId);
+
         try {
-
-            // リクエストパラメータから送られてくる活動IDが存在しない場合、エラー画面に遷移
-            if (activityId.isEmpty()) {
-                mav.setViewName("error");
-                return mav;
-            }
-
-            // セッションからユーザーID、部署IDを取得
-            SessionDto sessionDto = commonService.getSessionDto(session);
-            String userId = sessionDto.getUserId();
-            String leaderClubId = sessionDto.getClubId();
-
-            // ユーザーIDがセッションに存在しない場合、エラー画面に遷移
-            if (userId.isEmpty()) {
-                mav.setViewName("error");
-                return mav;
-            }
-
-            // dtoのインスタンス化
-            ParticipantListDto setSessionDto = new ParticipantListDto();
-
-            // dtoに活動ID、ユーザーIDを詰め替える
-            setSessionDto.setActivityId(activityId);
-            setSessionDto.setUserId(userId);
-
             // サービスのメソッドでデータを取得
             ParticipantDto viewData = participantListService.getParticipantListData(setSessionDto);
             List<ParticipantListForm> responseListForm = new ArrayList<>();
@@ -94,7 +93,7 @@ public class ParticipantListController {
             mav.addObject("leaderClubId", leaderClubId);
 
             // html(View)の名前を指定する
-            mav.setViewName("ParticipantList");
+            mav.setViewName("participantList");
 
         } catch (Exception e) {
             mav.setViewName("error");

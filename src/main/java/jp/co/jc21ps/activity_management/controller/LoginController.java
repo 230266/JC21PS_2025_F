@@ -35,7 +35,7 @@ public class LoginController {
     @PostMapping
     ModelAndView checkLoginData(@Valid LoginForm paramForm, BindingResult bindingResult, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/login.html");
+        mav.setViewName("/login");
         LoginDto loginDto = new LoginDto();
         loginDto.setUserId(paramForm.getUserId());
         loginDto.setClubId(paramForm.getClubId());
@@ -44,7 +44,7 @@ public class LoginController {
 
         // バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
         if (bindingResult.hasErrors()) {
-            mav.setViewName("/login.html");
+            mav.setViewName("/login");
 
             return mav;
         }
@@ -67,7 +67,7 @@ public class LoginController {
             mav.setViewName("redirect:/top");
         } else {
             mav.addObject("error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
-            mav.setViewName("/login.html");
+            mav.setViewName("/login");
         }
 
         return mav;

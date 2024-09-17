@@ -51,52 +51,44 @@ public class JoinApprovalController {
             return mav;
         }
 
-        try {
-            if (userId.isEmpty()) {
-                mav.setViewName("redirect:/top");
-                return mav;
-            }
-
-            JoinApprovalDto joinApprovalDto = new JoinApprovalDto();
-            joinApprovalDto.setUserId(userId);
-            joinApprovalDto.setClubId(leaderClubId);
-
-            JoinApprovalNameDto viewList = joinApprovalService.getJoinApprovalData(joinApprovalDto);
-
-            List<JoinApprovalForm> responseForm = new ArrayList<>();
-
-            for (JoinApprovalDto dto : viewList.getJoinApprovalDto()) {
-                JoinApprovalForm requestList = new JoinApprovalForm();
-                requestList.setClubId(dto.getClubId());
-                requestList.setUserId(dto.getUserId());
-                requestList.setClubName(dto.getClubName());
-                requestList.setUserName(dto.getUserName());
-                responseForm.add(requestList);
-            }
-
-            mav.addObject("clubName", viewList.getClubName());
-
-            // 参加者がいなかった場合に活動名だけ表示する
-            String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
-            mav.addObject("message", resultMessage);
-            mav.addObject("joinApprovalform", responseForm);
-            // String leaderClubId = sessionDto.getClubId();
-            mav.addObject("leaderClubId", leaderClubId);
-            mav.setViewName("JoinApproval");
-
-        } catch (Exception e) {
-            // メッセージ、ログ
-            // セッションからclubIDを持ってきて、mavに詰めて返す
-            sessionDto = commonService.getSessionDto(session);
-            // String leaderClubId = sessionDto.getClubId();
-            mav.addObject("leaderClubId", leaderClubId);
-            mav.setViewName("error");
+        // userIdがセッションに存在しない場合、エラー画面に遷移
+        if (userId.isEmpty()) {
+            mav.setViewName("redirect:/top");
+            return mav;
         }
+
+        JoinApprovalDto joinApprovalDto = new JoinApprovalDto();
+        joinApprovalDto.setUserId(userId);
+        joinApprovalDto.setClubId(leaderClubId);
+
+        JoinApprovalNameDto viewList = joinApprovalService.getJoinApprovalData(joinApprovalDto);
+
+        List<JoinApprovalForm> responseForm = new ArrayList<>();
+
+        for (JoinApprovalDto dto : viewList.getJoinApprovalDto()) {
+            JoinApprovalForm requestList = new JoinApprovalForm();
+            requestList.setClubId(dto.getClubId());
+            requestList.setUserId(dto.getUserId());
+            requestList.setClubName(dto.getClubName());
+            requestList.setUserName(dto.getUserName());
+            responseForm.add(requestList);
+        }
+
+        mav.addObject("clubName", viewList.getClubName());
+
+        // 参加者がいなかった場合に活動名だけ表示する
+        String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
+        mav.addObject("message", resultMessage);
+        mav.addObject("joinApprovalform", responseForm);
+        // String leaderClubId = sessionDto.getClubId();
+        mav.addObject("leaderClubId", leaderClubId);
+        mav.setViewName("joinApproval");
+
         return mav;
     }
 
     // 否認
-    @PostMapping("/Denial")
+    @PostMapping("/denial")
     public ModelAndView denialRequest(JoinApprovalDataForm paramForm, HttpSession session) {
         JoinApprovalDataDto paramDto = new JoinApprovalDataDto();
         paramDto.setUserId(paramForm.getUserId());
@@ -128,8 +120,8 @@ public class JoinApprovalController {
     }
 
     // 承認
-    @PostMapping("/Approval")
-    public ModelAndView ApprovalRequest(JoinApprovalDataForm paramForm, HttpSession session) {
+    @PostMapping("/approval")
+    public ModelAndView approvalRequest(JoinApprovalDataForm paramForm, HttpSession session) {
         JoinApprovalDataDto paramDto = new JoinApprovalDataDto();
         paramDto.setUserId(paramForm.getUserId());
         paramDto.setClubId(paramForm.getClubId());
@@ -141,7 +133,7 @@ public class JoinApprovalController {
         String leaderClubId = sessionDto.getClubId();
 
         // leaderClubIdがセッションに存在しない場合、エラー画面に遷移
-        if (leaderClubId == null) {
+        if (leaderClubId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }

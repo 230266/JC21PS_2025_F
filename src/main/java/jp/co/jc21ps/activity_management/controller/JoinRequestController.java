@@ -52,7 +52,7 @@ public class JoinRequestController {
 
         // userIdがセッションに存在しない場合、ログイン画面に遷移
         if (userId == null) {
-            mav.setViewName("Login");
+            mav.setViewName("login");
             return mav;
         }
 
@@ -84,8 +84,7 @@ public class JoinRequestController {
         // 引数のjoinRequestSaveFormからメッセージを取得、addObjectにセットする.if文どっちも
         if (responseForm.isEmpty()) {
             // メッセージプロパティーズから
-            String notRequestClubMessage =
-                    messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
+            String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
             mav.addObject("notRequestClubMessage", notRequestClubMessage);
             if (!ObjectUtils.isEmpty(paramForm)) {
                 mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
@@ -117,7 +116,7 @@ public class JoinRequestController {
 
         // userIdがセッションに存在しない場合、ログイン画面に遷移
         if (userId == null) {
-            mav.setViewName("Login");
+            mav.setViewName("login");
             return mav;
         }
 
@@ -126,23 +125,26 @@ public class JoinRequestController {
         joinRequestSaveDto.setUserId(userId);
         joinRequestSaveDto.setClubId(paramForm.getClubId());
 
-        // delete_flgを呼び出す
-        boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
+        try {
+            boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
+            // //インサート成功したら部員登録申請画面へリダイレクト
+            if (result) {
+                // メッセージを取得
+                String joinRequestCompleteMessage = messageSource
+                        .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
 
-        // //インサート成功したら部員登録申請画面へリダイレクト
-        if (result) {
-            // メッセージを取得
-            String joinRequestCompleteMessage = messageSource
-                    .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
+                // 下を追加する,formにメッセージをセットする
+                paramForm.setMessage(joinRequestCompleteMessage);
+                redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
+                // mav.addObject("joinRequestSaveForm", joinRequestSaveForm);
+                mav.setViewName("redirect:/joinRequest");
 
-            // 下を追加する,formにメッセージをセットする
-            paramForm.setMessage(joinRequestCompleteMessage);
-            redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
-            // mav.addObject("joinRequestSaveForm", joinRequestSaveForm);
-            mav.setViewName("redirect:/joinRequest");
-
-            // インサート失敗したらエラー画面へリダイレクト
-        } else {
+                // インサート失敗したらエラー画面へリダイレクト
+            } else {
+                mav.setViewName("error");
+            }
+        } catch (Exception e) {
+            // エラー画面に遷移する
             mav.setViewName("error");
         }
         return mav;

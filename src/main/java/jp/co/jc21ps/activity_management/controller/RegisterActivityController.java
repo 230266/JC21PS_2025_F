@@ -68,7 +68,7 @@ public class RegisterActivityController {
         responseForm.setClubName(registerActivityDto.getClubName());
 
         // html(View)の名前を指定する
-        mav.setViewName("RegisterActivity");
+        mav.setViewName("registerActivity");
 
         // formオブジェクトを追加
         mav.addObject("registerActivitySaveForm", responseForm);
