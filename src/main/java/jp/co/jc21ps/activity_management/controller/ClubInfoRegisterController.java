@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/clubInfoRegister")
 
 public class ClubInfoRegisterController {
+
     private final ClubInfoRegisterService clubInfoRegisterService;
     private final CommonService commonService;
     private final MessageSource messageSource;
 
     public ClubInfoRegisterController(ClubInfoRegisterService clubInfoRegisterService,
             MessageSource messageSource, CommonService commonService) {
+
         this.clubInfoRegisterService = clubInfoRegisterService;
         this.commonService = commonService;
         this.messageSource = messageSource;
@@ -36,39 +38,39 @@ public class ClubInfoRegisterController {
 
         ModelAndView mav = new ModelAndView();
 
-        // セッションからクラブIDを取得
+        // セッションからclubIdを取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
+        // セッションが切れた場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }
 
-        // TODO ここはいらない
-        paramForm.setLeaderClubId(leaderClubId);
-
         ClubInfoRegisterDto dto = new ClubInfoRegisterDto();
         dto.setLeaderClubId(leaderClubId);
 
         try {
-            ClubInfoRegisterDto clubInfoRegisterDto =
-                    clubInfoRegisterService.getClubInfoByClubId(dto);
+            ClubInfoRegisterDto clubInfoRegisterDto = clubInfoRegisterService.getClubInfoByClubId(dto);
 
-            // formにclubName,clubDescription,LeaderClubIdをセットする
+            // responseformに値をセット
             ClubInfoRegisterSaveForm responseForm = new ClubInfoRegisterSaveForm();
             responseForm.setClubName(clubInfoRegisterDto.getClubName());
             responseForm.setClubDescription(clubInfoRegisterDto.getClubDescription());
             responseForm.setLeaderClubId(clubInfoRegisterDto.getLeaderClubId());
 
-            // leaderClubId,formをmavにつめる
             mav.addObject("leaderClubId", leaderClubId);
             mav.addObject("clubInfoRegisterSaveForm", responseForm);
+
+            // 部署情報登録画面に遷移
             mav.setViewName("clubInfoRegister");
 
         } catch (Exception e) {
+            // DB接続に失敗した場合、エラー画面に遷移
             mav.setViewName("error");
         }
+
         return mav;
     }
 
@@ -89,6 +91,7 @@ public class ClubInfoRegisterController {
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
+        // セッションが切れた場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
             mav.setViewName("error");
             return mav;
@@ -100,22 +103,25 @@ public class ClubInfoRegisterController {
             clubInfoRegisterDto.setClubDescription(paramForm.getClubDescription());
             String result = clubInfoRegisterService.updateClubInfo(clubInfoRegisterDto);
 
-            // メッセージを取得
+            // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage(result, null, Locale.getDefault());
 
-            // 更新成功したら部署情報登録画面に遷移
             if ("updateClubInfo".equals(result)) {
+                // 更新成功した場合、部署情報登録画面に遷移
                 mav.addObject("updateClubInfo", resultMessage);
                 mav.addObject("leaderClubId", leaderClubId);
                 mav.setViewName("ClubInfoRegister");
             } else {
+                // 更新失敗した場合、エラー画面に遷移
                 mav.setViewName("error");
             }
 
-            // DB接続失敗した場合、エラー画面に遷移
         } catch (Exception e) {
+            // DB接続失敗した場合、エラー画面に遷移
             mav.setViewName("error");
         }
+
         return mav;
     }
+
 }

@@ -8,7 +8,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.JoinRequestDto;
 import jp.co.jc21ps.activity_management.dto.JoinRequestSaveDto;
@@ -42,51 +41,54 @@ public class JoinRequestController {
     public ModelAndView getJoinRequestById(HttpSession session, JoinRequestSaveForm paramForm,
             @ModelAttribute("joinOkMessage") String joinOkMessage) {
 
-        // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
-        // セッションからユーザーIDを取得
+        // セッションからuserIdを取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
 
-        // userIdがセッションに存在しない場合、ログイン画面に遷移
+        // セッションが切れた場合、ログイン画面に遷移
         if (userId == null) {
             mav.setViewName("Login");
             return mav;
         }
 
-        // formのインスタンス化
+        // formに値をセット
         JoinRequestSaveForm form = new JoinRequestSaveForm();
         form.setUserId(userId);
 
-        // dtoのインスタンス化
+        // dtoに値をセット
         JoinRequestDto joinRequestDto = new JoinRequestDto();
-
-        // dtoにUserId,ClubIdを詰め替える
         joinRequestDto.setUserId(userId);
 
-        // サービスのメソッドでデータを取得
         List<JoinRequestDto> joinRequestList = joinRequestService.findRequest(joinRequestDto);
-        // formにリストをつめる
         List<JoinRequestSaveForm> responseForm = new ArrayList<>();
 
+        // formに値をセット
         for (JoinRequestDto dto : joinRequestList) {
-            JoinRequestSaveForm saveData = new JoinRequestSaveForm();
 
-            // formに渡すために部署名、部署説明をセットする
+            JoinRequestSaveForm saveData = new JoinRequestSaveForm();
             saveData.setClubName(dto.getClubName());
             saveData.setClubDescription(dto.getClubDescription());
             saveData.setClubId(dto.getClubId());
+
+            // responseFormにリストを追加
             responseForm.add(saveData);
+
         }
+        // リダイレクトされてきた登録申請成功のメッセージを、paramFormにセットする
         paramForm.setMessage(joinOkMessage);
-        // 引数のjoinRequestSaveFormからメッセージを取得、addObjectにセットする.if文どっちも
+
         if (responseForm.isEmpty()) {
-            // メッセージプロパティーズから
-            String notRequestClubMessage =
-                    messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
+
+            // messages.propertiesからメッセージを取得
+            String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
+
+            // 申請する部署がない場合のメッセージ
             mav.addObject("notRequestClubMessage", notRequestClubMessage);
+
+            // 部員登録成功メッセージ
             if (!ObjectUtils.isEmpty(paramForm)) {
                 mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
             }
@@ -98,9 +100,10 @@ public class JoinRequestController {
         }
         mav.addObject("leaderClubId", leaderClubId);
 
-        // Viewの名前を指定する
+        // 部員登録申請画面に遷移
         mav.setViewName("joinRequest");
         return mav;
+
     }
 
     // インサート処理
@@ -108,43 +111,41 @@ public class JoinRequestController {
     public ModelAndView insertRequestClub(HttpSession session, JoinRequestSaveForm paramForm,
             RedirectAttributes redirectAttributes) {
 
-        // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
-        // //セッションからユーザーIDを取得
+        // セッションからuserIdを取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String userId = sessionDto.getUserId();
 
-        // userIdがセッションに存在しない場合、ログイン画面に遷移
+        // セッションが切れた場合、ログイン画面に遷移
         if (userId == null) {
             mav.setViewName("Login");
             return mav;
         }
 
-        // dtoをnew
+        // dtoに値をセット
         JoinRequestSaveDto joinRequestSaveDto = new JoinRequestSaveDto();
         joinRequestSaveDto.setUserId(userId);
         joinRequestSaveDto.setClubId(paramForm.getClubId());
 
-        // delete_flgを呼び出す
+        // サービスからdelete_flgを呼び出す
         boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
 
-        // //インサート成功したら部員登録申請画面へリダイレクト
         if (result) {
-            // メッセージを取得
+            // messages.propertiesからメッセージを取得
             String joinRequestCompleteMessage = messageSource
                     .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
-
-            // 下を追加する,formにメッセージをセットする
             paramForm.setMessage(joinRequestCompleteMessage);
+
+            // リダイレクト先に登録申請成功メッセージを渡す
             redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
-            // mav.addObject("joinRequestSaveForm", joinRequestSaveForm);
             mav.setViewName("redirect:/joinRequest");
 
-            // インサート失敗したらエラー画面へリダイレクト
         } else {
+            // 登録失敗した場合、エラー画面に遷移
             mav.setViewName("error");
         }
+
         return mav;
     }
 }

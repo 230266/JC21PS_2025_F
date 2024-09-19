@@ -2,12 +2,10 @@ package jp.co.jc21ps.activity_management.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import jp.co.jc21ps.activity_management.dto.TopDto;
 import jp.co.jc21ps.activity_management.dto.TopDataDto;
 import jp.co.jc21ps.activity_management.entity.TopEntity;
@@ -20,85 +18,86 @@ public class TopService {
     private final TopRepository topRepository;
     private final MessageSource messageSource;
 
-    // TopRepositoryを引数にする
     public TopService(TopRepository topRepository, MessageSource messageSource) {
         this.topRepository = topRepository;
         this.messageSource = messageSource;
     }
 
-    // アクティビティの参加状態を取得
+    // 活動の参加状態を呼び出す
     public boolean getActivityParticipationStatus(TopDataDto paramDto) {
-        // TopDataEntityを呼び出し、Dtoでゲットした活動ID、ユーザーIDをセットする
+
+        // entityに値をセット
         TopDataEntity paramEntity = new TopDataEntity();
         paramEntity.setActivityId(paramDto.getActivityId());
         paramEntity.setUserId(paramDto.getUserId());
 
-        // repositoryから該当するデータが何件あるかを確認したメソッドを呼び出す
         int participants = topRepository.isActivityParticipating(paramEntity);
 
-        // 初期値をfalseで指定する
+        // 初期値をfalseで指定
         boolean flg = false;
 
-        // 0より大きい(参加している)場合trueにして返す
+        // 参加している場合、trueで返す
         if (participants > 0) {
             flg = true;
         }
 
-        // そのままなら参加していないのでfalseを返す
         return flg;
 
     }
 
-    // デリート呼び出し
+    // 不参加メソッド呼び出し
     @Transactional
     public void deleteActivity(TopDataDto paramDto) {
+
+        // entityに値をセット
         TopDataEntity paramEntity = new TopDataEntity();
         paramEntity.setActivityId(paramDto.getActivityId());
         paramEntity.setUserId(paramDto.getUserId());
-
-        // RepositoryのdeleteActivityを呼び出す
         topRepository.deleteActivity(paramEntity);
+
     }
 
-    // インサート呼び出し
+    // 参加メソッド呼び出し
     @Transactional
     public void insertActivity(TopDataDto paramDto) {
 
+        // entityに値をセット
         TopDataEntity paramEntity = new TopDataEntity();
         paramEntity.setActivityId(paramDto.getActivityId());
         paramEntity.setUserId(paramDto.getUserId());
         paramEntity.setClubId(paramDto.getClubId());
 
-        // アクティビティの上限人数を取得
+        // 活動の上限人数を取得
         Integer maxParticipants = topRepository.getMaxParticipants(paramEntity);
 
         // 現在の参加者数を取得
         int currentParticipants = topRepository.isActivityParticipating(paramEntity);
 
+        // 活動の上限人数が現在の参加者数を上回っている場合、エラーメッセージを投げる
         if (currentParticipants > maxParticipants) {
+            // messages.propertiesからメッセージを取得
             String errorMessage = messageSource.getMessage("participation.limit.exceeded", null,
                     LocaleContextHolder.getLocale());
             throw new ParticipationLimitExceededException(errorMessage);
         }
 
-        // RepositoryのinsertActivityを呼び出す
         topRepository.saveActivity(paramEntity);
+
     }
 
-    // 画面表示用
+    // 初期画面表示
     public List<TopDto> getTopData(TopDto paramDto) {
+
+        // entityに値をセット
         TopEntity paramEntity = new TopEntity();
         paramEntity.setUserId(paramDto.getUserId());
 
         List<TopEntity> topData = topRepository.getTopData(paramEntity);
-
-        // 取ってきた値をdtoを介してcontrollerに投げる用
         List<TopDto> responseDto = new ArrayList<>();
 
-        // TopEntityからTopDtoに変換し、リストに追加
         for (TopEntity entity : topData) {
 
-            // TopDto型のDtoに値を詰めている
+            // dtoに値をセット
             TopDto setDto = new TopDto();
             setDto.setNo(entity.getNo());
             setDto.setClubId(entity.getClubId());
@@ -120,8 +119,9 @@ public class TopService {
 
             try {
                 maxParticipant = Integer.parseInt(entity.getMaxParticipant());
+
             } catch (NumberFormatException e) {
-                // エラー処理: maxParticipant が数値に変換できない場合
+                // maxParticipantがint型に変換できない場合、エラーメッセージを表示
                 System.err.println("Invalid format for maxParticipant: " + e.getMessage());
 
                 // 必要に応じてデフォルト値を設定するなどの処理を追加
@@ -129,9 +129,12 @@ public class TopService {
                 maxParticipant = 0;
             }
 
+            // 参加者数が上限人数の過半数を超えているかどうかを判断する
             setDto.setIsMajorityFlg(maxParticipant > 0 && participantsCount >= (maxParticipant / 2.0));
             responseDto.add(setDto);
         }
+
         return responseDto;
     }
+
 }

@@ -5,7 +5,6 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" th:href="@{/css/globals.css}">
   <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-  <!-- <link rel="stylesheet" href="top.css" /> -->
   <link rel="stylesheet" th:href="@{/css/top.css}">
 </head>
 
@@ -50,7 +49,6 @@
             <div class="text-wrapper-10">
               <a th:href="@{/ParticipantList(activityId=${actList.activityId})}" th:text="${actList.activityName}"></a>
             </div>
-            <!--<div class="text-wrapper-10" th:text="${actList.activityName}"></div>-->
             <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
             <div class="text-wrapper-acttime" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}">
             </div>

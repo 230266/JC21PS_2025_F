@@ -50,6 +50,10 @@ public class TopEntity {
     // 過半数フラグ
     private boolean isMajorityFlg;
 
+    public TopEntity() {
+
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -177,4 +181,5 @@ public class TopEntity {
     public void setIsMajorityFlg(boolean isMajorityFlg) {
         this.isMajorityFlg = isMajorityFlg;
     }
+
 }

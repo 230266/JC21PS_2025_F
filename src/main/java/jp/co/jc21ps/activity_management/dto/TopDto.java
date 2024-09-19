@@ -52,6 +52,10 @@ public class TopDto {
     // 過半数フラグ
     private boolean isMajorityFlg;
 
+    public TopDto() {
+
+    }
+
     public String getUserId() {
         return userId;
     }

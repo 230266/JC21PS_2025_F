@@ -15,7 +15,10 @@ public class LoginService {
         this.loginRepository = loginRepository;
     }
 
+    // ログイン処理
     public LoginDto getLoginData(LoginDto paramDto) {
+
+        // entityに値をセット
         LoginEntity paramListEntity = new LoginEntity();
         paramListEntity.setUserId(null);
         paramListEntity.setClubId(null);
@@ -23,6 +26,8 @@ public class LoginService {
         paramListEntity.setPassword(paramDto.getPassword());
 
         LoginEntity loginData = loginRepository.getLoginData(paramListEntity);
+
+        // dtoに値をセット
         LoginDto responseDto = new LoginDto();
         responseDto.setUserId(loginData.getUserId());
         responseDto.setClubId(loginData.getClubId());
@@ -30,5 +35,7 @@ public class LoginService {
         responseDto.setPassword(null);
 
         return responseDto;
+
     }
+
 }

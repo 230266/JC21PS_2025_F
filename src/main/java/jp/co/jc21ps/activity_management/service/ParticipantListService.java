@@ -18,8 +18,10 @@ public class ParticipantListService {
         this.participantListRepository = participantListRepository;
     }
 
-    // 画面表示用
+    // 初期画面表示
     public ParticipantDto getParticipantListData(ParticipantListDto paramDto) {
+
+        // entityに値をセット
         ParticipantListEntity participantListEntity = new ParticipantListEntity();
         participantListEntity.setActivityId(paramDto.getActivityId());
         participantListEntity.setUserId(paramDto.getUserId());
@@ -34,14 +36,16 @@ public class ParticipantListService {
         ParticipantDto responseDto = new ParticipantDto();
 
         for (ParticipantListEntity entity : participantList) {
+
+            // dtoに値をセット
             ParticipantListDto setDto = new ParticipantListDto();
             setDto.setActivityId(entity.getActivityId());
             setDto.setUserId(entity.getUserId());
             setDto.setActivityName(entity.getActivityName());
             setDto.setUserName(entity.getUserName());
-
             responseListDto.add(setDto);
         }
+
         responseDto.setPariticipantListDto(responseListDto);
         responseDto.setActivityName(responseActName);
 

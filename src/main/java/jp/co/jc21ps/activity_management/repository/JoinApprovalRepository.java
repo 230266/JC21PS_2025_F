@@ -3,10 +3,8 @@ package jp.co.jc21ps.activity_management.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import jp.co.jc21ps.activity_management.entity.JoinApprovalDataEntity;
 import jp.co.jc21ps.activity_management.entity.JoinApprovalEntity;
 
@@ -18,7 +16,7 @@ public class JoinApprovalRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // 画面表示
+    // 初期画面表示
     public List<JoinApprovalEntity> getJoinApprovalList(JoinApprovalEntity paramEntity) {
 
         String sql = """
@@ -42,37 +40,31 @@ public class JoinApprovalRepository {
                 """;
 
         List<Map<String, Object>> joinApprovalList = jdbcTemplate.queryForList(sql, paramEntity.getClubId());
-
-        // JoinApprovalEnitity型のリスト、これにデータを詰めていく
         List<JoinApprovalEntity> responseEntity = new ArrayList<>();
 
-        // 空だった場合
+        // リストが空だった場合
         if (joinApprovalList.isEmpty()) {
             return responseEntity;
         }
 
         for (Map<String, Object> joinApprovalLoop : joinApprovalList) {
+
+            // entityに値をセット
             JoinApprovalEntity viewList = new JoinApprovalEntity();
-
-            // 部署ID
             viewList.setClubId((String) joinApprovalLoop.get("club_Id"));
-
-            // ユーザーID
             viewList.setUserId((String) joinApprovalLoop.get("user_id"));
-
-            // ユーザー名
             viewList.setUserName((String) joinApprovalLoop.get("user_name"));
-
-            // 部署名
             viewList.setClubName((String) joinApprovalLoop.get("club_name"));
-
             responseEntity.add(viewList);
+
         }
+
         return responseEntity;
     }
 
-    // 部署名だけ取得する
+    // 部署名を表示
     public String getClubName(JoinApprovalEntity paramEntity) {
+
         String sql = """
                           SELECT
                                club_name
@@ -89,11 +81,14 @@ public class JoinApprovalRepository {
         }
 
         Map<String, Object> responseEntity = clubNameList.get(0);
+
         return ((String) responseEntity.get("club_name"));
+
     }
 
-    // insertする
+    // insert（承認）
     public void insertRequestInfo(JoinApprovalDataEntity paramEntity) {
+
         String sqlInsert = """
                 INSERT INTO
                     trn_club_member
@@ -101,6 +96,7 @@ public class JoinApprovalRepository {
                     (?,?,?)
                 """;
 
+        // entityから値をゲット
         Object[] paramList = {
                 paramEntity.getClubId(),
                 paramEntity.getUserId(),
@@ -110,8 +106,9 @@ public class JoinApprovalRepository {
         jdbcTemplate.update(sqlInsert, paramList);
     }
 
-    // deleteする
+    // delete（否認）
     public void deleteRequestInfo(JoinApprovalDataEntity paramEntity) {
+
         String sqlDelete = """
                 DELETE FROM
                     trn_join_request
@@ -122,6 +119,8 @@ public class JoinApprovalRepository {
                 AND
                     leader_flg = ?
                 """;
+
+        // entityから値をゲット
         Object[] paramList = {
                 paramEntity.getClubId(),
                 paramEntity.getUserId(),

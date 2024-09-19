@@ -1,10 +1,22 @@
 package jp.co.jc21ps.activity_management.dto;
 
 public class TopDataDto {
+
+    // 活動ID
     private String activityId;
+
+    // ユーザーID
     private String userId;
+
+    // 部署ID
     private String clubId;
+
+    // 部署名
     private String clubName;
+
+    public TopDataDto() {
+
+    }
 
     public String getActivityId() {
         return activityId;

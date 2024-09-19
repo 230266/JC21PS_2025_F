@@ -3,7 +3,6 @@ package jp.co.jc21ps.activity_management.form;
 import jakarta.validation.constraints.NotNull;
 
 public class RegisterActivityForm {
-    // clubIdを受け取って、clubNameを返す
 
     // 部署名
     private String clubName;
@@ -15,12 +14,6 @@ public class RegisterActivityForm {
     public RegisterActivityForm() {
 
     }
-
-    // 引数付きのコンストラクタ
-    // public void RegisterActivityEntity(String clubName, String clubId) {
-    // this.clubName = clubName;
-    // this.clubId = clubId;
-    // }
 
     public void setClubName(String clubName) {
         this.clubName = clubName;

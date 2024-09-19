@@ -2,10 +2,8 @@ package jp.co.jc21ps.activity_management.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import jp.co.jc21ps.activity_management.dto.JoinApprovalDataDto;
 import jp.co.jc21ps.activity_management.dto.JoinApprovalDto;
 import jp.co.jc21ps.activity_management.entity.JoinApprovalDataEntity;
@@ -21,8 +19,10 @@ public class JoinApprovalService {
         this.paramRepository = paramRepository;
     }
 
-    // 画面表示用
+    // 初期画面表示用
     public JoinApprovalNameDto getJoinApprovalData(JoinApprovalDto paramDto) {
+
+        // entityに値をセット
         JoinApprovalEntity paramEntity = new JoinApprovalEntity();
         paramEntity.setClubId(paramDto.getClubId());
         paramEntity.setUserId(paramDto.getUserId());
@@ -32,9 +32,9 @@ public class JoinApprovalService {
         String clubName = paramRepository.getClubName(paramEntity);
 
         List<JoinApprovalEntity> approvalLists = paramRepository.getJoinApprovalList(paramEntity);
-
-        // 取ってきた値をdtoを介してcontrollerに投げる用
         List<JoinApprovalDto> viewData = new ArrayList<>();
+
+        // dtoに値をセット
         for (JoinApprovalEntity entity : approvalLists) {
             JoinApprovalDto dto = new JoinApprovalDto();
             dto.setClubId(entity.getClubId());
@@ -44,6 +44,7 @@ public class JoinApprovalService {
             dto.setLeaderFlg(entity.isLeaderFlg());
             viewData.add(dto);
         }
+
         JoinApprovalNameDto responseDto = new JoinApprovalNameDto();
         responseDto.setJoinApprovalDto(viewData);
         responseDto.setClubName(clubName);
@@ -51,8 +52,11 @@ public class JoinApprovalService {
         return responseDto;
     }
 
+    // 例外が起こったときに自動でロールバックする
     @Transactional
     public void deleteRequestInfo(JoinApprovalDataDto paramDto) {
+
+        // entityに値をセット
         JoinApprovalDataEntity joinApprovalDataEntity = new JoinApprovalDataEntity();
         joinApprovalDataEntity.setUserId(paramDto.getUserId());
         joinApprovalDataEntity.setClubId(paramDto.getClubId());
@@ -61,8 +65,11 @@ public class JoinApprovalService {
         paramRepository.deleteRequestInfo(joinApprovalDataEntity);
     }
 
+    // 例外が起こったときに自動でロールバックする
     @Transactional
     public void insertRequestInfo(JoinApprovalDataDto paramDto) {
+
+        // entityに値をセット
         JoinApprovalDataEntity joinApprovalDataEntity = new JoinApprovalDataEntity();
         joinApprovalDataEntity.setUserId(paramDto.getUserId());
         joinApprovalDataEntity.setClubId(paramDto.getClubId());

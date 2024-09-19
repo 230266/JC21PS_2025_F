@@ -1,29 +1,23 @@
 package jp.co.jc21ps.activity_management.form;
 
-//セッションからuserIdを取得する
 public class JoinRequestForm {
-    
-    //ユーザーID
+
+    // ユーザー名
     private String userId;
 
-    //部署ID
+    // 部署ID
     private String clubId;
 
-    //部署名
+    // 部署名
     private String clubName;
 
-    //部署説明
+    // 部署説明
     private String clubDescription;
 
-    //引数付きのコンストラクタ
-    public void JoinRequestEntity(String userId, String clubId, String clubName, String clubDescription) {
-        this.userId = userId;
-        this.clubId = clubId;
-        this.clubName = clubName;
-        this.clubDescription = clubDescription;
+    public JoinRequestForm() {
+
     }
 
-    //ユーザーID
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -32,15 +26,14 @@ public class JoinRequestForm {
         return userId;
     }
 
-    //部署ID
     public void setClubId(String clubId) {
         this.clubId = clubId;
     }
+
     public String getClubId() {
         return clubId;
     }
 
-    //部署名
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
@@ -49,7 +42,6 @@ public class JoinRequestForm {
         return clubName;
     }
 
-    //部署説明
     public void setClubDescription(String clubDescription) {
         this.clubDescription = clubDescription;
     }
@@ -57,4 +49,5 @@ public class JoinRequestForm {
     public String getClubDescription() {
         return clubDescription;
     }
+
 }

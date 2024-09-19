@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import jp.co.jc21ps.activity_management.dto.ParticipantListDto;
 import jp.co.jc21ps.activity_management.form.ParticipantListForm;
@@ -21,9 +20,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/ParticipantList")
 public class ParticipantListController {
+
     private final ParticipantListService participantListService;
     private final CommonService commonService;
-    @Autowired
     private final MessageSource messageSource;
 
     public ParticipantListController(ParticipantListService participantListService, CommonService commonService,
@@ -37,69 +36,69 @@ public class ParticipantListController {
     public ModelAndView dispParticipantList(@RequestParam(value = "activityId", required = true) String activityId,
             HttpSession session) {
 
-        // ModelAndViewのインスタンス化
         ModelAndView mav = new ModelAndView();
 
         try {
-
-            // リクエストパラメータから送られてくる活動IDが存在しない場合、エラー画面に遷移
+            // 活動IDが存在しない場合、エラー画面に遷移
             if (activityId.isEmpty()) {
                 mav.setViewName("error");
                 return mav;
             }
 
-            // セッションからユーザーID、部署IDを取得
+            // セッションからuserId, clubIdを取得
             SessionDto sessionDto = commonService.getSessionDto(session);
             String userId = sessionDto.getUserId();
             String leaderClubId = sessionDto.getClubId();
 
-            // ユーザーIDがセッションに存在しない場合、エラー画面に遷移
+            // セッションが切れた場合、エラー画面に遷移
             if (userId.isEmpty()) {
                 mav.setViewName("error");
                 return mav;
             }
 
-            // dtoのインスタンス化
+            // dtoに値をセット
             ParticipantListDto setSessionDto = new ParticipantListDto();
-
-            // dtoに活動ID、ユーザーIDを詰め替える
             setSessionDto.setActivityId(activityId);
             setSessionDto.setUserId(userId);
 
-            // サービスのメソッドでデータを取得
             ParticipantDto viewData = participantListService.getParticipantListData(setSessionDto);
             List<ParticipantListForm> responseListForm = new ArrayList<>();
 
+            // formに値をセット
             for (ParticipantListDto dto : viewData.getPariticipantListDto()) {
+
                 ParticipantListForm responseForm = new ParticipantListForm();
                 responseForm.setActivityId(dto.getActivityId());
                 responseForm.setUserId(dto.getUserId());
                 responseForm.setUserName(dto.getUserName());
                 responseForm.setActivityName(dto.getActivityName());
 
+                // responseListFormにリストを追加
                 responseListForm.add(responseForm);
+
             }
 
-            // 参加者がいる場合の表示
+            // 参加者がいる場合
             mav.addObject("participantListForm", responseListForm);
 
-            // 参加者がいない場合、活動名だけ表示する
+            // 参加者がいない場合、活動名をオブジェクトに追加
             mav.addObject("activityName", viewData.getActivityName());
 
-            // メッセージ
+            // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
-
-            // 部長クラブID
             mav.addObject("leaderClubId", leaderClubId);
 
-            // html(View)の名前を指定する
+            // 参加者一覧画面に遷移
             mav.setViewName("ParticipantList");
 
         } catch (Exception e) {
+            // DB接続に失敗した場合、エラー画面に遷移
             mav.setViewName("error");
         }
+
         return mav;
 
     }
+
 }

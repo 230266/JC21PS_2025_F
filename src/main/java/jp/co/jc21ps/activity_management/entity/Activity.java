@@ -3,17 +3,20 @@ package jp.co.jc21ps.activity_management.entity;
 import java.time.LocalDateTime;
 
 public class Activity {
+
     private String activityId;
     private String clubId;
     private String clubName;
     private String activityName;
     private String activityPlace;
-    private LocalDateTime activityStartTime;    
+    private LocalDateTime activityStartTime;
     private LocalDateTime activityEndTime;
     private String activityDescription;
     private Integer max_participant;
 
-    public Activity(String activityId, String clubId, String clubName, String activityName, String activityPlace, LocalDateTime activityStartTime, LocalDateTime activityEndTime, String activityDescription, Integer max_participant) {
+    public Activity(String activityId, String clubId, String clubName, String activityName, String activityPlace,
+            LocalDateTime activityStartTime, LocalDateTime activityEndTime, String activityDescription,
+            Integer max_participant) {
         this.activityId = activityId;
         this.clubId = clubId;
         this.clubName = clubName;

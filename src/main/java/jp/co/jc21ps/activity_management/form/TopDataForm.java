@@ -4,14 +4,23 @@ import jakarta.validation.constraints.NotNull;
 
 public class TopDataForm {
 
+    // 活動ID
     @NotNull
     private String activityId;
 
+    // ユーザーID
     @NotNull
     private String userId;
 
+    // 部署ID
     private String clubId;
+
+    // 部署名
     private String clubName;
+
+    public TopDataForm() {
+
+    }
 
     public String getActivityId() {
         return activityId;
@@ -44,4 +53,5 @@ public class TopDataForm {
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
+
 }

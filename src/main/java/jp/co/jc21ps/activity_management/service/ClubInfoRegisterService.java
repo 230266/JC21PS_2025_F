@@ -13,30 +13,28 @@ public class ClubInfoRegisterService {
         this.clubInfoRegisterRepository = clubInfoRegisterRepository;
     }
 
-    // dto型のメソッドで返す
+    // 初期画面表示
     public ClubInfoRegisterDto getClubInfoByClubId(ClubInfoRegisterDto paramDto) {
 
-        // entityをnew
+        // entityに値をセット
         ClubInfoRegisterEntity entity = new ClubInfoRegisterEntity();
-
-        // entityにleaderclubIdを詰め替える
         entity.setLeaderClubId(paramDto.getLeaderClubId());
 
-        // リポジトリのメソッドにエンティティに詰め替えたleaderclubIdを渡す
         ClubInfoRegisterEntity clubInfoRegister = clubInfoRegisterRepository.getClubInfo(entity);
 
-        // 部署名、部署説明をdtoに渡す
+        // dtoに値をセット
         ClubInfoRegisterDto responseDto = new ClubInfoRegisterDto();
         responseDto.setClubName(clubInfoRegister.getClubName());
         responseDto.setClubDescription(clubInfoRegister.getClubDescription());
+
         return responseDto;
     }
 
-    // アップデート
+    // 活動説明更新
     public String updateClubInfo(ClubInfoRegisterDto paramDto) throws Exception {
 
+        // entityに値をセット
         ClubInfoRegisterEntity responseEntity = new ClubInfoRegisterEntity();
-
         responseEntity.setLeaderClubId(paramDto.getLeaderClubId());
         responseEntity.setClubDescription(paramDto.getClubDescription());
 

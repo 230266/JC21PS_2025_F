@@ -15,7 +15,9 @@ public class LoginRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // ログイン処理
     public LoginEntity getLoginData(LoginEntity paramEntity) {
+
         String sql = """
                 SELECT
                  user.user_id,
@@ -38,7 +40,10 @@ public class LoginRepository {
         List<Map<String, Object>> loginList = jdbcTemplate.queryForList(sql, paramEntity.getLoginName(),
                 paramEntity.getPassword());
 
+        // ログイン情報が一致しなかった場合
         if (loginList.size() == 0) {
+
+            // responseEntityに値をセットする
             LoginEntity responseEntity = new LoginEntity();
             responseEntity.setPassword("");
             responseEntity.setLoginName("");
@@ -48,6 +53,8 @@ public class LoginRepository {
         }
 
         Map<String, Object> login = loginList.get(0);
+
+        // responseEntityに値をセットする
         LoginEntity responseEntity = new LoginEntity();
         responseEntity.setClubId((String) login.get("club_id"));
         responseEntity.setUserId((String) login.get("user_id"));

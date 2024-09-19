@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Map;
 import jp.co.jc21ps.activity_management.entity.ClubInfoRegisterEntity;
 
-//DB接続クラス
 @Repository
 public class ClubInfoRegisterRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -14,6 +13,7 @@ public class ClubInfoRegisterRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // 初期画面表示
     public ClubInfoRegisterEntity getClubInfo(ClubInfoRegisterEntity paramEntity) {
 
         String sql = """
@@ -25,16 +25,19 @@ public class ClubInfoRegisterRepository {
                     club_id = ?
                 """;
 
-        // DBから取得する
         Map<String, Object> result = jdbcTemplate.queryForMap(sql, paramEntity.getLeaderClubId());
+
+        // entityに値をセット
         ClubInfoRegisterEntity responseEntity = new ClubInfoRegisterEntity();
         responseEntity.setClubName((String) result.get("club_name"));
         responseEntity.setClubDescription((String) result.get("club_description"));
+
         return responseEntity;
     }
 
-    // 入力された説明をアップデートする
+    // 活動説明更新
     public void updateClubInfo(ClubInfoRegisterEntity paramEntity) {
+
         String sql = """
                 UPDATE
                     mst_club
@@ -44,13 +47,12 @@ public class ClubInfoRegisterRepository {
                     club_id = ?
                 """;
 
-        // パラメータの設定
+        // entityから値をゲット
         Object[] paramList = {
                 paramEntity.getClubDescription(),
                 paramEntity.getLeaderClubId()
         };
 
-        // DBでアップデート
         jdbcTemplate.update(sql, paramList);
     }
 

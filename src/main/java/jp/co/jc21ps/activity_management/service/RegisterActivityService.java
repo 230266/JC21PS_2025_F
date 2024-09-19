@@ -3,8 +3,6 @@ package jp.co.jc21ps.activity_management.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
@@ -17,49 +15,37 @@ import java.util.Locale;
 @Service
 public class RegisterActivityService {
 
-    @Autowired
     private final RegisterActivityRepository registerActivityRepository;
-    @Autowired
     private final MessageSource messageSource;
 
-    // リポジトリをセットする
     public RegisterActivityService(RegisterActivityRepository registerActivityRepository, MessageSource messageSource) {
         this.registerActivityRepository = registerActivityRepository;
         this.messageSource = messageSource;
     }
 
-    // dtoのインスタンス化
-    // RegisterActivityDto activityDto = new RegisterActivityDto();
-
-    // dto型のメソッドで返す
+    // 初期表示
     public RegisterActivityDto findActivity(RegisterActivityDto paramDto) {
 
-        // エンティティのインスタンス化
+        // entityに値をセット
         RegisterActivityEntity activityEntity = new RegisterActivityEntity();
-
-        // エンティティにClubIdを詰め替える
         activityEntity.setClubId(paramDto.getClubId());
 
-        // リポジトリのメソッドにエンティティに詰め替えたclubIdを渡す
         RegisterActivityEntity activity = registerActivityRepository.getActivityByClubId(activityEntity);
 
-        // レスポンスのDto
+        // dtoに値をセット
         RegisterActivityDto responseDto = new RegisterActivityDto();
-
-        // 活動名だけdtoに渡す
         responseDto.setClubName(activity.getClubName());
 
         return responseDto;
     }
 
-    // インサート
+    // 登録処理
     public String insertActivity(RegisterActivitySaveDto paramDto) throws Exception {
 
         try {
-            // 引数で指定するentityの作成(new)
             RegisterActivitySaveEntity responseEntity = new RegisterActivitySaveEntity();
 
-            // dtoから時間のデータを取得し、変数に代入
+            // dtoから時間のデータを取得
             String date = paramDto.getActivityDate();
             String startTime = paramDto.getActivityStartTime();
             String endTime = paramDto.getActivityEndTime();
@@ -68,26 +54,22 @@ public class RegisterActivityService {
             String registStartTime = date + " " + startTime;
             String registEndTime = date + " " + endTime;
 
-            // 日時フォーマットの定義
+            // 日時をyyyy-MM-dd HH:mm形式に指定
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-            // 文字列が指定されたフォーマットと一致しない場合や、無効な値が含まれている場合、エラーを投げる
 
             // 日時文字列をLocalDateTimeに変換
             LocalDateTime startDateTime = LocalDateTime.parse(registStartTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(registEndTime, formatter);
 
-            // 存在する日時か検証
             if (startDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())) {
-                // 過去の日付の場合はエラーメッセージをだす
-                // return messageSource.getMessage("impossibleDate", null, Locale.getDefault());
+                // 過去の日付の場合はエラーメッセージを返す
                 return "impossibleDate";
             } else {
 
-                // maxParticipantをStringからintに変換する
+                // maxParticipantをString型からint型に変換
                 int maxParticipant = Integer.parseInt(paramDto.getMaxParticipant());
 
-                // dto をentityに詰めなおす
+                // entityに値をセット
                 responseEntity.setActivityId(paramDto.getActivityId());
                 responseEntity.setActivityName(paramDto.getActivityName());
                 responseEntity.setActivityPlace(paramDto.getActivityPlace());
@@ -97,13 +79,13 @@ public class RegisterActivityService {
                 responseEntity.setMaxParticipant(maxParticipant);
                 responseEntity.setClubId(paramDto.getClubId());
 
-                // リポジトリのインサートメソッドにエンティティを埋め込む
                 registerActivityRepository.saveActivity(responseEntity);
 
                 // 成功のメッセージを返す
                 return "activityRegisterCompleteMessage";
             }
 
+            // 日付形式が無効な場合、エラーメッセージを返す
         } catch (DateTimeParseException e) {
             return messageSource.getMessage("error.invalidDate", null, Locale.getDefault());
         }

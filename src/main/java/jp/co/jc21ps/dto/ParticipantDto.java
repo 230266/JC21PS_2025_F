@@ -8,6 +8,10 @@ public class ParticipantDto {
     private List<ParticipantListDto> pariticipantListDto;
     private String activityName;
 
+    public ParticipantDto() {
+
+    }
+
     public List<ParticipantListDto> getPariticipantListDto() {
         return pariticipantListDto;
     }
@@ -23,4 +27,5 @@ public class ParticipantDto {
     public void setActivityName(String activityName) {
         this.activityName = activityName;
     }
+
 }
