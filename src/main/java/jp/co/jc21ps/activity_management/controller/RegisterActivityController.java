@@ -65,7 +65,7 @@ public class RegisterActivityController {
         // 活動登録画面に遷移
         mav.addObject("registerActivitySaveForm", responseForm);
         mav.addObject("leaderClubId", leaderClubId);
-        mav.setViewName("RegisterActivity");
+        mav.setViewName("registerActivity");
         return mav;
     }
 

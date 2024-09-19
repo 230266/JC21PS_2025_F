@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/ParticipantList")
+@RequestMapping("/participantList")
 public class ParticipantListController {
 
     private final ParticipantListService participantListService;
@@ -38,29 +38,29 @@ public class ParticipantListController {
 
         ModelAndView mav = new ModelAndView();
 
+        // 活動IDが存在しない場合、エラー画面に遷移
+        if (activityId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
+
+        // セッションからuserId, clubIdを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
+        String userId = sessionDto.getUserId();
+        String leaderClubId = sessionDto.getClubId();
+
+        // セッションが切れた場合、エラー画面に遷移
+        if (userId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
+
+        // dtoに値をセット
+        ParticipantListDto setSessionDto = new ParticipantListDto();
+        setSessionDto.setActivityId(activityId);
+        setSessionDto.setUserId(userId);
+
         try {
-            // 活動IDが存在しない場合、エラー画面に遷移
-            if (activityId.isEmpty()) {
-                mav.setViewName("error");
-                return mav;
-            }
-
-            // セッションからuserId, clubIdを取得
-            SessionDto sessionDto = commonService.getSessionDto(session);
-            String userId = sessionDto.getUserId();
-            String leaderClubId = sessionDto.getClubId();
-
-            // セッションが切れた場合、エラー画面に遷移
-            if (userId.isEmpty()) {
-                mav.setViewName("error");
-                return mav;
-            }
-
-            // dtoに値をセット
-            ParticipantListDto setSessionDto = new ParticipantListDto();
-            setSessionDto.setActivityId(activityId);
-            setSessionDto.setUserId(userId);
-
             ParticipantDto viewData = participantListService.getParticipantListData(setSessionDto);
             List<ParticipantListForm> responseListForm = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class ParticipantListController {
             mav.addObject("leaderClubId", leaderClubId);
 
             // 参加者一覧画面に遷移
-            mav.setViewName("ParticipantList");
+            mav.setViewName("participantList");
 
         } catch (Exception e) {
             // DB接続に失敗した場合、エラー画面に遷移

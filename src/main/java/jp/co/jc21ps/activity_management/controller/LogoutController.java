@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/Logout")
+@RequestMapping("/logout")
 public class LogoutController {
 
     @GetMapping

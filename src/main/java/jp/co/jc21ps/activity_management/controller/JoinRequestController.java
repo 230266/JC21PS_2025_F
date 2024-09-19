@@ -50,7 +50,7 @@ public class JoinRequestController {
 
         // セッションが切れた場合、ログイン画面に遷移
         if (userId == null) {
-            mav.setViewName("Login");
+            mav.setViewName("login");
             return mav;
         }
 
@@ -119,7 +119,7 @@ public class JoinRequestController {
 
         // セッションが切れた場合、ログイン画面に遷移
         if (userId == null) {
-            mav.setViewName("Login");
+            mav.setViewName("login");
             return mav;
         }
 
@@ -128,24 +128,27 @@ public class JoinRequestController {
         joinRequestSaveDto.setUserId(userId);
         joinRequestSaveDto.setClubId(paramForm.getClubId());
 
-        // サービスからdelete_flgを呼び出す
-        boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
+        try {
+            // サービスからdelete_flgを呼び出す
+            boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
 
-        if (result) {
-            // messages.propertiesからメッセージを取得
-            String joinRequestCompleteMessage = messageSource
-                    .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
-            paramForm.setMessage(joinRequestCompleteMessage);
+            if (result) {
+                // messages.propertiesからメッセージを取得
+                String joinRequestCompleteMessage = messageSource
+                        .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
+                paramForm.setMessage(joinRequestCompleteMessage);
 
-            // リダイレクト先に登録申請成功メッセージを渡す
-            redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
-            mav.setViewName("redirect:/joinRequest");
+                // リダイレクト先に登録申請成功メッセージを渡す
+                redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
+                mav.setViewName("redirect:/joinRequest");
 
-        } else {
-            // 登録失敗した場合、エラー画面に遷移
+            } else {
+                // 登録失敗した場合、エラー画面に遷移
+                mav.setViewName("error");
+            }
+        } catch (Exception e) {
             mav.setViewName("error");
         }
-
         return mav;
     }
 }

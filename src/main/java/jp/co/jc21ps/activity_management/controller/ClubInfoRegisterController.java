@@ -83,7 +83,7 @@ public class ClubInfoRegisterController {
         // バリデーション
         if (bindingResult.hasErrors()) {
             mav.addObject("clubInfoRegisterSaveForm", paramForm);
-            mav.setViewName("ClubInfoRegister");
+            mav.setViewName("clubInfoRegister");
             return mav;
         }
 
@@ -99,7 +99,7 @@ public class ClubInfoRegisterController {
 
         try {
             ClubInfoRegisterDto clubInfoRegisterDto = new ClubInfoRegisterDto();
-            clubInfoRegisterDto.setLeaderClubId(paramForm.getLeaderClubId());
+            clubInfoRegisterDto.setLeaderClubId(leaderClubId);
             clubInfoRegisterDto.setClubDescription(paramForm.getClubDescription());
             String result = clubInfoRegisterService.updateClubInfo(clubInfoRegisterDto);
 
@@ -110,7 +110,7 @@ public class ClubInfoRegisterController {
                 // 更新成功した場合、部署情報登録画面に遷移
                 mav.addObject("updateClubInfo", resultMessage);
                 mav.addObject("leaderClubId", leaderClubId);
-                mav.setViewName("ClubInfoRegister");
+                mav.setViewName("clubInfoRegister");
             } else {
                 // 更新失敗した場合、エラー画面に遷移
                 mav.setViewName("error");
