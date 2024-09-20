@@ -50,12 +50,30 @@ public class TopRepository {
                     trn_participant
                 WHERE
                     activity_id = ?
-                AND
-                    user_id = ?
+                    AND
+                    user_id = ?;
                 """;
 
         Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId(),
                 paramEntity.getUserId());
+
+        return responseCount;
+
+    }
+
+    // 参加中の人数を取得
+    public int isCurrentctivityParticipating(TopDataEntity paramEntity) {
+
+        String sqlCheck = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    trn_participant
+                WHERE
+                    activity_id = ?
+                """;
+
+        Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId());
 
         return responseCount;
 
@@ -128,6 +146,7 @@ public class TopRepository {
                 AND activity.activity_start_time > now()
                 WHERE
                     member.user_id = ?
+                    AND activity.activity_start_time > now()
                 ORDER BY
                     club.club_id ASC,activity.activity_start_time ASC;
                 """;
@@ -152,6 +171,10 @@ public class TopRepository {
 
         // 番号付与の初期値
         int index = 1;
+
+        String tmpClubId = null;
+
+        int exeCount = 0;
 
         for (Map<String, Object> activity : activityList) {
 
@@ -249,8 +272,20 @@ public class TopRepository {
             } else {
                 topData.setIsParticipationFlg(false); // デフォルト値
             }
+
             // 番号を設定
-            topData.setNo(index++);
+            if (exeCount == 0) {
+                topData.setNo(index++);
+                tmpClubId = (String) activity.get("club_id");
+
+            } else if (!tmpClubId.equals((String) activity.get("club_id"))) {
+                index = 1;
+                topData.setNo(index++);
+                tmpClubId = (String) activity.get("club_id");
+            } else {
+                topData.setNo(index++);
+            }
+            exeCount++;
             responseEntity.add(topData);
         }
         return responseEntity;

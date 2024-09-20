@@ -10,7 +10,7 @@
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-  position: relative;
+
 }
 
 .screen .label-description {
@@ -74,8 +74,8 @@
 }
 
 .screen .completemessage {
- margin-left: 364px;
- margin-top: 92px;
+  margin-left: 364px;
+  margin-top: 92px;
 }
 
 
@@ -271,6 +271,7 @@
 .c-error__list .li {
   top: 30px;
 }
+
 .screen .text-area-base {
   position: relative;
   width: 843px;

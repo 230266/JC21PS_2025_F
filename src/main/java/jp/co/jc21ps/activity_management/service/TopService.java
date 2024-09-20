@@ -71,10 +71,10 @@ public class TopService {
         Integer maxParticipants = topRepository.getMaxParticipants(paramEntity);
 
         // 現在の参加者数を取得
-        int currentParticipants = topRepository.isActivityParticipating(paramEntity);
+        int currentParticipants = topRepository.isCurrentctivityParticipating(paramEntity);
 
         // 活動の上限人数が現在の参加者数を上回っている場合、エラーメッセージを投げる
-        if (currentParticipants > maxParticipants) {
+        if (currentParticipants == maxParticipants) {
             // messages.propertiesからメッセージを取得
             String errorMessage = messageSource.getMessage("participation.limit.exceeded", null,
                     LocaleContextHolder.getLocale());

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.TopDataDto;
 import jp.co.jc21ps.activity_management.dto.TopDto;
@@ -59,41 +61,40 @@ public class TopController {
             topDto.setUserId(userId);
 
             List<TopDto> topDataList = topService.getTopData(topDto);
-            List<TopForm> responseForm = new ArrayList<>();
 
-            // formに値をセット
-            for (TopDto form : topDataList) {
+            List<TopForm> activityList = new ArrayList<>();
+
+            for (TopDto dto : topDataList) {
+                // formに値をセット
                 TopForm setTopData = new TopForm();
-                setTopData.setNo(form.getNo());
-                setTopData.setClubId(form.getClubId());
-                setTopData.setClubName(form.getClubName());
-                setTopData.setActivityId(form.getActivityId());
-                setTopData.setActivityName(form.getActivityName());
-                setTopData.setActivityPlace(form.getActivityPlace());
-                setTopData.setDispActivityDate(form.getDispActivityDate());
-                setTopData.setDispActivityTime(form.getDispActivityTime());
-                setTopData.setActivityStartTime(form.getActivityStartTime());
-                setTopData.setActivityEndTime(form.getActivityEndTime());
-                setTopData.setActivityDescription(form.getActivityDescription());
-                setTopData.setParticipantsCount(form.getParticipantsCount());
-                setTopData.setMaxParticipant(form.getMaxParticipant());
-                setTopData.setIsParticipationFlg(form.getIsParticipationFlg());
-                setTopData.setIsMajorityFlg(form.getIsMajorityFlg());
+                setTopData.setNo(dto.getNo());
+                setTopData.setClubId(dto.getClubId());
+                setTopData.setClubName(dto.getClubName());
+                setTopData.setActivityId(dto.getActivityId());
+                setTopData.setActivityName(dto.getActivityName());
+                setTopData.setActivityPlace(dto.getActivityPlace());
+                setTopData.setDispActivityDate(dto.getDispActivityDate());
+                setTopData.setDispActivityTime(dto.getDispActivityTime());
+                setTopData.setActivityStartTime(dto.getActivityStartTime());
+                setTopData.setActivityEndTime(dto.getActivityEndTime());
+                setTopData.setActivityDescription(dto.getActivityDescription());
+                setTopData.setParticipantsCount(dto.getParticipantsCount());
+                setTopData.setMaxParticipant(dto.getMaxParticipant());
+                setTopData.setIsParticipationFlg(dto.getIsParticipationFlg());
+                setTopData.setIsMajorityFlg(dto.getIsMajorityFlg());
+                activityList.add(setTopData);
 
-                // responseFormにリストを追加
-                responseForm.add(setTopData);
             }
             paramForm.setMessage(activityRegisterCompleteMessage);
             if (!ObjectUtils.isEmpty(paramForm)) {
                 mav.addObject("activityRegisterCompleteMessage", paramForm.getMessage());
             }
 
-            // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage("notactivitylist", null, Locale.getDefault());
 
             // 活動予定がない場合のメッセージ
             mav.addObject("message", resultMessage);
-            mav.addObject("topform", responseForm);
+            mav.addObject("responseForm", activityList);
             mav.addObject("leaderClubId", leaderClubId);
             // トップ画面に遷移
             mav.setViewName("top");
@@ -105,7 +106,7 @@ public class TopController {
     }
 
     @PostMapping("/save")
-    public ModelAndView toggleParticipation(TopDataForm paramForm) {
+    public ModelAndView toggleParticipation(TopDataForm paramForm, RedirectAttributes redirectAttributes) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -129,8 +130,9 @@ public class TopController {
 
                     // 活動の参加者人数が上限に達した場合、エラーメッセージを表示する
                 } catch (ParticipationLimitExceededException e) {
+                    redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
                     mav.addObject("errorMessage", e.getMessage());
-                    mav.setViewName("top");
+                    mav.setViewName("redirect:/top");
                     return mav;
                 }
             }

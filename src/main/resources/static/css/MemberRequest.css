@@ -10,7 +10,7 @@
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-  position: relative;
+
 }
 
 .screen .title {
@@ -40,9 +40,11 @@
   position: absolute;
   top: 159px;
   left: 438px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
+  /* 変更: フレックス方向を列に */
 }
+
 
 .screen .container-in-a {
   display: flex;
@@ -107,7 +109,7 @@
   align-items: flex-start;
   position: relative;
   flex: 0 0 auto;
-  box-shadow: 0 0 8px rgba(233, 235, 237, 1); 
+  box-shadow: 0 0 8px rgba(233, 235, 237, 1);
   border-radius: 16px;
   margin-top: 13px;
   padding-top: 15px;
@@ -121,7 +123,7 @@
   width: fit-content;
   margin-top: -1px;
   font-family: var(--heading-heading-2-font-family);
-  font-weight:600;
+  font-weight: 600;
   color: var(--grey-900);
   font-size: larger;
   letter-spacing: var(--heading-heading-2-letter-spacing);
@@ -212,6 +214,8 @@
   border-radius: 40px;
   border: 2px solid;
   border-color: var(--blue-800);
+  top: -400px;
+  left: -400px;
 }
 
 .screen .button-icon {
@@ -265,10 +269,13 @@
   letter-spacing: var(--body-paragraph-regular-letter-spacing);
   line-height: var(--body-paragraph-regular-line-height);
   font-style: var(--body-paragraph-regular-font-style);
-  word-wrap: break-word; /* 長い単語を折り返す */
-  overflow-wrap: break-word; /* 長い単語を折り返す（word-wrapの新しい標準名） */
+  word-wrap: break-word;
+  /* 長い単語を折り返す */
+  overflow-wrap: break-word;
+  /* 長い単語を折り返す（word-wrapの新しい標準名） */
   word-break: break-word;
-  word-break: normal; /* テキストの自動改行 */
+  word-break: normal;
+  /* テキストの自動改行 */
   white-space: normal;
   inline-size: 600px;
 }
@@ -469,4 +476,15 @@
   letter-spacing: -0.36px;
   line-height: 54px;
   white-space: nowrap;
+}
+
+.screen .backButton {
+  display: flex;
+  /* 変更: フレックスボックスを適用 */
+  justify-content: center;
+  /* 変更: 中央揃え */
+  margin-top: 20px;
+  /* 変更: ボタンとリストの間にスペースを追加 */
+  width: 100%;
+  /* 変更: 幅を100%にして中央に配置 */
 }

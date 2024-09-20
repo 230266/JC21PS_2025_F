@@ -1,64 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/globals.css}">
-    <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/MemberRequest.css}">
-  </head>
-  <body>
-    <div class="screen">
-      <div class="div">
-        <div class="sidebar">
-          <div th:replace="header"></div>
-          <div class="title">社内イベント管理</div>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" th:href="@{/css/globals.css}">
+  <link rel="stylesheet" th:href="@{/css/styleguide.css}">
+  <link rel="stylesheet" th:href="@{/css/MemberRequest.css}">
+</head>
+
+<body>
+  <div class="screen">
+    <div class="div">
+      <div class="sidebar">
+        <div th:replace="header"></div>
+        <div class="title">社内イベント管理</div>
+      </div>
+      <div class="title">部員登録申請</div>
+      <div class="frame">
+        <div class="joinOk">
+          <p th:if="${joinRequestCompleteMessage != null}" th:text="${joinRequestCompleteMessage}"></p>
         </div>
-        <div class="title">部員登録申請</div>
-          <div class="frame">
-            <div class="joinOk"><p th:if="${joinRequestCompleteMessage != null}" th:text="${joinRequestCompleteMessage}"></p></div>
-            <div class="joinOk"><p th:if="${notRequestClubMessage != null}" th:text="${notRequestClubMessage}"></p></div>
-            <div class="container-in-a" th:if="${notRequestClubMessage == null}">
-              <div class="wrapper">
-                <div class="div-2">
-                  <div class="title-action-buttons">
-                    <div class="header-base-wrapper">
-                      <div th:if="${joinRequestSaveForm} != null">
-                        <div class="header-base" th:each="joinRequestList : ${joinRequestSaveForm}">
-                          <div class="text-wrapper" th:text="*{joinRequestList.clubName}"></div>
-                          <div class="action-stripe-wrapper">
-                          <form th:action="@{/joinRequest/save}" th:object="${joinRequestSaveForm}" method="post">
-                            <input type="hidden" name="clubId" th:value="${joinRequestList.clubId}" />
-                              <div class="action-stripe">
-                                <button class="button" type="submit">
-                                  <div class="button-base">
-                                    <div class="button-icon">
-                                      <img class="icon" src="https://c.animaapp.com/s2zuqAk5/img/icon-16.svg" />
-                                    </div>
-                                    <div class="button-text">部員登録申請</div>
-                                  </div>
-                                </button>
+        <div class="joinOk">
+          <p th:if="${notRequestClubMessage != null}" th:text="${notRequestClubMessage}"></p>
+        </div>
+        <div class="container-in-a" th:if="${notRequestClubMessage == null}">
+          <div class="wrapper">
+            <div class="div-2">
+              <div class="title-action-buttons">
+                <div class="header-base-wrapper">
+                  <div th:if="${joinRequestSaveForm} != null">
+                    <div class="header-base" th:each="joinRequestList : ${joinRequestSaveForm}">
+                      <div class="text-wrapper" th:text="*{joinRequestList.clubName}"></div>
+                      <div class="action-stripe-wrapper">
+                        <form th:action="@{/joinRequest/save}" th:object="${joinRequestSaveForm}" method="post">
+                          <input type="hidden" name="clubId" th:value="${joinRequestList.clubId}" />
+                          <div class="action-stripe">
+                            <button class="button" type="submit">
+                              <div class="button-base">
+                                <div class="button-icon">
+                                  <img class="icon" src="https://c.animaapp.com/s2zuqAk5/img/icon-16.svg" />
+                                </div>
+                                <div class="button-text">部員登録申請</div>
                               </div>
-                          </form>
+                            </button>
                           </div>
-                          <div class="description" th:text="*{joinRequestList.clubDescription}"></div>
-                        </div>
+                        </form>
                       </div>
+                      <div class="description" th:text="*{joinRequestList.clubDescription}"></div>
                     </div>
                   </div>
-                <div>
                 </div>
-                <div class="div-2">
-                </div>
-                </div>
-                <div class="key-value-pairs"></div>
+              </div>
+              <div>
+              </div>
+              <div class="div-2">
               </div>
             </div>
-            <a href="/top" class="backButton">
-              <div class="button-base-1"><div class="button-text-1">戻る</div></div>
-            </a>
+            <div class="backButton">
+              <a href="/top">
+                <div class="button-base-1">
+                  <div class="button-text-1">戻る</div>
+                </div>
+              </a>
+            </div>
+            <div class="key-value-pairs"></div>
           </div>
         </div>
+
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

@@ -14,6 +14,8 @@ public class TopDataDto {
     // 部署名
     private String clubName;
 
+    private boolean isParticipationFlg;
+
     public TopDataDto() {
 
     }
@@ -49,4 +51,13 @@ public class TopDataDto {
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
+
+    public boolean isParticipationFlg() {
+        return isParticipationFlg;
+    }
+
+    public void setParticipationFlg(boolean isParticipationFlg) {
+        this.isParticipationFlg = isParticipationFlg;
+    }
+
 }
