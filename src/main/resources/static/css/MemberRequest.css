@@ -10,7 +10,7 @@
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-  position: relative;
+
 }
 
 .screen .title {
@@ -107,7 +107,7 @@
   align-items: flex-start;
   position: relative;
   flex: 0 0 auto;
-  box-shadow: 0 0 8px rgba(233, 235, 237, 1); 
+  box-shadow: 0 0 8px rgba(233, 235, 237, 1);
   border-radius: 16px;
   margin-top: 13px;
   padding-top: 15px;
@@ -121,7 +121,7 @@
   width: fit-content;
   margin-top: -1px;
   font-family: var(--heading-heading-2-font-family);
-  font-weight:600;
+  font-weight: 600;
   color: var(--grey-900);
   font-size: larger;
   letter-spacing: var(--heading-heading-2-letter-spacing);
@@ -265,10 +265,13 @@
   letter-spacing: var(--body-paragraph-regular-letter-spacing);
   line-height: var(--body-paragraph-regular-line-height);
   font-style: var(--body-paragraph-regular-font-style);
-  word-wrap: break-word; /* 長い単語を折り返す */
-  overflow-wrap: break-word; /* 長い単語を折り返す（word-wrapの新しい標準名） */
+  word-wrap: break-word;
+  /* 長い単語を折り返す */
+  overflow-wrap: break-word;
+  /* 長い単語を折り返す（word-wrapの新しい標準名） */
   word-break: break-word;
-  word-break: normal; /* テキストの自動改行 */
+  word-break: normal;
+  /* テキストの自動改行 */
   white-space: normal;
   inline-size: 600px;
 }

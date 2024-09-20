@@ -9,7 +9,7 @@
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-  position: relative;
+
 }
 
 .screen .sidebar {
@@ -253,12 +253,12 @@
   width: 8px;
   height: 34px;
   border-radius: 8px 0px 0px 8px;
-  outline:none;
+  outline: none;
 }
 
 .screen .text {
   padding: 6px 12px 6px 6px;
-  position: relative; 
+  position: relative;
   flex-grow: 1;
   border: none;
   background: none;
@@ -275,10 +275,11 @@
 }
 
 .screen .error-list {
-  list-style: none; /* リストのデフォルトスタイルを削除 */
+  list-style: none;
+  /* リストのデフォルトスタイルを削除 */
   color: red;
-  font-size: 0.875em; 
-  margin-left: 10px; 
+  font-size: 0.875em;
+  margin-left: 10px;
 }
 
 .screen .form-field-2 {
