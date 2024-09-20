@@ -79,6 +79,8 @@ public class RegisterActivitySaveForm {
     @Max(value = 100, message = "{Max}")
     private String maxParticipant;
 
+    private String message;
+
     public RegisterActivitySaveForm() {
 
     }
@@ -161,6 +163,14 @@ public class RegisterActivitySaveForm {
 
     public void setMaxParticipant(String maxParticipant) {
         this.maxParticipant = maxParticipant;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

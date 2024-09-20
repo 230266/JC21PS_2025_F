@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.TopDataDto;
 import jp.co.jc21ps.activity_management.dto.TopDto;
 import jp.co.jc21ps.activity_management.form.TopForm;
+import jp.co.jc21ps.activity_management.form.RegisterActivitySaveForm;
 import jp.co.jc21ps.activity_management.form.TopDataForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.ParticipationLimitExceededException;
@@ -35,7 +37,8 @@ public class TopController {
     }
 
     @GetMapping
-    public ModelAndView dispTop(HttpSession session, Model model) {
+    public ModelAndView dispTop(HttpSession session, RegisterActivitySaveForm paramForm,
+            @ModelAttribute("activityRegisterCompleteMessage") String activityRegisterCompleteMessage) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -79,6 +82,10 @@ public class TopController {
 
                 // responseFormにリストを追加
                 responseForm.add(setTopData);
+            }
+            paramForm.setMessage(activityRegisterCompleteMessage);
+            if (!ObjectUtils.isEmpty(paramForm)) {
+                mav.addObject("activityRegisterCompleteMessage", paramForm.getMessage());
             }
 
             // messages.propertiesからメッセージを取得

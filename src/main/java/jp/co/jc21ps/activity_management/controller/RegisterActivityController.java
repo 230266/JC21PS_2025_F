@@ -14,6 +14,8 @@ import jp.co.jc21ps.dto.RegisterActivityDto;
 import jp.co.jc21ps.dto.RegisterActivitySaveDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,7 +73,7 @@ public class RegisterActivityController {
 
     @PostMapping("/save")
     public ModelAndView insertActivity(@Valid RegisterActivitySaveForm paramForm,
-            BindingResult bindingResult, HttpSession session) {
+            BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -112,12 +114,15 @@ public class RegisterActivityController {
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
 
             // messages.propertiesからメッセージを取得
-            String resultMessage = messageSource.getMessage(resultMessageKey, null, Locale.getDefault());
+            // String resultMessage = messageSource.getMessage(resultMessageKey, null,
+            // Locale.getDefault());
+            String resultMessage = messageSource.getMessage(resultMessageKey, null,
+                    Locale.getDefault());
 
             switch (resultMessageKey) {
                 // 活動登録に成功した場合、トップ画面に遷移
                 case "activityRegisterCompleteMessage":
-                    mav.addObject("activityRegisterCompleteMessage", resultMessage);
+                    redirectAttributes.addFlashAttribute("activityRegisterCompleteMessage", resultMessage);
                     mav.addObject("leaderClubId", leaderClubId);
                     mav.setViewName("redirect:/top");
                     break;
@@ -126,7 +131,7 @@ public class RegisterActivityController {
                 case "impossibleDate":
                     mav.addObject("impossibleDate", resultMessage);
                     mav.addObject("leaderClubId", leaderClubId);
-                    mav.setViewName("RegisterActivity");
+                    mav.setViewName("/registerActivity");
                     break;
                 default:
                     // 活動登録に失敗した場合、エラー画面に遷移
