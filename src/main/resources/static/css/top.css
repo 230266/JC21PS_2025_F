@@ -48,7 +48,7 @@
 }
 
 .screen .text-wrapper-clubname {
-  width: 109px;
+  width: 200px;
   color: #828282;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -64,7 +64,7 @@
 }
 
 .screen .text-wrapper-actname {
-  width: 180px;
+  width: 225px;
   color: #828282;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -93,6 +93,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  left: -10px;
 }
 
 .screen .text-wrapper-3 {
@@ -144,7 +145,7 @@
 }
 
 .screen .text-wrapper-6 {
-  width: 192px;
+  width: 262px;
   text-align: center;
   position: relative;
   font-family: "Inter", Helvetica;
@@ -158,10 +159,11 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  left: -49px;
 }
 
 .screen .text-wrapper-7 {
-  width: 207px;
+  width: 130px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 700;
@@ -174,23 +176,25 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  left: -65px;
 }
 
 .screen .text-wrapper-8 {
-  width: 207px;
+  width: 130px;
   margin-right: -163px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 700;
   color: #828282;
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: 0;
   line-height: 24px;
-  overflow: hidden;
+  /* overflow: hidden; */
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+  left: 22px;
 }
 
 
@@ -220,20 +224,24 @@
 }
 
 .screen .IT {
-  width: 100px;
-  height: 82px;
-  color: #000000;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: 200px;
+  /* 幅を指定 */
+
+  overflow-y: auto;
+  /* 垂直方向のオーバーフローを自動でスクロール */
+  overflow-x: hidden;
+  /* 水平方向のオーバーフローを隠す */
   display: -webkit-box;
+  /* Flexboxを使用して縦並びに */
   -webkit-line-clamp: 3;
+  /* 最大3行まで表示 */
   -webkit-box-orient: vertical;
-  position: relative;
+  /* 縦方向に設定 */
   font-family: "Inter", Helvetica;
   font-weight: 500;
   font-size: 16px;
-  letter-spacing: 0;
-  line-height: 80px;
+  line-height: 24px;
+
 }
 
 .screen .text-wrapper-10 {
@@ -577,4 +585,24 @@
   /* 太字にする */
   margin-bottom: 20px;
   /* 下の余白 */
+}
+
+.screen.text-clubname {
+  width: 200px;
+
+}
+
+.div.list-posision {
+  display: flex;
+  flex-direction: column;
+  /* 縦並びに変更 */
+  height: auto;
+  /* 高さを自動にする */
+  align-items: flex-start;
+  /* 左寄せにする */
+  gap: 10px;
+  /* 各要素の間隔を設定 */
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  box-sizing: border-box;
 }

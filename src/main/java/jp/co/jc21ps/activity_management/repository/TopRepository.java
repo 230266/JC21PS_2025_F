@@ -49,12 +49,9 @@ public class TopRepository {
                     trn_participant
                 WHERE
                     activity_id = ?
-                AND
-                    user_id = ?
                 """;
 
-        Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId(),
-                paramEntity.getUserId());
+        Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId());
         return responseCount;
     }
 
@@ -146,6 +143,10 @@ public class TopRepository {
 
         int index = 1; // 番号付与の初期値
 
+        String tmpClubId = null;
+
+        int exeCount = 0;
+
         for (Map<String, Object> activity : activityList) {
             TopEntity topData = new TopEntity();
 
@@ -227,8 +228,20 @@ public class TopRepository {
             } else {
                 topData.setIsParticipationFlg(false); // デフォルト値
             }
+
             // 番号を設定
-            topData.setNo(index++);
+            if (exeCount == 0) {
+                topData.setNo(index++);
+                tmpClubId = (String) activity.get("club_id");
+
+            } else if (!tmpClubId.equals((String) activity.get("club_id"))) {
+                index = 1;
+                topData.setNo(index++);
+                tmpClubId = (String) activity.get("club_id");
+            } else {
+                topData.setNo(index++);
+            }
+            exeCount++;
             responseEntity.add(topData);
         }
         return responseEntity;

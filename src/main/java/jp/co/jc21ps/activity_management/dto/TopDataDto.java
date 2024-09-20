@@ -6,6 +6,8 @@ public class TopDataDto {
     private String clubId;
     private String clubName;
 
+    private boolean isParticipationFlg;
+
     public String getActivityId() {
         return activityId;
     }
@@ -37,4 +39,13 @@ public class TopDataDto {
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
+
+    public boolean isParticipationFlg() {
+        return isParticipationFlg;
+    }
+
+    public void setParticipationFlg(boolean isParticipationFlg) {
+        this.isParticipationFlg = isParticipationFlg;
+    }
+
 }

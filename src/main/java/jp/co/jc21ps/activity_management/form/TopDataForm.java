@@ -1,6 +1,7 @@
 package jp.co.jc21ps.activity_management.form;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public class TopDataForm {
 
@@ -12,6 +13,8 @@ public class TopDataForm {
 
     private String clubId;
     private String clubName;
+    // 参加予定フラグ
+    private boolean isParticipationFlg;
 
     public String getActivityId() {
         return activityId;
@@ -44,4 +47,13 @@ public class TopDataForm {
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
+
+    public boolean isParticipationFlg() {
+        return isParticipationFlg;
+    }
+
+    public void setParticipationFlg(boolean isParticipationFlg) {
+        this.isParticipationFlg = isParticipationFlg;
+    }
+
 }

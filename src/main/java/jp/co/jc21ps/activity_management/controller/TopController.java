@@ -57,30 +57,34 @@ public class TopController {
             TopDto topDto = new TopDto();
             topDto.setUserId(userId);
             List<TopDto> topDataList = topService.getTopData(topDto);
-            List<TopForm> responseForm = new ArrayList<>();
 
-            for (TopDto form : topDataList) {
+            List<TopForm> activityList = new ArrayList<>();
+
+            for (TopDto dto : topDataList) {
                 TopForm setTopData = new TopForm();
-                setTopData.setNo(form.getNo());
-                setTopData.setClubId(form.getClubId());
-                setTopData.setClubName(form.getClubName());
-                setTopData.setActivityId(form.getActivityId());
-                setTopData.setActivityName(form.getActivityName());
-                setTopData.setActivityPlace(form.getActivityPlace());
-                setTopData.setDispActivityDate(form.getDispActivityDate());
-                setTopData.setDispActivityTime(form.getDispActivityTime());
-                setTopData.setActivityStartTime(form.getActivityStartTime());
-                setTopData.setActivityEndTime(form.getActivityEndTime());
-                setTopData.setActivityDescription(form.getActivityDescription());
-                setTopData.setParticipantsCount(form.getParticipantsCount());
-                setTopData.setMaxParticipant(form.getMaxParticipant());
-                setTopData.setIsParticipationFlg(form.getIsParticipationFlg());
-                setTopData.setIsMajorityFlg(form.getIsMajorityFlg());
-                responseForm.add(setTopData);
+
+                setTopData.setNo(dto.getNo());
+                setTopData.setClubId(dto.getClubId());
+                setTopData.setClubName(dto.getClubName());
+                setTopData.setActivityId(dto.getActivityId());
+                setTopData.setActivityName(dto.getActivityName());
+                setTopData.setActivityPlace(dto.getActivityPlace());
+                setTopData.setDispActivityDate(dto.getDispActivityDate());
+                setTopData.setDispActivityTime(dto.getDispActivityTime());
+                setTopData.setActivityStartTime(dto.getActivityStartTime());
+                setTopData.setActivityEndTime(dto.getActivityEndTime());
+                setTopData.setActivityDescription(dto.getActivityDescription());
+                setTopData.setParticipantsCount(dto.getParticipantsCount());
+                setTopData.setMaxParticipant(dto.getMaxParticipant());
+                setTopData.setIsParticipationFlg(dto.getIsParticipationFlg());
+                setTopData.setIsMajorityFlg(dto.getIsMajorityFlg());
+                activityList.add(setTopData);
+
             }
+
             String resultMessage = messageSource.getMessage("notactivitylist", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
-            mav.addObject("topform", responseForm);
+            mav.addObject("responseForm", activityList);
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("top");
         } catch (Exception e) {

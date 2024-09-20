@@ -40,7 +40,7 @@ public class TopService {
         boolean flg = false;
 
         // 0より大きい(参加している)場合trueにして返す
-        if (participants > 0) {
+        if (participants != 0) {
             flg = true;
         }
 
