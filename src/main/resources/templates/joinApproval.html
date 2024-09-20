@@ -41,7 +41,7 @@
                   </div>
                   <div class="action-stripe-wrapper">
                     <div class="action-stripe">
-                      <form th:action="@{/joinApproval/Approval}" method="post">
+                      <form th:action="@{/joinApproval/approval}" method="post">
                         <input type="hidden" name="userId" th:value="${form.userId}" />
                         <input type="hidden" name="clubId" th:value="${form.clubId}" />
                         <input type="hidden" name="leaderFlg" th:value="${form.leaderFlg}" />
@@ -56,7 +56,7 @@
                 </div>
               </div>
               <div class="key-value-pairs"></div>
-              <form th:action="@{/joinApproval/Denial}" method="post">
+              <form th:action="@{/joinApproval/denial}" method="post">
                 <input type="hidden" name="userId" th:value="${form.userId}" />
                 <input type="hidden" name="clubId" th:value="${form.clubId}" />
                 <input type="hidden" name="leaderFlg" th:value="${form.leaderFlg}" />

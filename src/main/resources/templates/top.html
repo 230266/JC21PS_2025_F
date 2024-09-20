@@ -44,32 +44,9 @@
           </div>
         </div>
         <!-- リストがある場合の表示 -->
-<<<<<<< HEAD
         <div th:if="${responseForm} != null">
           <div class="list-posision">
             <div class="navbar-2" th:each="actList : ${responseForm}">
-=======
-        <div th:if="${topform} != null">
-          <div class="navbar-2" th:each="actList : ${topform}">
-            <div class="text-wrapper-9" th:text="${actList.no}"></div>
-            <div class="IT" th:text="${actList.clubName}"></div>
-            <div class="text-wrapper-10">
-              <a th:href="@{/participantList(activityId=${actList.activityId})}" th:text="${actList.activityName}"></a>
-            </div>
-            <div class="text-wrapper-3" th:text="${actList.dispActivityDate}"></div>
-            <div class="text-wrapper-acttime" th:text="${actList.activityStartTime} + '～'+ ${actList.activityEndTime}">
-            </div>
-            <div class="text-wrapper-10" th:text="${actList.activityPlace}"></div>
-            <div class="text-wrapper-11" th:classappend="${actList.isMajorityFlg ? 'red-text' : ''}"
-              th:text="${actList.participantsCount} + '/' + ${actList.maxParticipant}"></div>
-            <div class="text-wrapper-12"
-              th:style="'max-height: ' + (${actList.activityDescription.length() > 45} ? '81px' : 'auto') + '; overflow: ' + (${actList.activityDescription.length() > 45} ? 'auto' : 'hidden')"
-              th:text="${actList.activityDescription}"></div>
-            <form th:action="@{/top/save}" th:object="${topDataForm}" method="post">
-              <input type="hidden" name="activityId" th:value="${actList.activityId}" />
-              <input type="hidden" name="userId" th:value="${session.userId}" />
-              <input type="hidden" name="clubId" th:value="${actList.clubId}" />
->>>>>>> dev
 
               <div class="text-wrapper-9" th:text="${actList.no}"></div>
               <div class="IT" th:text="${actList.clubName}"><br /></div>
