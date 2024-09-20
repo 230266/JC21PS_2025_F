@@ -40,9 +40,11 @@
   position: absolute;
   top: 159px;
   left: 438px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
+  /* 変更: フレックス方向を列に */
 }
+
 
 .screen .container-in-a {
   display: flex;
@@ -212,6 +214,8 @@
   border-radius: 40px;
   border: 2px solid;
   border-color: var(--blue-800);
+  top: -400px;
+  left: -400px;
 }
 
 .screen .button-icon {
@@ -472,4 +476,15 @@
   letter-spacing: -0.36px;
   line-height: 54px;
   white-space: nowrap;
+}
+
+.screen .backButton {
+  display: flex;
+  /* 変更: フレックスボックスを適用 */
+  justify-content: center;
+  /* 変更: 中央揃え */
+  margin-top: 20px;
+  /* 変更: ボタンとリストの間にスペースを追加 */
+  width: 100%;
+  /* 変更: 幅を100%にして中央に配置 */
 }

@@ -10,7 +10,7 @@
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-
+  position: relative;
 }
 
 .screen .sidebar {
@@ -229,7 +229,7 @@
   left: 0;
   background-color: var(--white);
   border-radius: 16px;
-  box-shadow: 0 0 8px gray;
+  box-shadow: 0 0 8px #e0e0e0;
 }
 
 .screen .wrapper {
@@ -293,7 +293,7 @@
   line-height: normal;
   white-space: nowrap;
   font-style: unset;
-  font-family: math;
+
   font-size: 24px;
 }
 
