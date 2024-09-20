@@ -49,9 +49,12 @@ public class TopRepository {
                     trn_participant
                 WHERE
                     activity_id = ?
+                    AND
+                    user_id = ?;
                 """;
 
-        Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId());
+        Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId(),
+                paramEntity.getUserId());
         return responseCount;
     }
 
@@ -118,6 +121,7 @@ public class TopRepository {
                 AND activity.activity_start_time > now()
                 WHERE
                     member.user_id = ?
+                    AND activity.activity_start_time > now()
                 ORDER BY
                     club.club_id ASC,activity.activity_start_time ASC;
                 """;
