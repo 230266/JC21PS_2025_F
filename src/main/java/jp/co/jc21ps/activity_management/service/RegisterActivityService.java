@@ -61,29 +61,23 @@ public class RegisterActivityService {
             LocalDateTime startDateTime = LocalDateTime.parse(registStartTime, formatter);
             LocalDateTime endDateTime = LocalDateTime.parse(registEndTime, formatter);
 
-            if (startDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())) {
-                // 過去の日付の場合はエラーメッセージを返す
-                return "impossibleDate";
-            } else {
+            // maxParticipantをString型からint型に変換
+            int maxParticipant = Integer.parseInt(paramDto.getMaxParticipant());
 
-                // maxParticipantをString型からint型に変換
-                int maxParticipant = Integer.parseInt(paramDto.getMaxParticipant());
+            // entityに値をセット
+            responseEntity.setActivityId(paramDto.getActivityId());
+            responseEntity.setActivityName(paramDto.getActivityName());
+            responseEntity.setActivityPlace(paramDto.getActivityPlace());
+            responseEntity.setActivityStartTime(startDateTime); // LocalDateTime型
+            responseEntity.setActivityEndTime(endDateTime); // LocalDateTime型
+            responseEntity.setActivityDescription(paramDto.getActivityDescription());
+            responseEntity.setMaxParticipant(maxParticipant);
+            responseEntity.setClubId(paramDto.getClubId());
 
-                // entityに値をセット
-                responseEntity.setActivityId(paramDto.getActivityId());
-                responseEntity.setActivityName(paramDto.getActivityName());
-                responseEntity.setActivityPlace(paramDto.getActivityPlace());
-                responseEntity.setActivityStartTime(startDateTime); // LocalDateTime型
-                responseEntity.setActivityEndTime(endDateTime); // LocalDateTime型
-                responseEntity.setActivityDescription(paramDto.getActivityDescription());
-                responseEntity.setMaxParticipant(maxParticipant);
-                responseEntity.setClubId(paramDto.getClubId());
+            registerActivityRepository.saveActivity(responseEntity);
 
-                registerActivityRepository.saveActivity(responseEntity);
-
-                // 成功のメッセージを返す
-                return "activityRegisterCompleteMessage";
-            }
+            // 成功のメッセージを返す
+            return "activityRegisterCompleteMessage";
 
             // 日付形式が無効な場合、エラーメッセージを返す
         } catch (DateTimeParseException e) {

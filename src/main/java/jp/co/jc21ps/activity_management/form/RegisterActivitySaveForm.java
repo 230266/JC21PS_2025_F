@@ -1,5 +1,7 @@
 package jp.co.jc21ps.activity_management.form;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Max;
@@ -29,6 +31,21 @@ public class RegisterActivitySaveForm {
     @DateTimeFormat(pattern = "{DateTimeFormat}") // 日付形式yyyy-MM-dd
     private String activityDate;
 
+    // 過去の日付が入力されたとき
+    @AssertTrue(message = "{AssertTrue.activityDate}")
+    public boolean isActivityDateValid() {
+        try {
+            if (activityDate != null) {
+                LocalDate inputDate = LocalDate.parse(activityDate);
+                return !inputDate.isBefore(LocalDate.now());
+            }
+            return true;
+
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
     // 活動場所
     @NotBlank(message = "{NotBlank}")
     @Size(max = 30, message = "{Size}")
@@ -54,8 +71,9 @@ public class RegisterActivitySaveForm {
                 int activityStartTimeInt = Integer.parseInt(activityStartTime.replace(":", ""));
 
                 // 時間の(:)を削除し、intに変換
-                if (activityEndTimeInt >= activityStartTimeInt)
+                if (activityEndTimeInt >= activityStartTimeInt) {
                     return true;
+                }
                 return false;
             }
 

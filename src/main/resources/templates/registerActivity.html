@@ -117,9 +117,8 @@
                 <ul th:if="${#fields.hasErrors('activityDate')}" style="color: red;">
                   <li th:errors="*{activityDate}"></li>
                 </ul>
-                <div th:if="${impossibleDate != null}" th:text="${impossibleDate}" style="color: red;">
-                  </th:if>
-                </div>
+                <div th:if="${#fields.hasErrors('activityDateValid')}" th:errors="*{activityDateValid}"
+                  style="color: red;"></div>
               </div>
             </div>
           </div>

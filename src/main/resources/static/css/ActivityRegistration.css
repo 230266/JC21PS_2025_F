@@ -173,7 +173,7 @@
   position: absolute;
   width: 844px;
   height: 304px;
-  top: 1px;
+  top: 3px;
   left: 0;
 }
 
@@ -184,7 +184,7 @@
   align-items: flex-start;
   gap: 4px;
   position: absolute;
-  top: 53px;
+  top: 60px;
   left: 0;
   margin-top: 5px;
 }
@@ -253,12 +253,12 @@
   width: 8px;
   height: 34px;
   border-radius: 8px 0px 0px 8px;
-  outline:none;
+  outline: none;
 }
 
 .screen .text {
   padding: 6px 12px 6px 6px;
-  position: relative; 
+  position: relative;
   flex-grow: 1;
   border: none;
   background: none;
@@ -275,10 +275,11 @@
 }
 
 .screen .error-list {
-  list-style: none; /* リストのデフォルトスタイルを削除 */
+  list-style: none;
+  /* リストのデフォルトスタイルを削除 */
   color: red;
-  font-size: 0.875em; 
-  margin-left: 10px; 
+  font-size: 0.875em;
+  margin-left: 10px;
 }
 
 .screen .form-field-2 {

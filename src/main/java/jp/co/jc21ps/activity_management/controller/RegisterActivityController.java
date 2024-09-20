@@ -114,8 +114,6 @@ public class RegisterActivityController {
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
 
             // messages.propertiesからメッセージを取得
-            // String resultMessage = messageSource.getMessage(resultMessageKey, null,
-            // Locale.getDefault());
             String resultMessage = messageSource.getMessage(resultMessageKey, null,
                     Locale.getDefault());
 
