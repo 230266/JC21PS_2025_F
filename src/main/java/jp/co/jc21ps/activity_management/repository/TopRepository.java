@@ -1,7 +1,6 @@
 package jp.co.jc21ps.activity_management.repository;
 
 import java.time.LocalDateTime;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,7 @@ public class TopRepository {
 
     // 上限人数を取得
     public int getMaxParticipants(TopDataEntity paramEntity) {
+
         String sqlcheck = """
                 SELECT
                     max_participant
@@ -42,6 +42,7 @@ public class TopRepository {
 
     // 参加中の人数を取得
     public int isActivityParticipating(TopDataEntity paramEntity) {
+
         String sqlCheck = """
                 SELECT
                     COUNT(*)
@@ -55,11 +56,14 @@ public class TopRepository {
 
         Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId(),
                 paramEntity.getUserId());
+
         return responseCount;
+
     }
 
-    // 参加ボタンを押したとき
+    // 参加処理
     public void saveActivity(TopDataEntity paramEntity) {
+
         String sqlInsert = """
                 INSERT INTO
                     trn_participant
@@ -75,10 +79,12 @@ public class TopRepository {
         };
 
         jdbcTemplate.update(sqlInsert, paramList);
+
     }
 
-    // 不参加ボタンを押したとき
+    // 不参加処理
     public void deleteActivity(TopDataEntity paramEntity) {
+
         String sqlDelete = """
                 DELETE FROM
                     trn_participant
@@ -94,11 +100,12 @@ public class TopRepository {
         };
 
         jdbcTemplate.update(sqlDelete, paramList);
+
     }
 
-    // 画面表示
-    // 部署ID、部活名、活動ID、活動名、活動場所、活動日、活動時間、活動説明、参加予定人数、参加上限人数、参加予定フラグ
+    // 初期画面表示
     public List<TopEntity> getTopData(TopEntity paramEntity) {
+
         String sql = """
                 SELECT
                     distinct activity.*,
@@ -125,6 +132,7 @@ public class TopRepository {
                 ORDER BY
                     club.club_id ASC,activity.activity_start_time ASC;
                 """;
+
         // テスト終わったら下の条件文入れて
         // AND activity.activity_start_time > now()
         List<Map<String, Object>> activityList = jdbcTemplate.queryForList(sql, paramEntity.getUserId(),
@@ -132,26 +140,27 @@ public class TopRepository {
 
         List<TopEntity> responseEntity = new ArrayList<>();
 
-        // 空だった場合
+        // リストが空だった場合
         if (activityList.isEmpty()) {
             return responseEntity;
         }
 
-        // 活動時間(startTimeにもendTimeにも使う)
+        // 活動時間をHH:MM形式に指定
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:MM");
 
-        // 活動日
+        // 活動日をyyyy-MM-dd形式に指定
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        // 活動リストの番号振り分け用
-
-        int index = 1; // 番号付与の初期値
+        // 番号付与の初期値
+        int index = 1;
 
         String tmpClubId = null;
 
         int exeCount = 0;
 
         for (Map<String, Object> activity : activityList) {
+
+            // entityに値をセットする
             TopEntity topData = new TopEntity();
 
             // 部署ID
@@ -169,31 +178,40 @@ public class TopRepository {
             // 活動場所
             topData.setActivityPlace((String) activity.get("activity_place"));
 
-            // 開始時間
+            // 活動時間（自）
+            // LocalDateTime型に変換
             Object startTimeObj = activity.get("activity_start_time");
+
             if (startTimeObj instanceof LocalDateTime) {
                 LocalDateTime startTime = (LocalDateTime) startTimeObj;
                 topData.setActivityStartTime(startTime.format(formatterTime));
+
             } else if (startTimeObj instanceof String) {
                 LocalDateTime startTime = LocalDateTime.parse((String) startTimeObj, formatterTime);
                 topData.setActivityStartTime(startTime.format(formatterTime));
             }
 
-            // 終了時間
+            // 活動時間（至）
+            // LocalDateTime型に変換
             Object endTimeObj = activity.get("activity_end_time");
+
             if (endTimeObj instanceof LocalDateTime) {
                 LocalDateTime endTime = (LocalDateTime) endTimeObj;
                 topData.setActivityEndTime(endTime.format(formatterTime));
+
             } else if (endTimeObj instanceof String) {
                 LocalDateTime endTime = LocalDateTime.parse((String) endTimeObj, formatterTime);
                 topData.setActivityEndTime(endTime.format(formatterTime));
             }
 
             // 活動日
+            // LocalDateTime型に変換
             Object DateObj = activity.get("activity_start_time");
+
             if (DateObj instanceof LocalDateTime) {
                 LocalDateTime Date = (LocalDateTime) DateObj;
                 topData.setDispActivityDate(Date.format(formatterDate));
+
             } else if (DateObj instanceof String) {
                 LocalDateTime Date = LocalDateTime.parse((String) DateObj, formatterDate);
                 topData.setDispActivityDate(Date.format(formatterDate));
@@ -203,6 +221,7 @@ public class TopRepository {
             topData.setActivityDescription((String) activity.get("activity_description"));
 
             // 参加人数
+            // int型に変換
             Object countObj = activity.get("count");
             if (countObj instanceof Long) {
                 Long countLong = (Long) countObj;
@@ -217,6 +236,7 @@ public class TopRepository {
             }
 
             // 上限人数
+            // int型に変換
             Object maxParticipantObj = activity.get("max_participant");
             String maxParticipantString = "";
             if (maxParticipantObj instanceof Number) {
@@ -225,6 +245,8 @@ public class TopRepository {
             }
             topData.setMaxParticipant(maxParticipantString);
 
+            // 参加者フラグ
+            // int型に変換
             Object participationFlgObj = activity.get("participation_flg");
             if (participationFlgObj instanceof Number) {
                 int participationFlgInt = ((Number) participationFlgObj).intValue();

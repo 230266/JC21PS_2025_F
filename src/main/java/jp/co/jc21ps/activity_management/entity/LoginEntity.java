@@ -2,11 +2,21 @@ package jp.co.jc21ps.activity_management.entity;
 
 public class LoginEntity {
 
+    // パスワード
     private String password;
+
+    // ログイン名
     private String loginName;
+
+    // ユーザーID
     private String userId;
+
+    // 部署ID
     private String clubId;
-    // Entityはアンスコ必要？
+
+    public LoginEntity() {
+
+    }
 
     public String getLoginName() {
         return loginName;

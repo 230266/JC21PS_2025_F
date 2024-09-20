@@ -1,9 +1,17 @@
 package jp.co.jc21ps.activity_management.dto;
 
 public class LoginDto {
+
+    // ユーザーID
     private String userId;
+
+    // 部署ID
     private String clubId;
+
+    // ログイン名
     private String loginName;
+
+    // パスワード
     private String password;
 
     public LoginDto() {

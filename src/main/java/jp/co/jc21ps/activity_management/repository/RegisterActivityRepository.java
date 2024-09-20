@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
 import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
 
-//DB接続クラス
 @Repository
 public class RegisterActivityRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -16,11 +15,8 @@ public class RegisterActivityRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // クラブIDから部署名を取得するメソッド
+    // 初期画面表示
     public RegisterActivityEntity getActivityByClubId(RegisterActivityEntity paramEntity) {
-
-        // 取得したデータをRegisterActivityEntityに変換、エンティティに引数なしのコンストラクタ作ってる
-        RegisterActivityEntity responseEntity = new RegisterActivityEntity();
 
         String sql = """
                 SELECT
@@ -31,16 +27,18 @@ public class RegisterActivityRepository {
                     club_id = ?
                 """;
 
-        // clubIdに対応する活動情報を取得
         Map<String, Object> getResult = jdbcTemplate.queryForMap(sql, paramEntity.getClubId());
 
-        // エンティティにclubNameをセットする
-        responseEntity.setClubName((String) getResult.get("club_name")); // List場合は、ListにEntityをaddしてあげて返す。List.add(Entity)
-        return responseEntity; // Listで返さない場合は、Listにaddせずに返す。
+        // responseEntityに値をセット
+        RegisterActivityEntity responseEntity = new RegisterActivityEntity();
+        responseEntity.setClubName((String) getResult.get("club_name"));
+
+        return responseEntity;
     }
 
-    // 入力された値を登録するメソッド
+    // 入力値を登録
     public void saveActivity(RegisterActivitySaveEntity paramEntity) {
+
         String sql = """
                 INSERT INTO
                     trn_activity (activity_id,
@@ -54,7 +52,7 @@ public class RegisterActivityRepository {
                 VALUES (?,?,?,?,?,?,?,?)
                 """;
 
-        // パラメータの設定
+        // paramEntityから値をゲット
         Object[] paramList = {
                 paramEntity.getActivityId(),
                 paramEntity.getClubId(),
@@ -66,18 +64,15 @@ public class RegisterActivityRepository {
                 paramEntity.getMaxParticipant(), // int型
         };
 
-        // DBに挿入
         jdbcTemplate.update(sql, paramList);
     }
 
-    // シーケンスからactivityIdを取得するメソッド
+    // シーケンスからactivityIdを取得
     public String getNextActivityId() throws Exception {
 
-        // SQLクエリの定義
         String sql = "SELECT nextval('activity_id_sequence') AS id";
 
         try {
-            // クエリを実行して次のシーケンスの値を取得
             Integer sequenceValue = jdbcTemplate.queryForObject(sql, Integer.class);
 
             if (sequenceValue != null) {
@@ -87,9 +82,11 @@ public class RegisterActivityRepository {
                 throw new Exception();
             }
         } catch (Exception e) {
+            // DB実行失敗した場合
             e.printStackTrace();
             throw new Exception();
         }
+
     }
 
 }

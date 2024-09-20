@@ -4,19 +4,19 @@ import jakarta.validation.constraints.Size;
 
 public class ClubInfoRegisterSaveForm {
 
-    // leaderClubId
+    // leaderClubIb
     private String leaderClubId;
 
     // 部署名
     private String clubName;
 
-    public ClubInfoRegisterSaveForm() {
-
-    }
-
     // 部署説明
     @Size(max = 400, message = "{Size}")
     private String clubDescription;
+
+    public ClubInfoRegisterSaveForm() {
+
+    }
 
     public String getLeaderClubId() {
         return leaderClubId;
@@ -41,4 +41,5 @@ public class ClubInfoRegisterSaveForm {
     public void setClubDescription(String clubDescription) {
         this.clubDescription = clubDescription;
     }
+
 }

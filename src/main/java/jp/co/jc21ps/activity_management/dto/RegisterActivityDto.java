@@ -1,18 +1,17 @@
 package jp.co.jc21ps.activity_management.dto;
 
 public class RegisterActivityDto {
+
+    // 部署名
     private String clubName;
+
+    // 部署ID
     private String clubId;
 
     public RegisterActivityDto() {
 
     }
 
-    // public void RegisterActivityEntity(String clubName, String clubId) {
-    // this.clubName = clubName;
-    // this.clubId = clubId;
-    // }
-    // 部署名
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
@@ -21,7 +20,6 @@ public class RegisterActivityDto {
         return clubName;
     }
 
-    // 部署ID
     public void setClubId(String clubId) {
         this.clubId = clubId;
     }

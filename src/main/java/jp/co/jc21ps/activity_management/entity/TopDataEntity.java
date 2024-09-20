@@ -1,10 +1,22 @@
 package jp.co.jc21ps.activity_management.entity;
 
 public class TopDataEntity {
+
+    // 活動ID
     private String activityId;
+
+    // ユーザーID
     private String userId;
+
+    // 部署ID
     private String clubId;
+
+    // 部署名
     private String clubName;
+
+    public TopDataEntity() {
+
+    }
 
     public String getActivityId() {
         return activityId;
@@ -37,4 +49,5 @@ public class TopDataEntity {
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
+
 }

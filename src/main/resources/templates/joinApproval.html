@@ -28,8 +28,6 @@
           <p th:text="${message}"></p>
         </div>
       </div>
-
-
       <div class="container-posision">
         <div th:each="form : ${joinApprovalform}" class="overlap">
           <div class="container-in-a">
@@ -58,7 +56,6 @@
                 </div>
               </div>
               <div class="key-value-pairs"></div>
-
               <form th:action="@{/joinApproval/Denial}" method="post">
                 <input type="hidden" name="userId" th:value="${form.userId}" />
                 <input type="hidden" name="clubId" th:value="${form.clubId}" />
@@ -71,9 +68,7 @@
               </form>
             </div>
           </div>
-
         </div>
-
       </div>
       <div class="back-button">
         <a href="/top" class="button">

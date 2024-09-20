@@ -15,8 +15,9 @@ public class ParticipantListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // 画面表示
+    // 初期画面表示
     public List<ParticipantListEntity> getParticipantListData(ParticipantListEntity paramEntity) {
+
         String sql = """
                 SELECT
                     trn_participant.activity_id,
@@ -42,31 +43,30 @@ public class ParticipantListRepository {
 
         List<ParticipantListEntity> responseListEntity = new ArrayList<>();
 
-        // 空だった場合
+        // リストが空だった場合
         if (participantList.isEmpty()) {
             return responseListEntity;
         }
 
         for (Map<String, Object> participant : participantList) {
+
+            // responseEntityに値をセットする
             ParticipantListEntity responseEntity = new ParticipantListEntity();
-
-            // 活動ID
             responseEntity.setActivityId((String) participant.get("activity_id"));
-            // ユーザーID
             responseEntity.setUserId((String) participant.get("user_id"));
-            // 活動名
             responseEntity.setActivityName((String) participant.get("activity_name"));
-            // ユーザー名
             responseEntity.setUserName((String) participant.get("user_name"));
-
             responseListEntity.add(responseEntity);
+
         }
 
         return responseListEntity;
 
     }
 
+    // 活動名を表示
     public String getActivityName(ParticipantListEntity paramEntity) {
+
         String sql = """
                 SELECT
                     activity_name
@@ -75,8 +75,10 @@ public class ParticipantListRepository {
                 WHERE
                    activity_id = ?
                 """;
+
         List<Map<String, Object>> actNameList = jdbcTemplate.queryForList(sql, paramEntity.getActivityId());
 
+        // リストが空だった場合
         if (actNameList.isEmpty()) {
             return "";
         }

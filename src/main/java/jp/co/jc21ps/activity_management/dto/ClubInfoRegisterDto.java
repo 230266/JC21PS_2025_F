@@ -1,20 +1,19 @@
 package jp.co.jc21ps.activity_management.dto;
 
 public class ClubInfoRegisterDto {
+
+    // leaderClubId
     private String leaderClubId;
+
+    // 部署名
     private String clubName;
+
+    // 部署説明
     private String clubDescription;
 
     public ClubInfoRegisterDto() {
 
     }
-
-    // public ClubInfoRegisterDto(String leaderClubId, String clubName, String
-    // clubDescription) {
-    // this.leaderClubId = leaderClubId;
-    // this.clubName = clubName;
-    // this.clubDescription = clubDescription;
-    // }
 
     public String getLeaderClubId() {
         return leaderClubId;

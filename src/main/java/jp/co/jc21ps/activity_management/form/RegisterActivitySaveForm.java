@@ -9,72 +9,79 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class RegisterActivitySaveForm {
-    
+
+    // 活動ID
     private String activityId;
-    
-    //部署名
+
+    // 部署名
     private String clubName;
 
-    //部署ID
+    // 部署ID
     private String clubId;
 
-    //活動名
-    @NotBlank(message = "{NotBlank}")                           //必須入力
-    @Size(max = 30, message = "{Size}")                         //30文字以内
+    // 活動名
+    @NotBlank(message = "{NotBlank}")
+    @Size(max = 30, message = "{Size}")
     private String activityName;
-    
-    //活動日                 
-    @NotBlank(message = "{NotBlank}")                 //必須入力
-    @DateTimeFormat(pattern = "{DateTimeFormat}")   //日付形式yyyy-MM-dd
+
+    // 活動日
+    @NotBlank(message = "{NotBlank}")
+    @DateTimeFormat(pattern = "{DateTimeFormat}") // 日付形式yyyy-MM-dd
     private String activityDate;
 
-    //活動場所
-    @NotBlank(message = "{NotBlank}")                          //必須入力
-    @Size(max = 30, message = "{Size}")                        //30文字以内
+    // 活動場所
+    @NotBlank(message = "{NotBlank}")
+    @Size(max = 30, message = "{Size}")
     private String activityPlace;
 
-    //活動時間(自)
-    @NotBlank(message = "{NotBlank}")                                                             //必須入力
-    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityStartTime}") //hh:mm形式
+    // 活動時間(自)
+    @NotBlank(message = "{NotBlank}")
+    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityStartTime}") // hh:mm形式
     private String activityStartTime;
 
-    //活動時間(至)
-    @NotBlank(message = "{NotBlank}")                                                             //必須入力
-    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityEndTime}")   //hh:mm形式
+    // 活動時間(至)
+    @NotBlank(message = "{NotBlank}")
+    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityEndTime}") // hh:mm形式
     private String activityEndTime;
 
-    //時間の前後関係チェック
-    // @AssertTrue(message = "{AssertTrue}")
+    // 時間の前後関係チェック
     @AssertTrue(message = "{AssertTrue}")
-    public boolean isDateValid(){
+    public boolean isDateValid() {
         try {
-            
-            if(activityEndTime !=null || activityStartTime != null){
-                 int activityEndTimeInt = Integer.parseInt(activityEndTime.replace(":", ""));
-                 int activityStartTimeInt = Integer.parseInt(activityStartTime.replace(":", ""));
-            //時間の(:)を削除してintに変換
-            if (activityEndTimeInt >= activityStartTimeInt) return true;
-            return false;
+
+            if (activityEndTime != null || activityStartTime != null) {
+                int activityEndTimeInt = Integer.parseInt(activityEndTime.replace(":", ""));
+                int activityStartTimeInt = Integer.parseInt(activityStartTime.replace(":", ""));
+
+                // 時間の(:)を削除し、intに変換
+                if (activityEndTimeInt >= activityStartTimeInt)
+                    return true;
+                return false;
             }
+
             return true;
 
-
         } catch (NumberFormatException e) {
-            return false; // 数字形式でない場合、無効として扱う
+            // 数字形式でない場合、無効として扱う
+            return false;
         }
     }
 
-    //活動説明
-    @NotBlank(message = "{NotBlank}")                          //必須入力
-    @Size(max = 400, message = "{Size}")                       //400文字以内
+    // 活動説明
+    @NotBlank(message = "{NotBlank}")
+    @Size(max = 400, message = "{Size}")
     private String activityDescription;
 
-    //募集人数    
-    @NotBlank(message = "{NotBlank}")                                   //必須入力
-    @Pattern(regexp = "^[0-9]*$", message = "{Pattern.maxParticipant}") //半角数字
-    @Min(value = 1, message = "{Min}")                                  //1以上
-    @Max(value = 100, message = "{Max}")                                //100以下
+    // 募集人数
+    @NotBlank(message = "{NotBlank}")
+    @Pattern(regexp = "^[0-9]*$", message = "{Pattern.maxParticipant}") // 半角数字
+    @Min(value = 1, message = "{Min}")
+    @Max(value = 100, message = "{Max}")
     private String maxParticipant;
+
+    public RegisterActivitySaveForm() {
+
+    }
 
     public String getActivityId() {
         return activityId;
@@ -155,4 +162,5 @@ public class RegisterActivitySaveForm {
     public void setMaxParticipant(String maxParticipant) {
         this.maxParticipant = maxParticipant;
     }
+
 }

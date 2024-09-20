@@ -5,9 +5,11 @@ import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.SessionDto;
 
 @Service
-public  class CommonService {
+public class CommonService {
 
     public SessionDto getSessionDto(HttpSession session) {
+
+        // dtoに値をセット
         SessionDto sessionDto = new SessionDto();
         sessionDto.setUserId((String) session.getAttribute("userId"));
         sessionDto.setClubId((String) session.getAttribute("clubId"));

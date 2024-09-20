@@ -34,40 +34,47 @@ public class LoginController {
 
     @PostMapping
     ModelAndView checkLoginData(@Valid LoginForm paramForm, BindingResult bindingResult, HttpSession session) {
+
+        // ログイン画面に遷移
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/login");
+
+        // dtoに値をセット
         LoginDto loginDto = new LoginDto();
         loginDto.setUserId(paramForm.getUserId());
         loginDto.setClubId(paramForm.getClubId());
         loginDto.setLoginName(paramForm.getLoginName());
         loginDto.setPassword(paramForm.getPassword());
 
-        // バリデーション機能を使ってLoginFormの＠がついている変数のチェックを行う
+        // バリデーション
         if (bindingResult.hasErrors()) {
             mav.setViewName("/login");
-
             return mav;
         }
+
         LoginDto loginData = loginService.getLoginData(loginDto);
+
+        // formに値をセット
         LoginForm responseForm = new LoginForm();
         responseForm.setUserId(loginData.getUserId());
         responseForm.setClubId(loginData.getClubId());
         responseForm.setLoginName(loginData.getLoginName());
         responseForm.setPassword(loginData.getPassword());
 
-        // セッションにdtoからとれたデータを詰める
         if (!ObjectUtils.isEmpty(responseForm.getLoginName())) {
+            // sessionに値をセット
             session.setAttribute("loginName", responseForm.getLoginName());
             session.setAttribute("userId", responseForm.getUserId());
             session.setAttribute("clubId", responseForm.getClubId());
-
-            // トップに遷移
-            // 画面に埋め込みたいとき→addObject(html側の名前,formのメソッド名)
+            // トップ画面に遷移
             mav.addObject("leaderClubId", responseForm.getClubId());
             mav.setViewName("redirect:/top");
+
         } else {
+            // ログイン情報に間違いがある場合、ログイン画面にリダイレクト
             mav.addObject("error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
             mav.setViewName("/login");
+
         }
 
         return mav;

@@ -1,23 +1,28 @@
 package jp.co.jc21ps.activity_management.form;
 
 public class JoinRequestSaveForm {
-    //ユーザーID
+
+    // ユーザーID
     private String userId;
 
-    //部署ID
+    // 部署ID
     private String clubId;
 
-    //部署名
+    // 部署名
     private String clubName;
 
-    //部署説明
+    // 部署説明
     private String clubDescription;
 
-    //deleteFlg
+    // deleteFlg
     private boolean deleteFlg;
 
-    //セッターとゲッターを書く
+    // メッセージ
     private String message;
+
+    public JoinRequestSaveForm() {
+
+    }
 
     public String getUserId() {
         return userId;
@@ -62,8 +67,9 @@ public class JoinRequestSaveForm {
     public String getMessage() {
         return message;
     }
+
     public void setMessage(String message) {
         this.message = message;
     }
-    
+
 }

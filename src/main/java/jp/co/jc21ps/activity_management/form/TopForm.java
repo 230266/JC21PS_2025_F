@@ -49,6 +49,10 @@ public class TopForm {
     // 過半数フラグ
     private boolean isMajorityFlg;
 
+    public TopForm() {
+
+    }
+
     public int getNo() {
         return no;
     }

@@ -5,16 +5,25 @@ import java.util.List;
 
 public class TopDataForm {
 
+    // 活動ID
     @NotNull
     private String activityId;
 
+    // ユーザーID
     @NotNull
     private String userId;
 
+    // 部署ID
     private String clubId;
+
+    // 部署名
     private String clubName;
     // 参加予定フラグ
     private boolean isParticipationFlg;
+
+    public TopDataForm() {
+
+    }
 
     public String getActivityId() {
         return activityId;
