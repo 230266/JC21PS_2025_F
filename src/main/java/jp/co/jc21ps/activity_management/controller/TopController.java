@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import jakarta.servlet.http.HttpSession;
 import jp.co.jc21ps.activity_management.dto.TopDataDto;
 import jp.co.jc21ps.activity_management.dto.TopDto;
@@ -97,7 +99,7 @@ public class TopController {
     }
 
     @PostMapping("/save")
-    public ModelAndView toggleParticipation(TopDataForm paramForm) {
+    public ModelAndView toggleParticipation(TopDataForm paramForm, RedirectAttributes redirectAttributes) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -121,8 +123,9 @@ public class TopController {
 
                     // 活動の参加者人数が上限に達した場合、エラーメッセージを表示する
                 } catch (ParticipationLimitExceededException e) {
+                    redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
                     mav.addObject("errorMessage", e.getMessage());
-                    mav.setViewName("top");
+                    mav.setViewName("redirect:/top");
                     return mav;
                 }
             }

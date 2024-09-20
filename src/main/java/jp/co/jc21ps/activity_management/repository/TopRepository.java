@@ -61,6 +61,24 @@ public class TopRepository {
 
     }
 
+    // 参加中の人数を取得
+    public int isCurrentctivityParticipating(TopDataEntity paramEntity) {
+
+        String sqlCheck = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    trn_participant
+                WHERE
+                    activity_id = ?
+                """;
+
+        Integer responseCount = jdbcTemplate.queryForObject(sqlCheck, Integer.class, paramEntity.getActivityId());
+
+        return responseCount;
+
+    }
+
     // 参加処理
     public void saveActivity(TopDataEntity paramEntity) {
 
