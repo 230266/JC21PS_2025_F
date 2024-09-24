@@ -9,14 +9,14 @@
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-  position: relative;
+  /* position: relative; */
 }
 
 .screen .sidebar {
   position: absolute;
   width: 256px;
   height: 1023px;
-  top: 0;
+  top: 1px;
   left: 0;
   background-color: #ffffff;
   border-right-width: 1px;

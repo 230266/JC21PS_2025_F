@@ -12,14 +12,17 @@
   <div class="screen">
     <div class="div">
       <form role="form" th:action="@{/clubInfoRegister/save}" th:object="${clubInfoRegisterSaveForm}" method="post">
-        <div class="completemessage" th:if="${updateClubInfo != null}" th:text="${updateClubInfo}">
-          </th:if>
+        <div class="completemessage" th:if="${updateClubInfo != null}" style="color: red; font-size: 20px;">
+          <p th:text="${updateClubInfo}"></p>
         </div>
+        <!-- <div class="completemessage" th:if="${updateClubInfo != null}" th:text="${updateClubInfo}">
+          </th:if>
+        </div> -->
         <div class="label-description">
           <div class="div-2">
             <div class="label-wrapper">
               <div class="div-2">
-                <div class="label">*部署名</div>
+                <div class="label">部署名</div>
               </div>
             </div>
           </div>

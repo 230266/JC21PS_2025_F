@@ -80,16 +80,17 @@ public class ClubInfoRegisterController {
 
         ModelAndView mav = new ModelAndView();
 
-        // バリデーション
-        if (bindingResult.hasErrors()) {
-            mav.addObject("clubInfoRegisterSaveForm", paramForm);
-            mav.setViewName("clubInfoRegister");
-            return mav;
-        }
-
         // セッションからClubIdを取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
+
+        // バリデーション
+        if (bindingResult.hasErrors()) {
+            mav.addObject("clubInfoRegisterSaveForm", paramForm);
+            mav.addObject("leaderClubId", leaderClubId);
+            mav.setViewName("clubInfoRegister");
+            return mav;
+        }
 
         // セッションが切れた場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
