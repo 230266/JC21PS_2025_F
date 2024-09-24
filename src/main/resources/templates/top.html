@@ -38,10 +38,6 @@
         <div th:if="${activityRegisterCompleteMessage != null}" style="color: black">
           <p th:text="${activityRegisterCompleteMessage}"></p>
         </div>
-        <!-- エラーメッセージの表示 -->
-        <div th:if="${errorMessage != null}" class="error-message">
-          <p th:text="${errorMessage}"></p>
-        </div>
         <!-- メッセージがある場合の表示 -->
         <div th:if="${#lists.isEmpty(responseForm)}">
           <div th:if="${message != null}" class="no-activities-message">
