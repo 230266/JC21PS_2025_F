@@ -77,16 +77,17 @@ public class RegisterActivityController {
 
         ModelAndView mav = new ModelAndView();
 
-        // バリデーション
-        if (bindingResult.hasErrors()) {
-            mav.addObject("registerActivitySaveForm", paramForm);
-            mav.setViewName("RegisterActivity");
-            return mav;
-        }
-
         // セッションからclubIdを取得
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
+
+        // バリデーション
+        if (bindingResult.hasErrors()) {
+            mav.addObject("registerActivitySaveForm", paramForm);
+            mav.addObject("leaderClubId", leaderClubId);
+            mav.setViewName("RegisterActivity");
+            return mav;
+        }
 
         // セッションが切れた場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
