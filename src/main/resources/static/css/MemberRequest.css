@@ -36,13 +36,15 @@
 
 .screen .frame {
   align-items: flex-start;
+  /* 変更: 子要素を上に揃える */
   gap: 20px;
+  /* 要素間の隙間 */
   position: absolute;
   top: 159px;
   left: 438px;
   display: flex;
   flex-direction: column;
-  /* 変更: フレックス方向を列に */
+  /* 縦に配置 */
 }
 
 
@@ -50,14 +52,11 @@
   display: flex;
   flex-direction: column;
   width: 800px;
-  height: 140px;
   align-items: center;
   gap: 10px;
   padding: 0px 0px 12px;
-  position: relative;
   background-color: var(--white);
   border-radius: 16px;
-  /* box-shadow: 0 0 8px rgba(233, 235, 237, 1); */
 }
 
 .screen .wrapper {
@@ -214,8 +213,8 @@
   border-radius: 40px;
   border: 2px solid;
   border-color: var(--blue-800);
-  top: -400px;
-  left: -400px;
+  top: -15px;
+  left: 270px;
 }
 
 .screen .button-icon {
