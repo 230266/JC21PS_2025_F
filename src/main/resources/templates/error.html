@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <link rel="stylesheet" th:href="@{/css/globals.css}">
     <link rel="stylesheet" th:href="@{/css/styleguide.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
-  </head>
-  <body>
+    <link rel="stylesheet" th:href="@{/css/Error.css}">
+</head>
+
+<body>
     <div class="screen">
         <div class="element-signup-form-wrapper">
             <div class="element-signup-form">
-                <div class="copy"><div class="text-wrapper">エラーが発生しました</div></div>
+                <div class="copy">
+                    <div class="text-wrapper">エラーが発生しました</div>
+                </div>
                 <form th:action="@{/login}" method="get">
                     <div class="input-and-button">
                         <button class="button">
-                            <div class="button-base"><div class="button-text"><input type ="submit" value="ログイン画面へ戻る" class="button-text"></div></div>
+                            <div class="button-base">
+                                <div class="button-text"><input type="submit" value="ログイン画面へ戻る" class="button-text">
+                                </div>
+                            </div>
                         </button>
                     </div>
-                </form>  
+                </form>
             </div>
         </div>
     </div>
-   </body>
+</body>
+
 </html>
