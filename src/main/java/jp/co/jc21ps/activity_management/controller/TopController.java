@@ -51,7 +51,7 @@ public class TopController {
             String leaderClubId = sessionDto.getClubId();
 
             // セッションが切れた場合、エラー画面に遷移
-            if (userId == null) {
+            if (userId.isEmpty()) {
                 mav.setViewName("error");
                 return mav;
             }

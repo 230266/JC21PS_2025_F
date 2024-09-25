@@ -197,9 +197,6 @@
   left: 22px;
 }
 
-
-
-
 .screen .navbar-2 {
   display: flex;
   height: 96px;
@@ -313,6 +310,19 @@
   position: relative;
   width: 61px;
   height: 28px;
+}
+
+.activity-register-message {
+  position: absolute;
+  height: 30px;
+  top: 45px;
+  left: 279px;
+  font-weight: 600;
+  color: #000000;
+  font-size: 20px;
+  letter-spacing: -0.2px;
+  line-height: 30px;
+  white-space: nowrap;
 }
 
 .screen .tag {

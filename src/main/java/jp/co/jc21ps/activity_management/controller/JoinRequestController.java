@@ -48,9 +48,9 @@ public class JoinRequestController {
         String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
 
-        // セッションが切れた場合、ログイン画面に遷移
-        if (userId == null) {
-            mav.setViewName("login");
+        // セッションが切れた場合、エラー画面に遷移
+        if (userId.isEmpty()) {
+            mav.setViewName("error");
             return mav;
         }
 
@@ -117,9 +117,9 @@ public class JoinRequestController {
         SessionDto sessionDto = commonService.getSessionDto(session);
         String userId = sessionDto.getUserId();
 
-        // セッションが切れた場合、ログイン画面に遷移
-        if (userId == null) {
-            mav.setViewName("login");
+        // セッションが切れた場合、エラー画面に遷移
+        if (userId.isEmpty()) {
+            mav.setViewName("error");
             return mav;
         }
 

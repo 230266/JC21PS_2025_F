@@ -85,7 +85,7 @@ public class RegisterActivityController {
         if (bindingResult.hasErrors()) {
             mav.addObject("registerActivitySaveForm", paramForm);
             mav.addObject("leaderClubId", leaderClubId);
-            mav.setViewName("RegisterActivity");
+            mav.setViewName("registerActivity");
             return mav;
         }
 
@@ -118,23 +118,16 @@ public class RegisterActivityController {
             String resultMessage = messageSource.getMessage(resultMessageKey, null,
                     Locale.getDefault());
 
-            switch (resultMessageKey) {
-                // 活動登録に成功した場合、トップ画面に遷移
-                case "activityRegisterCompleteMessage":
-                    redirectAttributes.addFlashAttribute("activityRegisterCompleteMessage", resultMessage);
-                    mav.addObject("leaderClubId", leaderClubId);
-                    mav.setViewName("redirect:/top");
-                    break;
+            // 活動登録に成功した場合、トップ画面に遷移
+            if ("activityRegisterCompleteMessage".equals(resultMessageKey)) {
+                redirectAttributes.addFlashAttribute("activityRegisterCompleteMessage", resultMessage);
+                mav.addObject("leaderClubId", leaderClubId);
+                mav.setViewName("redirect:/top");
+                return mav;
 
-                // 存在しない日付が入力された場合、エラーメッセージ表示
-                case "impossibleDate":
-                    mav.addObject("impossibleDate", resultMessage);
-                    mav.addObject("leaderClubId", leaderClubId);
-                    mav.setViewName("/registerActivity");
-                    break;
-                default:
-                    // 活動登録に失敗した場合、エラー画面に遷移
-                    mav.setViewName("error");
+            } else {
+                // 活動登録に失敗した場合、エラー画面に遷移
+                mav.setViewName("error");
             }
 
         } catch (Exception e) {

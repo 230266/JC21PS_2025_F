@@ -73,9 +73,17 @@
   white-space: nowrap;
 }
 
-.screen .completemessage {
-  margin-left: 364px;
-  margin-top: 92px;
+.completemessage {
+  position: absolute;
+  height: 30px;
+  top: 77px;
+  left: 381px;
+  font-weight: 600;
+  color: red;
+  font-size: 15px;
+  letter-spacing: -0.2px;
+  line-height: 30px;
+  white-space: nowrap;
 }
 
 

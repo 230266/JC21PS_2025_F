@@ -17,11 +17,12 @@
       </div>
       <div class="title">部員登録申請</div>
       <div class="frame">
-        <div class="joinOk">
-          <p th:if="${joinRequestCompleteMessage != null}" th:text="${joinRequestCompleteMessage}"></p>
+        <div class="joinOk" th:if="${joinRequestCompleteMessage != null}"
+          style="color: red; font-size: 20px; font-weight: 600;">
+          <p th:text="${joinRequestCompleteMessage}"></p>
         </div>
-        <div class="joinOk">
-          <p th:if="${notRequestClubMessage != null}" th:text="${notRequestClubMessage}"></p>
+        <div class="joinNot" th:if="${notRequestClubMessage != null}">
+          <p th:text="${notRequestClubMessage}"></p>
         </div>
         <div class="container-in-a" th:if="${notRequestClubMessage == null}">
           <div class="wrapper">
@@ -68,7 +69,6 @@
         </a>
       </div>
     </div>
-  </div>
   </div>
 </body>
 

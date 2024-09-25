@@ -29,10 +29,26 @@
 
 .screen .joinOk .p {
   position: absolute;
-  left: 330px;
-  top: 50px;
-  font-size: 20px;
+  height: 30px;
+  top: 45px;
+  left: 279px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 30px;
+  white-space: nowrap;
 }
+
+.screen .joinNot .p {
+  position: absolute;
+  height: 30px;
+  top: 45px;
+  left: 279px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 30px;
+  white-space: nowrap;
+}
+
 
 .screen .frame {
   align-items: flex-start;

@@ -52,9 +52,9 @@ public class JoinApprovalController {
         }
 
         try {
-            // セッションが切れた場合、トップ画面に遷移する
+            // セッションが切れた場合、エラー画面に遷移する
             if (userId.isEmpty()) {
-                mav.setViewName("redirect:/top");
+                mav.setViewName("error");
                 return mav;
             }
 
@@ -84,6 +84,7 @@ public class JoinApprovalController {
 
             // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
+
             // 部員登録申請がない場合のメッセージ
             mav.addObject("message", resultMessage);
             mav.addObject("joinApprovalform", responseForm);
@@ -91,9 +92,6 @@ public class JoinApprovalController {
             mav.setViewName("JoinApproval");
 
         } catch (Exception e) {
-            // セッションからclubIdを持ってきて、mavに詰めて返す
-            sessionDto = commonService.getSessionDto(session);
-            // String leaderClubId = sessionDto.getClubId();
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("error");
         }
@@ -121,7 +119,6 @@ public class JoinApprovalController {
         String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
         mav.addObject("message", resultMessage);
         mav.addObject("joinApprovalform", responseForm);
-        // String leaderClubId = sessionDto.getClubId();
         mav.addObject("leaderClubId", leaderClubId);
         mav.setViewName("joinApproval");
 

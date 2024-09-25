@@ -19,7 +19,7 @@
           <!-- エラーメッセージがあれば表示 -->
           <div th:if="${#fields.hasErrors('loginName')}" style="color: red;" th:errors="*{loginName}"></div>
           <div th:if="${#fields.hasErrors('password')}" style="color: red;" th:errors="*{password}"></div>
-          <div th:if="${error}" style="color: red;" th:text="${error}"></div>
+          <div th:if="${error}" style="color: red;" th:utext="${error}"></div>
           <div class="input-and-button">
             <div class="form-field">
               <div class="input">

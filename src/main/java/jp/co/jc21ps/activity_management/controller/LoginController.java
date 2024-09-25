@@ -27,17 +27,15 @@ public class LoginController {
     @GetMapping
     public ModelAndView dispLogin(Model model) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/login");
         mav.addObject("loginForm", new LoginForm());
+        mav.setViewName("login");
         return mav;
     }
 
     @PostMapping
     ModelAndView checkLoginData(@Valid LoginForm paramForm, BindingResult bindingResult, HttpSession session) {
 
-        // ログイン画面に遷移
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/login");
 
         // dtoに値をセット
         LoginDto loginDto = new LoginDto();
@@ -48,7 +46,7 @@ public class LoginController {
 
         // バリデーション
         if (bindingResult.hasErrors()) {
-            mav.setViewName("/login");
+            mav.setViewName("login");
             return mav;
         }
 
@@ -72,8 +70,8 @@ public class LoginController {
 
         } else {
             // ログイン情報に間違いがある場合、ログイン画面にリダイレクト
-            mav.addObject("error", "ログイン情報が間違っています。正しいログイン名とパスワードを入力してください。");
-            mav.setViewName("/login");
+            mav.addObject("error", "ログイン情報が間違っています。<br>正しいログイン名とパスワードを入力してください。");
+            mav.setViewName("login");
 
         }
 
