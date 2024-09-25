@@ -250,10 +250,11 @@
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
-  display: flex;
-  flex-wrap: nowrap;
-  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  overflow-wrap: break-word;
   -webkit-box-orient: vertical;
+  white-space: normal;
+
 }
 
 .screen .text-wrapper-acttime {
@@ -291,19 +292,17 @@
   width: 201px;
   height: 81px;
   color: #000000;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  display: block;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
-  overflow-y: scroll;
-  max-height: 81px;
-  /* 高さを指定し、それを超えた場合にスクロールを追加 */
-  box-sizing: border-box;
-  /* パディングとボーダーを含めたサイズ */
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: normal;
+  word-break: break-all;
 }
 
 .screen .pill {
