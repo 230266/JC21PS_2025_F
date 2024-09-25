@@ -5,8 +5,11 @@ public class RegisterActivitySaveDto {
     // 活動ID
     private String activityId;
 
-    // 部署名
+    // 活動名
     private String activityName;
+
+    // 活動日
+    private String activityDate;
 
     // 活動場所
     private String activityPlace;
@@ -44,6 +47,14 @@ public class RegisterActivitySaveDto {
 
     public String getActivityName() {
         return activityName;
+    }
+
+    public void setActivityDate(String activityDate) {
+        this.activityDate = activityDate;
+    }
+
+    public String getActivityDate() {
+        return activityDate;
     }
 
     public void setActivityPlace(String activityPlace) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import jp.co.jc21ps.activity_management.dto.ParticipantListDto;
 import jp.co.jc21ps.activity_management.entity.ParticipantListEntity;
 import jp.co.jc21ps.activity_management.repository.ParticipantListRepository;
-import jp.co.jc21ps.dto.ParticipantDto;
+import jp.co.jc21ps.activity_management.dto.ParticipantDto;
 
 @Service
 public class ParticipantListService {

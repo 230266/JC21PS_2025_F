@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import jp.co.jc21ps.activity_management.entity.RegisterActivityEntity;
 import jp.co.jc21ps.activity_management.entity.RegisterActivitySaveEntity;
 import jp.co.jc21ps.activity_management.repository.RegisterActivityRepository;
-import jp.co.jc21ps.dto.RegisterActivityDto;
-import jp.co.jc21ps.dto.RegisterActivitySaveDto;
+import jp.co.jc21ps.activity_management.dto.RegisterActivityDto;
+import jp.co.jc21ps.activity_management.dto.RegisterActivitySaveDto;
 
 @Service
 public class RegisterActivityService {

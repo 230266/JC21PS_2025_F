@@ -9,7 +9,7 @@ import jp.co.jc21ps.activity_management.dto.JoinApprovalDto;
 import jp.co.jc21ps.activity_management.entity.JoinApprovalDataEntity;
 import jp.co.jc21ps.activity_management.entity.JoinApprovalEntity;
 import jp.co.jc21ps.activity_management.repository.JoinApprovalRepository;
-import jp.co.jc21ps.dto.JoinApprovalNameDto;
+import jp.co.jc21ps.activity_management.dto.JoinApprovalNameDto;
 
 @Service
 public class JoinApprovalService {

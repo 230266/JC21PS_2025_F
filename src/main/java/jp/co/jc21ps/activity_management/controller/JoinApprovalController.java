@@ -16,7 +16,7 @@ import jp.co.jc21ps.activity_management.form.JoinApprovalDataForm;
 import jp.co.jc21ps.activity_management.form.JoinApprovalForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.JoinApprovalService;
-import jp.co.jc21ps.dto.JoinApprovalNameDto;
+import jp.co.jc21ps.activity_management.dto.JoinApprovalNameDto;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller

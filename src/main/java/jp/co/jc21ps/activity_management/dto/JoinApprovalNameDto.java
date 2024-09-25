@@ -1,8 +1,6 @@
-package jp.co.jc21ps.dto;
+package jp.co.jc21ps.activity_management.dto;
 
 import java.util.List;
-
-import jp.co.jc21ps.activity_management.dto.JoinApprovalDto;
 
 public class JoinApprovalNameDto {
 

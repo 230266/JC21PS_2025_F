@@ -11,7 +11,7 @@ import jp.co.jc21ps.activity_management.dto.ParticipantListDto;
 import jp.co.jc21ps.activity_management.form.ParticipantListForm;
 import jp.co.jc21ps.activity_management.service.CommonService;
 import jp.co.jc21ps.activity_management.service.ParticipantListService;
-import jp.co.jc21ps.dto.ParticipantDto;
+import jp.co.jc21ps.activity_management.dto.ParticipantDto;
 import jp.co.jc21ps.activity_management.dto.SessionDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
