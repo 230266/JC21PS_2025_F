@@ -7,14 +7,14 @@
 
 .screen .div {
   background-color: #ffffff;
-  width: 1440px;
+  width: 700px;
   height: 1024px;
   /* position: relative; */
 }
 
 .screen .sidebar {
   position: absolute;
-  width: 256px;
+  width: 200px;
   height: 1023px;
   top: 1px;
   left: 0;
@@ -166,7 +166,7 @@
   gap: 8px;
   padding: 6px 22px;
   position: relative;
-  left: 617px;
+  left: 728px;
   top: 150px;
   flex: 0 0 auto;
   background-color: var(--blue-200);
@@ -192,7 +192,7 @@
   position: absolute;
   height: 54px;
   top: 23px;
-  left: 292px;
+  left: 380px;
   font-family: "Inter", Helvetica;
   font-weight: 600;
   color: #000000;
@@ -441,11 +441,11 @@
   padding: 4px 0px;
   position: absolute;
   top: 92px;
-  left: 319px;
+  left: 380px;
 }
 
 .screen .container-posision {
-  left: 292px;
+  left: 380px;
   position: relative;
   top: 170px;
   display: grid;

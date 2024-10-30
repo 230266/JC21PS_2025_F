@@ -1,20 +1,22 @@
 .screen {
   background-color: #ffffff;
+  display: flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
   width: 100%;
+  display: flex;
 }
 
 .screen .div {
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
-
+  position: relative;
 }
 
 .screen .sidebar {
   position: absolute;
-  width: 256px;
+  width: 200px;
   height: 1023px;
   top: 1px;
   left: 0;
@@ -150,7 +152,7 @@
 .screen .title-2 {
   height: 54px;
   top: 24px;
-  left: 317px;
+  left: 380px;
   font-size: 36px;
   letter-spacing: -0.36px;
   line-height: 54px;
@@ -173,7 +175,7 @@
   position: absolute;
   width: 844px;
   height: 304px;
-  top: 3px;
+  top: 1px;
   left: 0;
 }
 
@@ -184,9 +186,8 @@
   align-items: flex-start;
   gap: 4px;
   position: absolute;
-  top: 60px;
+  top: 53px;
   left: 0;
-  margin-top: 5px;
 }
 
 .screen .label-description {
@@ -230,7 +231,7 @@
   display: flex;
   align-items: flex-start;
   position: relative;
-  align-self: stretch;
+  /* align-self: stretch; */
   width: 100%;
   flex: 0 0 auto;
 }
@@ -245,7 +246,6 @@
   border-radius: 8px;
   border: 2px solid;
   border-color: var(--grey-400);
-  margin-bottom: 5px;
 }
 
 .screen .error-rectangle {
@@ -329,7 +329,7 @@
 
 .screen .text-area {
   position: relative;
-  align-self: stretch;
+  /* align-self: stretch; */
   width: 100%;
   height: 73px;
 }
@@ -342,7 +342,6 @@
   border-radius: 8px;
   border: 2px solid;
   border-color: var(--grey-400);
-  margin-bottom: 7px;
 }
 
 .screen .input-area {
@@ -354,7 +353,7 @@
   border-radius: 2px;
   border: none;
   background: none;
-  align-self: stretch;
+  /* align-self: stretch; */
   margin-top: -1px;
   font-family: var(--form-placeholder-font-family);
   font-weight: var(--form-placeholder-font-weight);
@@ -364,6 +363,13 @@
   letter-spacing: var(--form-placeholder-letter-spacing);
   line-height: var(--form-placeholder-line-height);
   outline: none;
+  overflow-y: scroll; /* 縦方向のスクロールを有効にする */
+  resize: none; /* サイズ変更を禁止する */
+  scrollbar-width: none; /* Firefox用: スクロールバーを非表示にする */
+}
+
+textarea::-webkit-scrollbar {
+  display: none; /* スクロールバーを非表示にする */
 }
 
 .screen .text-area-icon {
@@ -399,6 +405,11 @@
   top: 6px;
   left: 6px;
 }
+
+input.input-text {
+  border: none;
+}
+
 
 .screen .date-picker {
   width: 236px;
@@ -472,7 +483,7 @@
   align-items: center;
   position: relative;
   flex: 1;
-  align-self: stretch;
+  /* align-self: stretch; */
   flex-grow: 1;
   background-color: var(--white);
   border-radius: 8px;
@@ -480,6 +491,7 @@
   border-color: var(--grey-400);
   margin-bottom: 5px;
 }
+
 
 .screen .input-text-wrapper {
   display: flex;
@@ -501,13 +513,7 @@
   font-size: var(--form-placeholder-font-size);
   letter-spacing: var(--form-placeholder-letter-spacing);
   line-height: var(--form-placeholder-line-height);
-  outline: none;
 }
-
-input.input-text {
-  border: none;
-}
-
 
 .screen .overlap-2 {
   position: absolute;
@@ -518,10 +524,10 @@ input.input-text {
 }
 
 .screen .div-wrapper {
+  /* display: flex; */
   width: 240px;
   align-items: flex-start;
   position: absolute;
-  /* display: flex; */
   top: 0;
   left: 0;
 }
@@ -542,12 +548,12 @@ input.input-text {
 }
 
 .screen .input-2 {
+  /* display: flex; */
   width: 240px;
   align-items: flex-start;
   position: absolute;
   top: 0;
   left: 603px;
-  /* display: flex; */
 }
 
 .screen .form-field-4 {
@@ -599,7 +605,6 @@ input.input-text {
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  margin-top: 5px;
 }
 
 .screen .label-description-5 {
@@ -626,7 +631,6 @@ input.input-text {
 .screen .button-base-2 {
   margin-right: -1px;
   background-color: var(--blue-200);
-  border-color: var(--blue-800);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -636,6 +640,7 @@ input.input-text {
   flex: 0 0 auto;
   border-radius: 40px;
   border: 2px solid;
+  border-color: var(--blue-800);
 }
 
 .screen .button-text {
@@ -666,8 +671,8 @@ input.input-text {
   display: inline-flex;
   align-items: center;
   position: relative;
-  pointer-events: auto;
   flex: 0 0 auto;
+  pointer-events: auto;
 }
 
 .screen .button-base-3 {
@@ -696,44 +701,34 @@ input.input-text {
   white-space: nowrap;
 }
 
-/* .screen .error-messages {
-  height: 54px;
-  top: 24px;
-  left: 317px;
-  font-size: 20px;
-  letter-spacing: -0.36px;
-  position: absolute;
-  font-family: "Inter", Helvetica;
-  font-weight: 600;
-  color: red;
-  white-space: nowrap;
-} */
 
 .input .c-error__list {
-  font-size: 10px;
+  font-size: 8px;
 }
 
 .date-picker .c-error__list {
-  font-size: 10px;
-  margin-top: 10px;
+  font-size: 8px;
+  margin-top: 5px;
 }
 
 .form-field-4 .c-error__list {
-  font-size: 10px;
+  font-size: 8px;
 }
 
 .form-field .c-error__list {
-  font-size: 10px;
+  font-size: 8px;
 }
 
 .form-field-3 .c-error__list {
-  font-size: 10px;
+  font-size: 8px;
 }
 
 .overlap-2 .c-error__list {
-  font-size: 10px;
+  font-size: 8px;
+  margin-top: -4px;
 }
 
 .input-2 .c-error__list {
-  font-size: 10px;
-}
+  font-size: 8px;
+  margin-top: -4px;
+} 

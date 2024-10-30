@@ -8,7 +8,7 @@
 
 .screen .div {
   background-color: #ffffff;
-  width: 1440px;
+  width: 700px;
   height: 1024px;
 
 }
@@ -17,7 +17,7 @@
   position: absolute;
   height: 54px;
   top: 24px;
-  left: 330px;
+  left: 380px;
   font-family: "Inter", Helvetica;
   font-weight: 600;
   color: #000000;
@@ -60,6 +60,7 @@
   left: 438px;
   display: flex;
   flex-direction: column;
+  width: 300px;
   /* 縦に配置 */
 }
 
@@ -346,7 +347,7 @@
 
 .screen .sidebar {
   position: absolute;
-  width: 256px;
+  width: 200px;
   height: 1023px;
   top: 0;
   left: 0;

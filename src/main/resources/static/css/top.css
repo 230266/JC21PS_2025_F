@@ -4,20 +4,38 @@
   flex-direction: row;
   justify-content: center;
   width: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
-.screen .div {
+/* .screen .div {
   background-color: #ffffff;
   width: 1440px;
   height: 1024px;
+} */
 
+.screen .div {
+  background-color: #ffffff;
+  width: 100%; /* 画面幅いっぱいにする */
+  max-width: 1440px; /* 最大幅を設定 */
+  height: 1024px;
 }
 
 .screen .list {
-  width: 1167px;
+  width: 990px;
   position: absolute;
   top: 101px;
-  left: 267px;
+  left: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.screen .message {
+  width: 990px;
+  position: absolute;
+  top: 50px;
+  left: 230px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,8 +81,28 @@
   line-height: 24px;
 }
 
+.screen .IT {
+  width: 200px;
+  /* 幅を指定 */
+  overflow-y: hidden;
+  /* 垂直方向のオーバーフローを自動でスクロール */
+  overflow-x: hidden;
+  /* 水平方向のオーバーフローを隠す */
+  display: -webkit-box;
+  /* Flexboxを使用して縦並びに */
+  -webkit-line-clamp: 3;
+  /* 最大3行まで表示 */
+  -webkit-box-orient: vertical;
+  /* 縦方向に設定 */
+  font-family: "Inter", Helvetica;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+}
+
 .screen .text-wrapper-actname {
-  width: 225px;
+  width: 99px;
   color: #828282;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -77,6 +115,24 @@
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
+}
+
+.screen .text-wrapper-10 {
+  width: 100px;
+  position: relative;
+  font-family: "Inter", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  display: -webkit-box;
+  overflow-wrap: break-word;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  overflow-y: scroll; /* 縦方向のスクロールを有効にする */
+  resize: none; /* サイズ変更を禁止する */
+  scrollbar-width: none; /* Firefox用: スクロールバーを非表示にする */
 }
 
 .screen .text-wrapper-actday {
@@ -128,6 +184,21 @@
   -webkit-box-orient: vertical;
 }
 
+.screen .text-wrapper-actday-time {
+  width: 115px;
+  position: relative;
+  font-family: "Inter", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  display: -webkit-box;
+  overflow-wrap: break-word;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
 .screen .text-wrapper-5 {
   width: 200px;
   position: relative;
@@ -145,7 +216,7 @@
 }
 
 .screen .text-wrapper-6 {
-  width: 262px;
+  width: 160px;
   text-align: center;
   position: relative;
   font-family: "Inter", Helvetica;
@@ -163,7 +234,7 @@
 }
 
 .screen .text-wrapper-7 {
-  width: 130px;
+  width: 120px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 700;
@@ -180,7 +251,7 @@
 }
 
 .screen .text-wrapper-8 {
-  width: 130px;
+  width: 106px;
   margin-right: -163px;
   position: relative;
   font-family: "Inter", Helvetica;
@@ -220,43 +291,6 @@
   line-height: 24px;
 }
 
-.screen .IT {
-  width: 200px;
-  /* 幅を指定 */
-
-  overflow-y: auto;
-  /* 垂直方向のオーバーフローを自動でスクロール */
-  overflow-x: hidden;
-  /* 水平方向のオーバーフローを隠す */
-  display: -webkit-box;
-  /* Flexboxを使用して縦並びに */
-  -webkit-line-clamp: 3;
-  /* 最大3行まで表示 */
-  -webkit-box-orient: vertical;
-  /* 縦方向に設定 */
-  font-family: "Inter", Helvetica;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-
-}
-
-.screen .text-wrapper-10 {
-  width: 175px;
-  position: relative;
-  font-family: "Inter", Helvetica;
-  font-weight: 500;
-  color: #000000;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  display: -webkit-box;
-  overflow-wrap: break-word;
-  -webkit-box-orient: vertical;
-  white-space: normal;
-
-}
-
 .screen .text-wrapper-acttime {
   width: 102px;
   position: relative;
@@ -273,7 +307,7 @@
 }
 
 .screen .text-wrapper-11 {
-  width: 173px;
+  width: 93px;
   position: relative;
   font-family: "Inter", Helvetica;
   font-weight: 500;
@@ -289,7 +323,7 @@
 }
 
 .screen .text-wrapper-12 {
-  width: 201px;
+  width: 205px;
   height: 81px;
   color: #000000;
   display: block;
@@ -303,6 +337,13 @@
   overflow-x: hidden;
   white-space: normal;
   word-break: break-all;
+  overflow-y: scroll; /* 縦方向のスクロールを有効にする */
+  resize: none; /* サイズ変更を禁止する */
+  scrollbar-width: none; /* Firefox用: スクロールバーを非表示にする */
+}
+
+textarea::-webkit-scrollbar {
+  display: none; /* スクロールバーを非表示にする */
 }
 
 .screen .pill {
@@ -374,7 +415,7 @@
 
 .screen .sidebar {
   position: absolute;
-  width: 256px;
+  width: 200px;
   height: 1023px;
   top: 0;
   left: 0;
@@ -598,7 +639,6 @@
 
 .screen.text-clubname {
   width: 200px;
-
 }
 
 .div.list-posision {

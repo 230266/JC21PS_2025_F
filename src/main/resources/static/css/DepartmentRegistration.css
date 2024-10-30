@@ -89,7 +89,7 @@
 
 .screen .sidebar {
   position: absolute;
-  width: 256px;
+  width: 200px;
   height: 1023px;
   top: 1px;
   left: 0;
@@ -291,7 +291,9 @@
 }
 
 .screen .input-area {
-  width: 843px;
+  width: 101%; /* 親要素の幅に合わせる */
+  height: 100%; /* 親要素の高さに合わせる */
+  /* width: 843px; */
   padding: 6px 14px;
   position: absolute;
   top: 0;
@@ -309,6 +311,12 @@
   letter-spacing: var(--form-placeholder-letter-spacing);
   line-height: var(--form-placeholder-line-height);
   outline: none;
+  overflow: hidden;
+  resize: none;
+  overflow-y: scroll;
+}
+.input-area::-webkit-scrollbar {
+  display: none; /* スクロールバーを非表示にする */
 }
 
 .screen .text-area-icon {
@@ -348,7 +356,7 @@
 .screen .title-2 {
   height: 54px;
   top: 24px;
-  left: 339px;
+  left: 380px;
   font-size: 36px;
   letter-spacing: -0.36px;
   line-height: 54px;
@@ -368,7 +376,7 @@
   align-items: center;
   position: absolute;
   top: 324px;
-  left: 755px;
+  left: 894px;
 }
 
 .screen .button-base {
@@ -405,7 +413,7 @@
   align-items: flex-end;
   position: absolute;
   top: 323px;
-  left: 589px;
+  left: 684px;
 }
 
 .screen .button-base-wrapper {
