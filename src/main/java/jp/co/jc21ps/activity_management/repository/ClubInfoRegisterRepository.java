@@ -15,7 +15,10 @@ public class ClubInfoRegisterRepository {
 
     // 初期画面表示
     public ClubInfoRegisterEntity getClubInfo(ClubInfoRegisterEntity paramEntity) {
-
+        /*
+         * TODO ➊ 初期表示情報を取得するSQLを完成させる。
+         * SELECT 初期表示で表示したい内容 FROM テーブル WHERE club_id = ?
+         */ 
         String sql = """
                 SELECT
                     club_name, club_description
@@ -37,7 +40,10 @@ public class ClubInfoRegisterRepository {
 
     // 活動説明更新
     public void updateClubInfo(ClubInfoRegisterEntity paramEntity) {
-
+        /*
+         * TODO ➋ 部署情報をUPDATEするSQLを完成させる。
+         * UPDATE テーブル名 SET 部署説明 = ? WHERE 部署ID = ?
+         */
         String sql = """
                 UPDATE
                     mst_club
@@ -47,7 +53,7 @@ public class ClubInfoRegisterRepository {
                     club_id = ?
                 """;
 
-        // entityから値をゲット
+        // entityから値をget
         Object[] paramList = {
                 paramEntity.getClubDescription(),
                 paramEntity.getLeaderClubId()

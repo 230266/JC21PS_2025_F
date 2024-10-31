@@ -18,7 +18,10 @@ public class JoinApprovalRepository {
 
     // 初期画面表示
     public List<JoinApprovalEntity> getJoinApprovalList(JoinApprovalEntity paramEntity) {
-
+        /*
+         * TODO ➊ 初期表示情報を取得するSQLを完成させる。 
+         * SELECT 初期表示で表示したい内容 FROM テーブル INNER JOIN テーブル ON 結合条件 INNER JOIN テーブル ON 結合条件
+         */
         String sql = """
                 SELECT
                     club.club_name,
@@ -64,7 +67,6 @@ public class JoinApprovalRepository {
 
     // 部署名を表示
     public String getClubName(JoinApprovalEntity paramEntity) {
-
         String sql = """
                           SELECT
                                club_name
@@ -88,7 +90,10 @@ public class JoinApprovalRepository {
 
     // insert（承認）
     public void insertRequestInfo(JoinApprovalDataEntity paramEntity) {
-
+        /*
+         * TODO ➋ ユーザーを承認するSQL文を完成させる。 
+         * INSER INTO テーブル VALUES (?,?,?)
+         */
         String sqlInsert = """
                 INSERT INTO
                     trn_club_member
@@ -108,7 +113,10 @@ public class JoinApprovalRepository {
 
     // delete（否認）
     public void deleteRequestInfo(JoinApprovalDataEntity paramEntity) {
-
+        /*
+         * TODO ➌ ユーザーを否認するSQL文を完成させる。 
+         * DELETE FROM テーブル WHERE 条件
+         */
         String sqlDelete = """
                 DELETE FROM
                     trn_join_request

@@ -77,11 +77,15 @@ public class RegisterActivityController {
 
         ModelAndView mav = new ModelAndView();
 
-        // セッションからclubIdを取得
+        /*
+         * TODO ➊セッションからuserId, clubIdを取得
+         * 1.commonServiceからgetSessionDtoメソッドを呼び出す。(SessionDto型の変数を宣言すること。)
+         * 2.leaderClubId(String)に、getSessionDtoから取得したleaderClubIdを格納する。
+         */
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        // バリデーション
+        // バリデーションエラー
         if (bindingResult.hasErrors()) {
             mav.addObject("registerActivitySaveForm", paramForm);
             mav.addObject("leaderClubId", leaderClubId);
@@ -96,11 +100,23 @@ public class RegisterActivityController {
         }
 
         try {
-            // dtoに値をセット
+            // インスタンス化
             RegisterActivitySaveDto activitySaveDto = new RegisterActivitySaveDto();
 
             // シーケンスメソッドを呼び出す
             String newActivityId = registerActivityService.getNextActivityId();
+
+            /*
+             * TODO ➋ activitySaveDtoに、下記の値をセットする。
+             * 1.activityId(newActivityIdを引数にする)
+             * 2.activityName(paramFormから取得したactivityNameを引数にする)
+             * 3.activityPlace(paramFormから取得したactivityPlaceを引数にする)
+             * 4.activityStartTime(paramFormから取得したactivityStartTimeを引数にする)
+             * 5.activityEndTime(paramFormから取得したactivityEndTimeを引数にする)
+             * 6.activityDescription(paramFormから取得したactivityDescriptionを引数にする)
+             * 7.maxParticipant(paramFormから取得したmaxParticipantを引数にする)
+             * 8.clubId(paramFormから取得したclubIdを引数にする)
+             */
             activitySaveDto.setActivityId(newActivityId);
             activitySaveDto.setActivityName(paramForm.getActivityName());
             activitySaveDto.setActivityDate(paramForm.getActivityDate());

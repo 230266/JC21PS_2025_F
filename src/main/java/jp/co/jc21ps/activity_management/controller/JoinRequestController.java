@@ -80,6 +80,19 @@ public class JoinRequestController {
         // リダイレクトされてきた登録申請成功のメッセージを、paramFormにセットする
         paramForm.setMessage(joinOkMessage);
 
+
+        /*
+         * TODO ➊ 初期表示情報取得結果(これより上のどこかの処理で格納している)に応じて、以下の条件文を完成させる。
+         * 1.if(結果が存在しないとき)
+         * ├ この処理は使用してください。→String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
+         * ├ notRequestClubMessageをmavに設定(ヒント : mav.addObject("html側で表示したい箇所→joinRequest.htmlを参照する。", notRequestClubMessage);)
+         * └ if(パラメータが存在しているとき = 申請情報が送られたとき) (ヒント : if (!ObjectUtils.isEmpty(paramForm)))
+         *    └ mavに成功メッセージを設定する(ヒント:mav.addObject("html側で表示したい変数", paramForm.get○○());
+         * 2.else(=結果が存在するとき)
+         * ├ if(パラメータが存在しているとき = 申請情報が送られたとき) (ヒント : if (!ObjectUtils.isEmpty(paramForm)))
+         *    └ mavに成功メッセージを設定する(ヒント:mav.addObject("html側で表示したい変数", paramForm.get○○());
+         * └ mav(44行目で宣言)に初期表示情報を設定する(ヒント:mav.addObject("joinRequestSaveForm", 取得結果が格納されている変数);
+         */
         if (responseForm.isEmpty()) {
 
             // messages.propertiesからメッセージを取得
@@ -129,7 +142,17 @@ public class JoinRequestController {
         joinRequestSaveDto.setClubId(paramForm.getClubId());
 
         try {
-            // サービスからdelete_flgを呼び出す
+            /*
+            * TODO ➋ インサートの成功、失敗に応じて、処理を変更する。
+            * 1.joinRequestServiceから、insertJoinRequestメソッドを呼び出す。(引数にはパラメータの情報を格納する。)
+            * 2.if(Trueの場合)
+            *   ├ この処理は使用してください。String joinRequestCompleteMessage = messageSource.getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
+            *   ├ paramFormにjoinRequestCompleteMessageをセットする。
+            *   ├ リダイレクト先に成功メッセージを渡す。(ヒント:redirectAttributes.addFlashAttribute("41-42行目の引数のどれか", paramForm.getMessage());)
+            *   └ リダイレクト先を設定する。(ヒント:mav.setViewName("redirect:/リダイレクト先");
+            * 3.else
+            * 　└ 遷移先をエラー画面に設定する
+            */
             boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
 
             if (result) {

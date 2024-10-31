@@ -18,7 +18,11 @@ public class JoinRequestRepository {
 
     // 初期画面表示
     public List<JoinRequestEntity> getJoinRequestById(JoinRequestEntity paramEntity) {
-
+        /*
+         * TODO ➊ 初期表示情報を取得するSQLを完成させる。
+         * SELECT 初期表示で表示したい内容 FROM テーブル WHERE club_idがtrn_join_requestに存在していない AND club_idがtrn_club_memberに存在していない。
+         * ヒント : WHEREのあとの文はサブクエリを使用する。
+         */
         String sql = """
                 SELECT * FROM
                     mst_club
@@ -59,7 +63,10 @@ public class JoinRequestRepository {
 
     // 申請処理
     public void insertClub(JoinRequestSaveEntity paramEntity) {
-
+        /*
+         * TODO ➋ 申請者の情報をインサートするSQLを完成させる。 
+         * INSERT INTO テーブル (インサートするカラム)VALUES(?,?,false)
+         */    
         String sql = """
                 INSERT INTO
                     trn_join_request (user_Id,
