@@ -3,7 +3,7 @@ package jp.co.jc21ps.activity_management.entity;
 public class TopDataEntity {
 
     // 活動ID
-    private String activityId;
+    private Integer activityId;
 
     // ユーザーID
     private String userId;
@@ -18,11 +18,11 @@ public class TopDataEntity {
 
     }
 
-    public String getActivityId() {
+    public Integer getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(String activityId) {
+    public void setActivityId(Integer activityId) {
         this.activityId = activityId;
     }
 

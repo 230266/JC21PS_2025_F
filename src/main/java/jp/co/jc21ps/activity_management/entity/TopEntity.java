@@ -15,7 +15,7 @@ public class TopEntity {
     private String clubName;
 
     // 活動ID
-    private String activityId;
+    private Integer activityId;
 
     // 活動名
     private String activityName;
@@ -86,11 +86,11 @@ public class TopEntity {
         this.clubName = clubName;
     }
 
-    public String getActivityId() {
+    public Integer getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(String activityId) {
+    public void setActivityId(Integer activityId) {
         this.activityId = activityId;
     }
 

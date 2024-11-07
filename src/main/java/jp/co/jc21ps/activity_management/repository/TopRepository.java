@@ -188,7 +188,7 @@ public class TopRepository {
             topData.setClubName((String) activity.get("club_name"));
 
             // 活動ID
-            topData.setActivityId((String) activity.get("activity_id"));
+            topData.setActivityId((Integer) activity.get("activity_id"));
 
             // 活動名
             topData.setActivityName((String) activity.get("activity_name"));

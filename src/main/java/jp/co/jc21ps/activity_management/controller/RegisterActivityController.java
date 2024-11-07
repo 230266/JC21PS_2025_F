@@ -103,9 +103,6 @@ public class RegisterActivityController {
             // インスタンス化
             RegisterActivitySaveDto activitySaveDto = new RegisterActivitySaveDto();
 
-            // シーケンスメソッドを呼び出す
-            String newActivityId = registerActivityService.getNextActivityId();
-
             /*
              * TODO ➋ activitySaveDtoに、下記の値をセットする。
              * 1.activityId(newActivityIdを引数にする)
@@ -117,7 +114,7 @@ public class RegisterActivityController {
              * 7.maxParticipant(paramFormから取得したmaxParticipantを引数にする)
              * 8.clubId(paramFormから取得したclubIdを引数にする)
              */
-            activitySaveDto.setActivityId(newActivityId);
+
             activitySaveDto.setActivityName(paramForm.getActivityName());
             activitySaveDto.setActivityDate(paramForm.getActivityDate());
             activitySaveDto.setActivityPlace(paramForm.getActivityPlace());

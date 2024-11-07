@@ -59,7 +59,6 @@ public class RegisterActivityService {
         int maxParticipant = Integer.parseInt(paramDto.getMaxParticipant());
 
         // entityに値をセット
-        responseEntity.setActivityId(paramDto.getActivityId());
         responseEntity.setActivityName(paramDto.getActivityName());
         responseEntity.setActivityPlace(paramDto.getActivityPlace());
         responseEntity.setActivityStartTime(startDateTime); // LocalDateTime型

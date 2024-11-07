@@ -28,7 +28,7 @@ public class TopService {
 
         // entityに値をセット
         TopDataEntity paramEntity = new TopDataEntity();
-        paramEntity.setActivityId(paramDto.getActivityId());
+        paramEntity.setActivityId(Integer.parseInt(paramDto.getActivityId()));
         paramEntity.setUserId(paramDto.getUserId());
 
         int participants = topRepository.isActivityParticipating(paramEntity);
@@ -51,7 +51,7 @@ public class TopService {
 
         // entityに値をセット
         TopDataEntity paramEntity = new TopDataEntity();
-        paramEntity.setActivityId(paramDto.getActivityId());
+        paramEntity.setActivityId(Integer.parseInt(paramDto.getActivityId()));
         paramEntity.setUserId(paramDto.getUserId());
         topRepository.deleteActivity(paramEntity);
 
@@ -63,7 +63,7 @@ public class TopService {
 
         // entityに値をセット
         TopDataEntity paramEntity = new TopDataEntity();
-        paramEntity.setActivityId(paramDto.getActivityId());
+        paramEntity.setActivityId(Integer.parseInt(paramDto.getActivityId()));
         paramEntity.setUserId(paramDto.getUserId());
         paramEntity.setClubId(paramDto.getClubId());
 
@@ -102,7 +102,7 @@ public class TopService {
             setDto.setNo(entity.getNo());
             setDto.setClubId(entity.getClubId());
             setDto.setClubName(entity.getClubName());
-            setDto.setActivityId(entity.getActivityId());
+            setDto.setActivityId(Integer.toString(entity.getActivityId()));
             setDto.setActivityName(entity.getActivityName());
             setDto.setActivityPlace(entity.getActivityPlace());
             setDto.setDispActivityDate(entity.getDispActivityDate());

@@ -41,20 +41,18 @@ public class RegisterActivityRepository {
 
         String sql = """
                 INSERT INTO
-                    trn_activity (activity_id,
-                                  club_id,
+                    trn_activity (club_id,
                                   activity_name,
                                   activity_place,
                                   activity_start_time,
                                   activity_end_time,
                                   activity_description,
                                   max_participant)
-                VALUES (?,?,?,?,?,?,?,?)
+                VALUES (?,?,?,?,?,?,?)
                 """;
 
         // paramEntityから値をゲット
         Object[] paramList = {
-                paramEntity.getActivityId(),
                 paramEntity.getClubId(),
                 paramEntity.getActivityName(),
                 paramEntity.getActivityPlace(),
