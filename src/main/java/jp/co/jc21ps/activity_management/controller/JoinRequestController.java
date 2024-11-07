@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -80,11 +79,10 @@ public class JoinRequestController {
         // リダイレクトされてきた登録申請成功のメッセージを、paramFormにセットする
         paramForm.setMessage(joinOkMessage);
 
-
         /*
          * TODO ➊ 初期表示情報取得結果に応じて、以下の条件文を完成させる。
          */
-        if (responseForm.isEmpty()) {    
+        if (responseForm.isEmpty()) {
             // messages.propertiesからメッセージを取得
             String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
 
@@ -92,13 +90,10 @@ public class JoinRequestController {
             mav.addObject("notRequestClubMessage", notRequestClubMessage);
 
             // 部員登録成功メッセージ
-            if (!ObjectUtils.isEmpty(paramForm)) {
-                mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
-            }
+            mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
+
         } else {
-            if (!ObjectUtils.isEmpty(paramForm)) {
-                mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
-            }
+            mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
             mav.addObject("joinRequestSaveForm", responseForm);
         }
         mav.addObject("leaderClubId", leaderClubId);
@@ -133,8 +128,8 @@ public class JoinRequestController {
 
         try {
             /*
-            * TODO ➋ インサートの成功、失敗に応じて、処理を変更する。
-            */
+             * TODO ➋ インサートの成功、失敗に応じて、処理を変更する。
+             */
             boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
 
             if (result) {

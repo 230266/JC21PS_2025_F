@@ -64,27 +64,4 @@ public class RegisterActivityRepository {
 
         jdbcTemplate.update(sql, paramList);
     }
-
-    // シーケンスからactivityIdを取得
-    public String getNextActivityId() throws Exception {
-
-        String sql = "SELECT nextval('activity_id_sequence') AS id";
-
-        try {
-            Integer sequenceValue = jdbcTemplate.queryForObject(sql, Integer.class);
-
-            if (sequenceValue != null) {
-                // フォーマット指定
-                return ACTIVITY_ID_PREFIX + String.format("%07d", sequenceValue);
-            } else {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            // DB実行失敗した場合
-            e.printStackTrace();
-            throw new Exception();
-        }
-
-    }
-
 }

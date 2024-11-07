@@ -90,38 +90,11 @@ public class JoinApprovalController {
             mav.addObject("joinApprovalform", responseForm);
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("JoinApproval");
-
+            
         } catch (Exception e) {
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("error");
         }
-
-        JoinApprovalDto joinApprovalDto = new JoinApprovalDto();
-        joinApprovalDto.setUserId(userId);
-        joinApprovalDto.setClubId(leaderClubId);
-
-        JoinApprovalNameDto viewList = joinApprovalService.getJoinApprovalData(joinApprovalDto);
-
-        List<JoinApprovalForm> responseForm = new ArrayList<>();
-
-        for (JoinApprovalDto dto : viewList.getJoinApprovalDto()) {
-            JoinApprovalForm requestList = new JoinApprovalForm();
-            requestList.setClubId(dto.getClubId());
-            requestList.setUserId(dto.getUserId());
-            requestList.setClubName(dto.getClubName());
-            requestList.setUserName(dto.getUserName());
-            responseForm.add(requestList);
-        }
-
-        mav.addObject("clubName", viewList.getClubName());
-
-        // 参加者がいなかった場合に活動名だけ表示する
-        String resultMessage = messageSource.getMessage("notrequest", null, Locale.getDefault());
-        mav.addObject("message", resultMessage);
-        mav.addObject("joinApprovalform", responseForm);
-        mav.addObject("leaderClubId", leaderClubId);
-        mav.setViewName("joinApproval");
-
         return mav;
     }
 

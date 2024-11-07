@@ -73,9 +73,4 @@ public class RegisterActivityService {
         return "activityRegisterCompleteMessage";
 
     }
-
-    // シーケンスメソッド
-    public String getNextActivityId() throws Exception {
-        return registerActivityRepository.getNextActivityId();
-    }
 }
