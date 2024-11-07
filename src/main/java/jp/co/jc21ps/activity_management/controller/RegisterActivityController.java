@@ -78,9 +78,7 @@ public class RegisterActivityController {
         ModelAndView mav = new ModelAndView();
 
         /*
-         * TODO ➊セッションからuserId, clubIdを取得
-         * 1.commonServiceからgetSessionDtoメソッドを呼び出す。(SessionDto型の変数を宣言すること。)
-         * 2.leaderClubId(String)に、getSessionDtoから取得したleaderClubIdを格納する。
+         * TODO ➊ セッションからuserId, clubIdを取得する
          */
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
@@ -104,15 +102,7 @@ public class RegisterActivityController {
             RegisterActivitySaveDto activitySaveDto = new RegisterActivitySaveDto();
 
             /*
-             * TODO ➋ activitySaveDtoに、下記の値をセットする。
-             * 1.activityId(newActivityIdを引数にする)
-             * 2.activityName(paramFormから取得したactivityNameを引数にする)
-             * 3.activityPlace(paramFormから取得したactivityPlaceを引数にする)
-             * 4.activityStartTime(paramFormから取得したactivityStartTimeを引数にする)
-             * 5.activityEndTime(paramFormから取得したactivityEndTimeを引数にする)
-             * 6.activityDescription(paramFormから取得したactivityDescriptionを引数にする)
-             * 7.maxParticipant(paramFormから取得したmaxParticipantを引数にする)
-             * 8.clubId(paramFormから取得したclubIdを引数にする)
+             * TODO ➋ activitySaveDtoに、パラメータをsetする。
              */
 
             activitySaveDto.setActivityName(paramForm.getActivityName());

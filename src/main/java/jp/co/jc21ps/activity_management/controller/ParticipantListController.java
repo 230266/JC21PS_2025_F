@@ -46,9 +46,6 @@ public class ParticipantListController {
 
         /*
          * TODO ➊ セッションからuserId, clubIdを取得
-         * 1.commonServiceからgetSessionDtoメソッドを呼び出す。(SessionDto型の変数を宣言すること。)
-         * 2.userId(String)に、getSessionDtoから取得したuserIdを格納する。(ヒント:getUserId()を使用する。)
-         * 3.leaderClubId(String)に、getSessionDtoから取得したleaderClubIdを格納する。
          */
         SessionDto sessionDto = commonService.getSessionDto(session);
         String userId = sessionDto.getUserId();
@@ -62,16 +59,13 @@ public class ParticipantListController {
 
         /*
          * ➋TODO dtoに値をセット
-         * 1.ParticipantListDto型の変数をインスタンス化(new)する。
-         * 2.インスタンス化した変数に、パラメータから付与されたactivityIdをセットする(ヒント:setActivityId()を使用する。)
-         * 3.インスタンス化した変数に、セッションから取得したuserIdをセットする。
          */
         ParticipantListDto setSessionDto = new ParticipantListDto();
         setSessionDto.setActivityId(activityId);
         setSessionDto.setUserId(userId);
 
         try {
-            // ➌TODO participantListServiceのgetParticipantListDataメソッドを呼び出す。(引数には、❷のTODOが完了した状態のdtoを渡す。)
+            // ➌TODO participantListServiceのgetParticipantListDataメソッドを呼び出す。
             ParticipantDto viewData = participantListService.getParticipantListData(setSessionDto);
 
             // 返却用のリスト
@@ -79,11 +73,7 @@ public class ParticipantListController {
 
 
             /*
-             * ➍ TODO responseListFormに値をセット(formをaddする)
-             * 1.拡張for文を作成する。(ヒント:for (ParticipantListDto dto :➌の変数.getPariticipantListDto()))
-             * 2.ParticipantListForm型の変数をインスタンス化する。
-             * 3.formに、activityId,userId,userName,activityNameをセットする。引数にはdtoからgetした変数を指定すること。
-             * 4.responseListFormに3でセットを完了させた状態のformをaddする。
+             * ➍ TODO responseListFormに値をセット
              */
             for (ParticipantListDto dto : viewData.getPariticipantListDto()) {
                 ParticipantListForm responseForm = new ParticipantListForm();
@@ -98,8 +88,6 @@ public class ParticipantListController {
             
             /*
              * ➎ TODO 取得したデータを画面側に渡す。
-             * 1.mav(39行目で宣言している変数)に、responseListFormを設定する。(ヒント:mav.addObject("html側で表示したい変数←participant.htmlを参照", responseListForm);)
-             * 2.mav(39行目で宣言している変数)に、❸で取得した変数からgetしたactivityNameを設定する。(ヒント:mav.addObject("html側で表示したい変数participant.htmlを参照",○○.getActivityName());)
              */
             mav.addObject("participantListForm", responseListForm);
             mav.addObject("activityName", viewData.getActivityName());

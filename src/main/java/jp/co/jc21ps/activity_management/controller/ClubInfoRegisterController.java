@@ -87,9 +87,6 @@ public class ClubInfoRegisterController {
         // バリデーション
         /*
          * TODO ➊ バリデーションエラーの際の処理を完成させる。
-         * 1.mav(81行目で宣言)に、paramFormを追加する。(ヒント : mav.addObject("html側で用意しているform名←clubInfoRegister.htmlを参照", paramForm))
-         * 2.mav(81行目で宣言)に、leaderClubIdを設定する。(ヒント : mav.addObject("leaderClubId",sessionから取得した部署ID))
-         * 3.mav(81行目で宣言)に、バリデーションエラー時の遷移先を設定する。(ヒント : mav.addObject("遷移先"))
          */
         if (bindingResult.hasErrors()) {
             mav.addObject("clubInfoRegisterSaveForm", paramForm);
@@ -107,8 +104,6 @@ public class ClubInfoRegisterController {
         try {
             /*
              * TODO ➋ updateClubInfoメソッドの引数に使用しているclubInfoRegisterDtoに、パラメータを設定する。
-             * 1.clubInfoRegisterDtoにleaderClubIdをセットする。
-             * 2.setClubDescriptionに、パラメータから取得したclubDescriptionをセットする。
              */
             ClubInfoRegisterDto clubInfoRegisterDto = new ClubInfoRegisterDto();
             clubInfoRegisterDto.setLeaderClubId(leaderClubId);
@@ -119,12 +114,7 @@ public class ClubInfoRegisterController {
             String resultMessage = messageSource.getMessage(result, null, Locale.getDefault());
 
             /*
-             * TODO ➌ 以下の条件文を作成する。
-             * 1.if("updateClubInfo"とresultが一致したとき)
-             * ├ mav(81行目で宣言)に、resultMessageを設定する。
-             * ├ mav(81行目で宣言)に、leaderClubIdを設定する。
-             * └ mav(81行目で宣言)に、遷移先を設定する。
-             * 2.else(エラー画面に遷移する)
+             * TODO ➌ resultの取得結果に応じて、遷移先を変更する。
              */
             if ("updateClubInfo".equals(result)) {
                 // 更新成功した場合、部署情報登録画面に遷移

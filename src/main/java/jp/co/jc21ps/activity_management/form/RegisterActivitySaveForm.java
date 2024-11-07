@@ -23,8 +23,8 @@ public class RegisterActivitySaveForm {
 
     // 活動名
     /*
-     * TODO ❶activityNameに対し、バリデーションの条件を付与する
-     * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
+     * TODO ➊ activityNameに対し、バリデーションの条件を付与する
+     * 1.空白、nullを制御 
      * 2.入力値制御(ヒント : @○○(max = ○○, message = "{Size}")
      */
     @NotBlank(message = "{NotBlank}")
@@ -33,7 +33,7 @@ public class RegisterActivitySaveForm {
 
     // 活動日
     /*
-     * TODO ❷activityDateに対し、バリデーションの条件を付与する
+     * TODO ➋ activityDateに対し、バリデーションの条件を付与する
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      * 2.日付形式の制御(ヒント : @○○(pattern = "{DateTimeFormat}")
      */
@@ -58,7 +58,7 @@ public class RegisterActivitySaveForm {
 
     // 活動場所
     /*
-     * TODO ❸activityDateに対し、バリデーションの条件を付与する
+     * TODO ➌ activityDateに対し、バリデーションの条件を付与する
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      * 2.入力値制御(ヒント : @○○(max = ○○, message = "{Size}")
      */
@@ -67,7 +67,7 @@ public class RegisterActivitySaveForm {
     private String activityPlace;
 
     /*
-     * TODO ❹activityStartTimeに対し、バリデーションの条件を付与する
+     * TODO ➍ activityStartTimeに対し、バリデーションの条件を付与する
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      */
     // 活動時間(自)
@@ -77,7 +77,7 @@ public class RegisterActivitySaveForm {
 
     // 活動時間(至)
     /*
-     * TODO ❺activityStartTimeに対し、バリデーションの条件を付与する
+     * TODO ➎ activityStartTimeに対し、バリデーションの条件を付与する
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      */
     @NotBlank(message = "{NotBlank}")
@@ -110,7 +110,7 @@ public class RegisterActivitySaveForm {
 
     // 活動説明
     /*
-     * TODO ❻activityStartTimeに対し、バリデーションの条件を付与する
+     * TODO ➏ activityStartTimeに対し、バリデーションの条件を付与する
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      * 2.入力値制御(ヒント : @○○(max = ○○, message = "{Size}")
      */
@@ -120,7 +120,7 @@ public class RegisterActivitySaveForm {
 
     // 募集人数
     /*
-     * TODO ❼activityStartTimeに対し、バリデーションの条件を付与する
+     * TODO ➐ activityStartTimeに対し、バリデーションの条件を付与する
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      * 2.最小値制御(ヒント : @○○(value = ○, message = "{Min}")
      * 3.最大値制御(ヒント : @○○(value = ○○, message = "{Max}")

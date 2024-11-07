@@ -151,8 +151,6 @@ public class JoinApprovalController {
             // サービスからdeleteメソッドを呼び出す
             /*
             * TODO ➊ ユーザーを否認する際の処理を完成させる。
-            * ヒント : joinApprovalServiceのメソッドを呼び出す。
-            * ヒント : ユーザーを否認する際、データベース上でどのような処理が行われるか。詳細設計書から考えてみる。
             */
             joinApprovalService.deleteRequestInfo(paramDto);
 
@@ -193,8 +191,6 @@ public class JoinApprovalController {
         try {
             /*
             * TODO ➋ ユーザーを承認する際の処理を完成させる。
-            * ヒント : joinApprovalServiceのメソッドを呼び出す。
-            * ヒント : ユーザーを承認する際、データベース上でどのような処理が行われるか。詳細設計書から考えてみる。
             */
             // サービスからinsertメソッド、deleteメソッドを呼び出す
             joinApprovalService.insertRequestInfo(paramDto);

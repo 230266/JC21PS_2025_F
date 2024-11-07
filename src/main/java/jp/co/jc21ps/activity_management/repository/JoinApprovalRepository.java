@@ -20,7 +20,6 @@ public class JoinApprovalRepository {
     public List<JoinApprovalEntity> getJoinApprovalList(JoinApprovalEntity paramEntity) {
         /*
          * TODO ➊ 初期表示情報を取得するSQLを完成させる。 
-         * SELECT 初期表示で表示したい内容 FROM テーブル INNER JOIN テーブル ON 結合条件 INNER JOIN テーブル ON 結合条件
          */
         String sql = """
                 SELECT
@@ -92,7 +91,6 @@ public class JoinApprovalRepository {
     public void insertRequestInfo(JoinApprovalDataEntity paramEntity) {
         /*
          * TODO ➋ ユーザーを承認するSQL文を完成させる。 
-         * INSER INTO テーブル VALUES (?,?,?)
          */
         String sqlInsert = """
                 INSERT INTO
@@ -115,7 +113,6 @@ public class JoinApprovalRepository {
     public void deleteRequestInfo(JoinApprovalDataEntity paramEntity) {
         /*
          * TODO ➌ ユーザーを否認するSQL文を完成させる。 
-         * DELETE FROM テーブル WHERE 条件
          */
         String sqlDelete = """
                 DELETE FROM
