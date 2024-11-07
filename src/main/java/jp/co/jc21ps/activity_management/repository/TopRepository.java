@@ -151,8 +151,6 @@ public class TopRepository {
                     club.club_id ASC,activity.activity_start_time ASC;
                 """;
 
-        // テスト終わったら下の条件文入れて
-        // AND activity.activity_start_time > now()
         List<Map<String, Object>> activityList = jdbcTemplate.queryForList(sql, paramEntity.getUserId(),
                 paramEntity.getUserId());
 

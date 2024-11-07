@@ -15,7 +15,7 @@ public class ClubInfoRegisterSaveForm {
     /*
      * 1.文字数制御(ヒント: @○○(max = 制御したい文字数, message = "{Size}"))
      */
-    @Size(max = 400, message = "{Size}")
+
     private String clubDescription;
 
     public ClubInfoRegisterSaveForm() {

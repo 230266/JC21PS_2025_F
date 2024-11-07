@@ -82,20 +82,7 @@ public class JoinRequestController {
         /*
          * TODO ➊ 初期表示情報取得結果に応じて、以下の条件文を完成させる。
          */
-        if (responseForm.isEmpty()) {
-            // messages.propertiesからメッセージを取得
-            String notRequestClubMessage = messageSource.getMessage("notRequestClubMessage", null, Locale.getDefault());
 
-            // 申請する部署がない場合のメッセージ
-            mav.addObject("notRequestClubMessage", notRequestClubMessage);
-
-            // 部員登録成功メッセージ
-            mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
-
-        } else {
-            mav.addObject("joinRequestCompleteMessage", paramForm.getMessage());
-            mav.addObject("joinRequestSaveForm", responseForm);
-        }
         mav.addObject("leaderClubId", leaderClubId);
 
         // 部員登録申請画面に遷移
@@ -127,25 +114,11 @@ public class JoinRequestController {
         joinRequestSaveDto.setClubId(paramForm.getClubId());
 
         try {
+            boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
             /*
              * TODO ➋ インサートの成功、失敗に応じて、処理を変更する。
              */
-            boolean result = joinRequestService.insertJoinRequest(joinRequestSaveDto);
 
-            if (result) {
-                // messages.propertiesからメッセージを取得
-                String joinRequestCompleteMessage = messageSource
-                        .getMessage("joinRequestCompleteMessage", null, Locale.getDefault());
-                paramForm.setMessage(joinRequestCompleteMessage);
-
-                // リダイレクト先に登録申請成功メッセージを渡す
-                redirectAttributes.addFlashAttribute("joinOkMessage", paramForm.getMessage());
-                mav.setViewName("redirect:/joinRequest");
-
-            } else {
-                // 登録失敗した場合、エラー画面に遷移
-                mav.setViewName("error");
-            }
         } catch (Exception e) {
             mav.setViewName("error");
         }

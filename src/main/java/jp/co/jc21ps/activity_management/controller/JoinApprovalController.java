@@ -90,7 +90,7 @@ public class JoinApprovalController {
             mav.addObject("joinApprovalform", responseForm);
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("JoinApproval");
-            
+
         } catch (Exception e) {
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("error");
@@ -123,9 +123,8 @@ public class JoinApprovalController {
         try {
             // サービスからdeleteメソッドを呼び出す
             /*
-            * TODO ➊ ユーザーを否認する際の処理を完成させる。
-            */
-            joinApprovalService.deleteRequestInfo(paramDto);
+             * TODO ➊ ユーザーを否認する際の処理を完成させる。
+             */
 
             // deleteに成功した場合、部員登録承認画面に遷移
             mav.addObject("leaderClubId", leaderClubId);
@@ -163,11 +162,8 @@ public class JoinApprovalController {
 
         try {
             /*
-            * TODO ➋ ユーザーを承認する際の処理を完成させる。
-            */
-            // サービスからinsertメソッド、deleteメソッドを呼び出す
-            joinApprovalService.insertRequestInfo(paramDto);
-            joinApprovalService.deleteRequestInfo(paramDto);
+             * TODO ➋ ユーザーを承認する際の処理を完成させる。
+             */
 
             // insert, deleteに成功した場合、部員登録承認画面に遷移
             mav.addObject("leaderClubId", leaderClubId);
