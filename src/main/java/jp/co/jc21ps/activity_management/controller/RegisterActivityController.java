@@ -112,7 +112,12 @@ public class RegisterActivityController {
              activitySaveDto.setActivityEndTime(paramForm.getActivityEndTime());
              activitySaveDto.setActivityPlace(paramForm.getActivityPlace());
              activitySaveDto.setActivityDescription(paramForm.getActivityDescription());
-             activitySaveDto.setMaxParticipant(paramForm.getMaxParticipant());
+            // maxParticipant is Integer in form; convert to String for DTO
+            if (paramForm.getMaxParticipant() != null) {
+                activitySaveDto.setMaxParticipant(String.valueOf(paramForm.getMaxParticipant()));
+            } else {
+                activitySaveDto.setMaxParticipant(null);
+            }
             // フォームの activityId と セッションの clubId を DTO に設定
             activitySaveDto.setActivityId(paramForm.getActivityId());
             activitySaveDto.setClubId(leaderClubId);
