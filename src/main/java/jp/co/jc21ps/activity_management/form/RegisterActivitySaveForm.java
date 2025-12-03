@@ -7,6 +7,7 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -28,7 +29,10 @@ public class RegisterActivitySaveForm {
      * 2.入力値制御(ヒント : @○○(max = ○○, message = "{Size}")
      */
 
+    @NotBlank(message = "{NotBlank}")
+    @Size(max = 30, message = "{Size}")
     private String activityName;
+
 
     // 活動日
     /*
@@ -37,15 +41,18 @@ public class RegisterActivitySaveForm {
      * 2.日付形式の制御(ヒント : @○○(pattern = "{DateTimeFormat}")
      */
 
+    @NotBlank(message = "{NotBlank}")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "{Pattern}")
     private String activityDate;
 
-    // 過去の日付が入力されたとき
-    @AssertTrue(message = "{AssertTrue.activityDate}")
+    // 過去の日付が入力されたとき（明日以降のみ許可）
+    @AssertTrue(message = "{AssertTrue.activityDateValid}")
     public boolean isActivityDateValid() {
         try {
             if (activityDate != null) {
                 LocalDate inputDate = LocalDate.parse(activityDate);
-                return !inputDate.isBefore(LocalDate.now());
+                // 明日以降（今日より後）の日付のみ許可
+                return inputDate.isAfter(LocalDate.now());
             }
             return true;
 
@@ -61,6 +68,8 @@ public class RegisterActivitySaveForm {
      * 2.入力値制御(ヒント : @○○(max = ○○, message = "{Size}")
      */
 
+    @NotBlank(message = "{NotBlank}")
+    @Size(max = 30, message = "{Size}")
     private String activityPlace;
 
     /*
@@ -69,6 +78,7 @@ public class RegisterActivitySaveForm {
      */
     // 活動時間(自)
 
+    @NotBlank(message = "{NotBlank}")
     @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityStartTime}") // hh:mm形式
     private String activityStartTime;
 
@@ -78,20 +88,21 @@ public class RegisterActivitySaveForm {
      * 1.空白、nullを制御 (ヒント : @○○(message = "{NotBlank}"))
      */
 
+    @NotBlank(message = "{NotBlank}")
     @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "{Pattern.activityEndTime}") // hh:mm形式
     private String activityEndTime;
 
     // 時間の前後関係チェック
-    @AssertTrue(message = "{AssertTrue}")
+    @AssertTrue(message = "{AssertTrue.dateValid}")
     public boolean isDateValid() {
         try {
 
-            if (activityEndTime != null || activityStartTime != null) {
+            if (activityEndTime != null && activityStartTime != null) {
                 int activityEndTimeInt = Integer.parseInt(activityEndTime.replace(":", ""));
                 int activityStartTimeInt = Integer.parseInt(activityStartTime.replace(":", ""));
 
                 // 時間の(:)を削除し、intに変換
-                if (activityEndTimeInt >= activityStartTimeInt) {
+                if (activityEndTimeInt > activityStartTimeInt) {
                     return true;
                 }
                 return false;
@@ -112,6 +123,8 @@ public class RegisterActivitySaveForm {
      * 2.入力値制御(ヒント : @○○(max = ○○, message = "{Size}")
      */
 
+    @NotBlank(message = "{NotBlank}")
+    @Size(max = 400, message = "{Size}")
     private String activityDescription;
 
     // 募集人数
@@ -122,9 +135,10 @@ public class RegisterActivitySaveForm {
      * 3.最大値制御(ヒント : @○○(value = ○○, message = "{Max}")
      */
 
-    @Pattern(regexp = "^[0-9]*$", message = "{Pattern.maxParticipant}") // 半角数字
-
-    private String maxParticipant;
+    @NotNull(message = "{NotBlank}")
+    @Min(value = 1, message = "{Min}")
+    @Max(value = 100, message = "{Max}")
+    private Integer maxParticipant;
 
     private String message;
 
@@ -204,11 +218,11 @@ public class RegisterActivitySaveForm {
         this.activityDescription = activityDescription;
     }
 
-    public String getMaxParticipant() {
+    public Integer getMaxParticipant() {
         return maxParticipant;
     }
 
-    public void setMaxParticipant(String maxParticipant) {
+    public void setMaxParticipant(Integer maxParticipant) {
         this.maxParticipant = maxParticipant;
     }
 

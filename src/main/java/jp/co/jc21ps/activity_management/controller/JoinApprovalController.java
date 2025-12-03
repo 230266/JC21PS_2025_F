@@ -125,7 +125,7 @@ public class JoinApprovalController {
             /*
              * TODO ➊ ユーザーを否認する際の処理を完成させる。
              */
-
+            joinApprovalService.deleteRequestInfo(paramDto);
             // deleteに成功した場合、部員登録承認画面に遷移
             mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("redirect:/joinApproval");
@@ -164,6 +164,10 @@ public class JoinApprovalController {
             /*
              * TODO ➋ ユーザーを承認する際の処理を完成させる。
              */
+            // メンバー登録（trn_club_member へ insert）
+            joinApprovalService.insertRequestInfo(paramDto);
+            // 申請テーブルから該当レコードを削除
+            joinApprovalService.deleteRequestInfo(paramDto);
 
             // insert, deleteに成功した場合、部員登録承認画面に遷移
             mav.addObject("leaderClubId", leaderClubId);
