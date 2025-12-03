@@ -46,7 +46,7 @@ public class RegisterActivityController {
         String leaderClubId = sessionDto.getClubId();
 
         // セッションが切れた場合、エラー画面に遷移
-        if (leaderClubId.isEmpty()) {
+        if (leaderClubId == null || leaderClubId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }
@@ -77,25 +77,23 @@ public class RegisterActivityController {
 
         ModelAndView mav = new ModelAndView();
 
-        /*
-         * TODO ➊ セッションからclubIdを取得する
-         */
-
-        String leaderClubId = (String) session.getAttribute("clubId");
+        // セッションからclubIdを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
+        String leaderClubId = sessionDto.getClubId();
 
         // バリデーションエラー
         if (bindingResult.hasErrors()) {
             mav.addObject("registerActivitySaveForm", paramForm);
-             mav.addObject("leaderClubId", leaderClubId);
+            mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("registerActivity");
             return mav;
         }
 
         // セッションが切れた場合、エラー画面に遷移
-         if (leaderClubId.isEmpty()) {
-             mav.setViewName("error");
-             return mav;
-         }
+        if (leaderClubId == null || leaderClubId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
 
         try {
             // インスタンス化

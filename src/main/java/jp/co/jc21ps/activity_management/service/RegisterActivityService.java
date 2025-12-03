@@ -56,6 +56,9 @@ public class RegisterActivityService {
         LocalDateTime endDateTime = LocalDateTime.parse(registEndTime, formatter);
 
         // maxParticipantをString型からint型に変換
+        if (paramDto.getMaxParticipant() == null || paramDto.getMaxParticipant().isEmpty()) {
+            throw new IllegalArgumentException("募集人数は必須です。");
+        }
         int maxParticipant = Integer.parseInt(paramDto.getMaxParticipant());
 
         // entityに値をセット

@@ -45,13 +45,14 @@ public class RegisterActivitySaveForm {
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "{Pattern}")
     private String activityDate;
 
-    // 過去の日付が入力されたとき
-    @AssertTrue(message = "{AssertTrue.activityDate}")
+    // 過去の日付が入力されたとき（明日以降のみ許可）
+    @AssertTrue(message = "{AssertTrue.activityDateValid}")
     public boolean isActivityDateValid() {
         try {
             if (activityDate != null) {
                 LocalDate inputDate = LocalDate.parse(activityDate);
-                return !inputDate.isBefore(LocalDate.now());
+                // 明日以降（今日より後）の日付のみ許可
+                return inputDate.isAfter(LocalDate.now());
             }
             return true;
 
@@ -92,16 +93,16 @@ public class RegisterActivitySaveForm {
     private String activityEndTime;
 
     // 時間の前後関係チェック
-    @AssertTrue(message = "{AssertTrue}")
+    @AssertTrue(message = "{AssertTrue.dateValid}")
     public boolean isDateValid() {
         try {
 
-            if (activityEndTime != null || activityStartTime != null) {
+            if (activityEndTime != null && activityStartTime != null) {
                 int activityEndTimeInt = Integer.parseInt(activityEndTime.replace(":", ""));
                 int activityStartTimeInt = Integer.parseInt(activityStartTime.replace(":", ""));
 
                 // 時間の(:)を削除し、intに変換
-                if (activityEndTimeInt >= activityStartTimeInt) {
+                if (activityEndTimeInt > activityStartTimeInt) {
                     return true;
                 }
                 return false;
