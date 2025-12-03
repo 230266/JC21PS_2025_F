@@ -46,7 +46,7 @@ public class RegisterActivityController {
         String leaderClubId = sessionDto.getClubId();
 
         // セッションが切れた場合、エラー画面に遷移
-        if (leaderClubId.isEmpty()) {
+        if (leaderClubId == null || leaderClubId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }
@@ -77,32 +77,45 @@ public class RegisterActivityController {
 
         ModelAndView mav = new ModelAndView();
 
-        /*
-         * TODO ➊ セッションからuserIdを取得する
-         */
+        // セッションからclubIdを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
+        String leaderClubId = sessionDto.getClubId();
 
         // バリデーションエラー
         if (bindingResult.hasErrors()) {
             mav.addObject("registerActivitySaveForm", paramForm);
-//             mav.addObject("leaderClubId", leaderClubId);
+            mav.addObject("leaderClubId", leaderClubId);
             mav.setViewName("registerActivity");
             return mav;
         }
 
         // セッションが切れた場合、エラー画面に遷移
-//         if (leaderClubId.isEmpty()) {
-//             mav.setViewName("error");
-//             return mav;
-//         }
+        if (leaderClubId == null || leaderClubId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
 
         try {
             // インスタンス化
             RegisterActivitySaveDto activitySaveDto = new RegisterActivitySaveDto();
 
-            /*
-             * TODO ➋ activitySaveDtoに、パラメータをsetする。
-             */
-
+            // activitySaveDtoに、パラメータをsetする
+            activitySaveDto.setActivityName(paramForm.getActivityName());
+            activitySaveDto.setActivityDate(paramForm.getActivityDate());
+            activitySaveDto.setActivityStartTime(paramForm.getActivityStartTime());
+            activitySaveDto.setActivityEndTime(paramForm.getActivityEndTime());
+            activitySaveDto.setActivityPlace(paramForm.getActivityPlace());
+            activitySaveDto.setActivityDescription(paramForm.getActivityDescription());
+            
+            // maxParticipant is Integer in form; convert to String for DTO
+            if (paramForm.getMaxParticipant() != null) {
+                activitySaveDto.setMaxParticipant(String.valueOf(paramForm.getMaxParticipant()));
+            } else {
+                activitySaveDto.setMaxParticipant(null);
+            }
+            
+            // セッションの clubId を DTO に設定
+            activitySaveDto.setClubId(leaderClubId);
             // サービスからinsertメソッドを呼び出す
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
 
@@ -111,16 +124,16 @@ public class RegisterActivityController {
                     Locale.getDefault());
 
             // 活動登録に成功した場合、トップ画面に遷移
-//             if ("activityRegisterCompleteMessage".equals(resultMessageKey)) {
-//                 redirectAttributes.addFlashAttribute("activityRegisterCompleteMessage", resultMessage);
-//                 mav.addObject("leaderClubId", leaderClubId);
-//                 mav.setViewName("redirect:/top");
-//                 return mav;
+             if ("activityRegisterCompleteMessage".equals(resultMessageKey)) {
+                 redirectAttributes.addFlashAttribute("activityRegisterCompleteMessage", resultMessage);
+                 mav.addObject("leaderClubId", leaderClubId);
+                 mav.setViewName("redirect:/top");
+                 return mav;
 
-//             } else {
-//                 // 活動登録に失敗した場合、エラー画面に遷移
-//                 mav.setViewName("error");
-//             }
+             } else {
+                 // 活動登録に失敗した場合、エラー画面に遷移
+                 mav.setViewName("error");
+             }
 
         } catch (Exception e) {
             // DB接続に失敗した場合、エラー画面に遷移
