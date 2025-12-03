@@ -99,25 +99,22 @@ public class RegisterActivityController {
             // インスタンス化
             RegisterActivitySaveDto activitySaveDto = new RegisterActivitySaveDto();
 
-            /*
-             * TODO ➋ activitySaveDtoに、パラメータをsetする。
-             */
-
-             
-             activitySaveDto.setActivityName(paramForm.getActivityName());
-             activitySaveDto.setActivityDate(paramForm.getActivityDate());
-             activitySaveDto.setActivityStartTime(paramForm.getActivityStartTime());
-             activitySaveDto.setActivityEndTime(paramForm.getActivityEndTime());
-             activitySaveDto.setActivityPlace(paramForm.getActivityPlace());
-             activitySaveDto.setActivityDescription(paramForm.getActivityDescription());
+            // activitySaveDtoに、パラメータをsetする
+            activitySaveDto.setActivityName(paramForm.getActivityName());
+            activitySaveDto.setActivityDate(paramForm.getActivityDate());
+            activitySaveDto.setActivityStartTime(paramForm.getActivityStartTime());
+            activitySaveDto.setActivityEndTime(paramForm.getActivityEndTime());
+            activitySaveDto.setActivityPlace(paramForm.getActivityPlace());
+            activitySaveDto.setActivityDescription(paramForm.getActivityDescription());
+            
             // maxParticipant is Integer in form; convert to String for DTO
             if (paramForm.getMaxParticipant() != null) {
                 activitySaveDto.setMaxParticipant(String.valueOf(paramForm.getMaxParticipant()));
             } else {
                 activitySaveDto.setMaxParticipant(null);
             }
-            // フォームの activityId と セッションの clubId を DTO に設定
-            activitySaveDto.setActivityId(paramForm.getActivityId());
+            
+            // セッションの clubId を DTO に設定
             activitySaveDto.setClubId(leaderClubId);
             // サービスからinsertメソッドを呼び出す
             String resultMessageKey = registerActivityService.insertActivity(activitySaveDto);
