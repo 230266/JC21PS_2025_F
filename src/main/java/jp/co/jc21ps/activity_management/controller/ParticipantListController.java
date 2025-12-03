@@ -44,38 +44,47 @@ public class ParticipantListController {
             return mav;
         }
 
-        /*
-         * TODO ➊ セッションからuserId, clubIdを取得
-         */
+        // セッションからuserId, clubIdを取得
+        SessionDto sessionDto = commonService.getSessionDto(session);
+        String userId = sessionDto.getUserId();
+        String leaderClubId = sessionDto.getClubId();
 
         // セッションが切れた場合、エラー画面に遷移
-//         if (userId.isEmpty()) {
-//             mav.setViewName("error");
-//             return mav;
-//         }
+        if (userId == null || userId.isEmpty()) {
+            mav.setViewName("error");
+            return mav;
+        }
 
-        /*
-         * ➋TODO dtoに値をセット
-         */
+        // dtoに値をセット
+        ParticipantListDto paramDto = new ParticipantListDto();
+        paramDto.setActivityId(activityId);
+        paramDto.setUserId(userId);
 
         try {
-            // ➌TODO participantListServiceのgetParticipantListDataメソッドを呼び出す。
+            // participantListServiceのgetParticipantListDataメソッドを呼び出す
+            ParticipantDto responseDto = participantListService.getParticipantListData(paramDto);
 
             // 返却用のリスト
             List<ParticipantListForm> responseListForm = new ArrayList<>();
 
-            /*
-             * ➍ TODO responseListFormに値をセット
-             */
+            // responseListFormに値をセット
+            for (ParticipantListDto dto : responseDto.getPariticipantListDto()) {
+                ParticipantListForm form = new ParticipantListForm();
+                form.setActivityId(dto.getActivityId());
+                form.setUserId(dto.getUserId());
+                form.setActivityName(dto.getActivityName());
+                form.setUserName(dto.getUserName());
+                responseListForm.add(form);
+            }
 
-            /*
-             * ➎ TODO 取得したデータを画面側に渡す。
-             */
+            // 取得したデータを画面側に渡す
+            mav.addObject("activityName", responseDto.getActivityName());
+            mav.addObject("participantList", responseListForm);
 
             // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage("notpariticipant", null, Locale.getDefault());
             mav.addObject("message", resultMessage);
-//             mav.addObject("leaderClubId", leaderClubId);
+            mav.addObject("leaderClubId", leaderClubId);
 
             // 遷移先の設定
             mav.setViewName("participantList");
