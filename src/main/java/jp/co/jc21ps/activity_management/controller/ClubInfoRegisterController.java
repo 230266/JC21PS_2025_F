@@ -80,8 +80,9 @@ public class ClubInfoRegisterController {
 
         ModelAndView mav = new ModelAndView();
 
-        // セッションからClubIdを取得
+        // セッションからuserId,clubIdを取得
         SessionDto sessionDto = commonService.getSessionDto(session);
+        String userId = sessionDto.getUserId();
         String leaderClubId = sessionDto.getClubId();
 
         // バリデーションエラー
@@ -93,7 +94,7 @@ public class ClubInfoRegisterController {
         }
 
         // セッションが切れた場合、エラー画面に遷移
-        if (leaderClubId.isEmpty()) {
+        if (userId == null || userId.isEmpty()) {
             mav.setViewName("error");
             return mav;
         }
