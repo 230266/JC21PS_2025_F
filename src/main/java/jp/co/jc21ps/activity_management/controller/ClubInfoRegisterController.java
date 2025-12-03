@@ -58,7 +58,7 @@ public class ClubInfoRegisterController {
             ClubInfoRegisterSaveForm responseForm = new ClubInfoRegisterSaveForm();
             responseForm.setClubName(clubInfoRegisterDto.getClubName());
             responseForm.setClubDescription(clubInfoRegisterDto.getClubDescription());
-            responseForm.setLeaderClubId(clubInfoRegisterDto.getLeaderClubId());
+            responseForm.setLeaderClubId(leaderClubId);
 
             mav.addObject("leaderClubId", leaderClubId);
             mav.addObject("clubInfoRegisterSaveForm", responseForm);
@@ -84,10 +84,13 @@ public class ClubInfoRegisterController {
         SessionDto sessionDto = commonService.getSessionDto(session);
         String leaderClubId = sessionDto.getClubId();
 
-        // バリデーション
-        /*
-         * TODO ➊ バリデーションエラーの際の処理を完成させる。
-         */
+        // バリデーションエラー
+        if (bindingResult.hasErrors()) {
+            mav.addObject("clubInfoRegisterSaveForm", paramForm);
+            mav.addObject("leaderClubId", leaderClubId);
+            mav.setViewName("clubInfoRegister");
+            return mav;
+        }
 
         // セッションが切れた場合、エラー画面に遷移
         if (leaderClubId.isEmpty()) {
@@ -97,18 +100,30 @@ public class ClubInfoRegisterController {
 
         try {
             ClubInfoRegisterDto clubInfoRegisterDto = new ClubInfoRegisterDto();
-            /*
-             * TODO ➋ updateClubInfoメソッドの引数に使用しているclubInfoRegisterDtoに、パラメータを設定する。
-             */
+            clubInfoRegisterDto.setLeaderClubId(leaderClubId);
+            clubInfoRegisterDto.setClubDescription(paramForm.getClubDescription());
 
             String result = clubInfoRegisterService.updateClubInfo(clubInfoRegisterDto);
 
             // messages.propertiesからメッセージを取得
             String resultMessage = messageSource.getMessage(result, null, Locale.getDefault());
 
-            /*
-             * TODO ➌ resultの取得結果に応じて、遷移先を変更する。
-             */
+            // 部署情報更新に成功した場合、部署情報登録画面に遷移
+            if ("updateClubInfo".equals(result)) {
+                ClubInfoRegisterDto clubInfoRegisterDtoAfterUpdate = clubInfoRegisterService.getClubInfoByClubId(clubInfoRegisterDto);
+                ClubInfoRegisterSaveForm responseForm = new ClubInfoRegisterSaveForm();
+                responseForm.setClubName(clubInfoRegisterDtoAfterUpdate.getClubName());
+                responseForm.setClubDescription(clubInfoRegisterDtoAfterUpdate.getClubDescription());
+                responseForm.setLeaderClubId(leaderClubId);
+                
+                mav.addObject("updateClubInfo", resultMessage);
+                mav.addObject("clubInfoRegisterSaveForm", responseForm);
+                mav.addObject("leaderClubId", leaderClubId);
+                mav.setViewName("clubInfoRegister");
+            } else {
+                // 部署情報更新に失敗した場合、エラー画面に遷移
+                mav.setViewName("error");
+            }
 
         } catch (Exception e) {
             // DB接続失敗した場合、エラー画面に遷移
